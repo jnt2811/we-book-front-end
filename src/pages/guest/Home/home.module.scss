@@ -31,8 +31,9 @@ $btn-size: 45px;
     }
 
     width: 800px;
-    background-color: #ffffff25;
     border-radius: 50px;
+    background-color: #ffffff25;
+    backdrop-filter: blur(3rem);
 
     padding: 10px;
     margin: 5vh auto;

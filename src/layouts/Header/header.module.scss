@@ -26,6 +26,10 @@ $logo-width: 150px;
   justify-content: space-between;
   z-index: $header-z-index;
 
+  :global(.logo) img {
+    width: $logo-width;
+  }
+
   :global(.search-bar) {
     width: 400px;
     display: flex;
@@ -51,6 +55,50 @@ $logo-width: 150px;
       }
     }
   }
+
+  :global(.dropdown) {
+    position: absolute;
+    top: 80px;
+    right: calc((100% - #{$container-width}) / 2);
+    padding: 10px 0;
+    width: 250px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 5px #00000025;
+
+    span {
+      padding: 10px 20px;
+    }
+
+    :global(.dropdown-btn) {
+      padding: 10px 20px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #00000008;
+      }
+    }
+
+    :global(.switch) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 0;
+
+      button {
+        width: 0;
+
+        &:global(.ant-switch-checked) {
+          background-color: #333;
+        }
+      }
+    }
+
+    :global(.divider) {
+      margin: 5px 0;
+    }
+  }
 }
 
 .container {
@@ -59,10 +107,6 @@ $logo-width: 150px;
   top: 0;
   background-color: #fff;
   box-shadow: 0 0 10px #00000025;
-
-  :global(.logo) img {
-    width: $logo-width;
-  }
 
   :global(.btn) {
     @include button-std();
@@ -81,6 +125,14 @@ $logo-width: 150px;
       border: 1px solid #333;
     }
   }
+
+  :global(.dropdown) {
+    background-color: #fff;
+
+    * {
+      color: #333;
+    }
+  }
 }
 
 .container-home {
@@ -95,6 +147,7 @@ $logo-width: 150px;
   :global(.btn) {
     @include button-std();
     background-color: #ffffff25;
+    backdrop-filter: blur(3rem);
 
     .icon * {
       color: #ffffff;
@@ -103,6 +156,27 @@ $logo-width: 150px;
     &:hover,
     &:global(.active) {
       border: 1px solid #fff;
+    }
+  }
+
+  :global(.dropdown) {
+    background-color: #ffffff25;
+    backdrop-filter: blur(3rem);
+
+    * {
+      color: #fff;
+    }
+
+    :global(.divider) {
+      background-color: #ffffff25;
+    }
+
+    :global(.ant-switch-checked) {
+      background-color: #fff !important;
+
+      :global(.ant-switch-handle)::before {
+        background-color: #333;
+      }
     }
   }
 }

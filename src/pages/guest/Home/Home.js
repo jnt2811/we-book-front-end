@@ -7,7 +7,10 @@ export const Home = () => {
   const history = useHistory();
 
   const handleSearch = () => {
-    history.push(paths.RESULTS);
+    history.push({
+      pathname: paths.RESULTS,
+      search: `?destination=hanoi`,
+    });
   };
 
   return (

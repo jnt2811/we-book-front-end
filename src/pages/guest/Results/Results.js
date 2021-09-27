@@ -1,16 +1,25 @@
 import { listingListSample } from "../../../constances/data";
 import results from "./results.module.scss";
-import { HeartOutlined, StarFilled } from "@ant-design/icons";
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import {
+  HeartOutlined,
+  LeftOutlined,
+  RightOutlined,
+  StarFilled,
+} from "@ant-design/icons";
+import { useHistory, useLocation } from "react-router-dom";
 import { paths } from "../../../constances";
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
 
 export const Results = () => {
   const history = useHistory();
-
-  const [listings, setListings] = useState(listingListSample);
+  const query = useQuery();
 
   const handleFav = (id) => {};
+
+  console.log(query.get("destination"));
 
   return (
     <div className={results.container}>
@@ -18,7 +27,21 @@ export const Results = () => {
         <p>300 chỗ ở</p>
         <h1>Chỗ ở tại Hà Nội</h1>
 
-        {listings.map((listing) => (
+        <div className="filters">
+          <div className="btn active">
+            <span>Loại nơi ở</span>
+          </div>
+
+          <div className="btn">
+            <span>Giá</span>
+          </div>
+
+          <div className="btn">
+            <span>Bộ lọc khác</span>
+          </div>
+        </div>
+
+        {listingListSample.map((listing) => (
           <div
             className="card"
             key={listing.id}
@@ -55,6 +78,28 @@ export const Results = () => {
             </div>
           </div>
         ))}
+
+        <div className="pagination">
+          <button
+            className="btn"
+            onClick={() => console.log("object")}
+            disabled
+          >
+            <LeftOutlined />
+          </button>
+
+          <button className="btn active">
+            <span>1</span>
+          </button>
+
+          <button className="btn">
+            <span>2</span>
+          </button>
+
+          <button className="btn">
+            <RightOutlined />
+          </button>
+        </div>
       </div>
 
       <div className="map">
