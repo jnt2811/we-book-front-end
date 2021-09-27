@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
-import App from "./pages/App";
+import { Router } from "./routes";
+import "./assets/scss/main.scss";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<Router />, document.getElementById("root"));
 
 reportWebVitals();

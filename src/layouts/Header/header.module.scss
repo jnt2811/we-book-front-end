@@ -1,0 +1,108 @@
+@import "../../assets/scss/sizes.scss";
+@import "../../assets/scss/mixins.scss";
+
+$btn-size: 45px;
+$logo-width: 150px;
+
+@mixin button-std {
+  @include btn-icon();
+  width: $btn-size;
+  height: $btn-size;
+
+  .icon * {
+    font-size: 20px;
+  }
+}
+
+@mixin account-btn {
+  margin-left: calc(#{$logo-width} - #{$btn-size});
+}
+
+@mixin container-std {
+  height: $header-height;
+  padding: 0 calc((100% - #{$container-width}) / 2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: $header-z-index;
+
+  :global(.search-bar) {
+    width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #dadada;
+    padding: 5px;
+    border-radius: 50px;
+
+    :global(.content) {
+      margin-left: 20px;
+    }
+
+    :global(.btn) {
+      width: 40px;
+      height: 40px;
+      background-color: #333;
+      border: none !important;
+
+      :global(.icon *) {
+        color: #fff;
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.container {
+  @include container-std();
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  box-shadow: 0 0 10px #00000025;
+
+  :global(.logo) img {
+    width: $logo-width;
+  }
+
+  :global(.btn) {
+    @include button-std();
+    border: 1px solid #dadada;
+
+    &:global(.acc-btn) {
+      @include account-btn();
+    }
+
+    .icon * {
+      color: #333;
+    }
+
+    &:hover,
+    &:global(.active) {
+      border: 1px solid #333;
+    }
+  }
+}
+
+.container-home {
+  @include container-std();
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  background-color: #ffffff00;
+  box-shadow: none;
+
+  :global(.btn) {
+    @include button-std();
+    background-color: #ffffff25;
+
+    .icon * {
+      color: #ffffff;
+    }
+
+    &:hover,
+    &:global(.active) {
+      border: 1px solid #fff;
+    }
+  }
+}
