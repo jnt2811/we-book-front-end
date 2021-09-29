@@ -7,7 +7,7 @@ import {
   StarFilled,
 } from "@ant-design/icons";
 import { useHistory, useLocation } from "react-router-dom";
-import { paths } from "../../../constances";
+import { paths, searchKeys } from "../../../constances";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -19,7 +19,12 @@ export const Results = () => {
 
   const handleFav = (id) => {};
 
-  console.log(query.get("destination"));
+  console.log(query.get(searchKeys.DESTINATION));
+  console.log(query.get(searchKeys.CHECKIN));
+  console.log(query.get(searchKeys.CHECKOUT));
+  console.log(query.get(searchKeys.ADULTS));
+  console.log(query.get(searchKeys.CHILDREN));
+  console.log(query.get(searchKeys.INFANTS));
 
   return (
     <div className={results.container}>

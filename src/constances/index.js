@@ -1,3 +1,4 @@
 import paths from "./paths";
+import { searchKeys, localKeys } from "./keys";
 
-export { paths };
+export { paths, searchKeys, localKeys };

@@ -7,6 +7,9 @@ const paths = {
   LISTING_VIEW_wId: "/listing/:id",
   LISTING_VIEW_nId: "/listing/",
   TRIPS: "/trips",
+  FAV_LIST: "/favorite-list",
+  PROFILE: "/profile",
+  ACCOUNT: "/account",
 
   // Host
   HOSTING: hosting,

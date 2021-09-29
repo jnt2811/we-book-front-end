@@ -75,7 +75,8 @@ $logo-width: 150px;
       padding: 10px 20px;
       cursor: pointer;
 
-      &:hover {
+      &:hover,
+      &:global(.active) {
         background-color: #00000008;
       }
     }
