@@ -1,4 +1,4 @@
-import searchBar from "./searchBar.module.scss";
+import searchBar from "../searchBar.module.scss";
 
 export const DateRangePopup = () => {
   return (

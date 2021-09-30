@@ -1,11 +1,11 @@
 import { EnvironmentOutlined, LoadingOutlined } from "@ant-design/icons";
-import searchBar from "./searchBar.module.scss";
+import searchBar from "../searchBar.module.scss";
 
 export const DestinationPopup = ({
   onSelectResult,
   isPlacePredictionsLoading,
   placePredictions,
-  recentSearch = [],
+  recentSearch,
 }) => {
   return (
     <div

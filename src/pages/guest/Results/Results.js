@@ -19,12 +19,12 @@ export const Results = () => {
 
   const handleFav = (id) => {};
 
-  console.log(query.get(searchKeys.DESTINATION));
-  console.log(query.get(searchKeys.CHECKIN));
-  console.log(query.get(searchKeys.CHECKOUT));
-  console.log(query.get(searchKeys.ADULTS));
-  console.log(query.get(searchKeys.CHILDREN));
-  console.log(query.get(searchKeys.INFANTS));
+  console.log(searchKeys.DESTINATION, query.get(searchKeys.DESTINATION));
+  console.log(searchKeys.CHECKIN, query.get(searchKeys.CHECKIN));
+  console.log(searchKeys.CHECKOUT, query.get(searchKeys.CHECKOUT));
+  console.log(searchKeys.ADULTS, query.get(searchKeys.ADULTS));
+  console.log(searchKeys.CHILDREN, query.get(searchKeys.CHILDREN));
+  console.log(searchKeys.INFANTS, query.get(searchKeys.INFANTS));
 
   return (
     <div className={results.container}>
