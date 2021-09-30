@@ -11,10 +11,7 @@ export const GuestsPopup = ({
   updateInfants,
 }) => {
   return (
-    <div
-      className={searchBar["pop-up"] + " " + searchBar["guest"]}
-      style={{ right: 0 }}
-    >
+    <div className={searchBar["pop-up"] + " " + searchBar["guest"]}>
       <Row className="wrap" align="middle" justify="space-between">
         <Col>
           <p>Người lớn</p>

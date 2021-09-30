@@ -4,7 +4,7 @@ import { cellId } from "../searchBarKeys";
 import { CellContainer } from "./CellContainer";
 
 export const CheckinCell = forwardRef(
-  ({ checkinVal, cellContainerProps }, ref) => {
+  ({ checkin, cellContainerProps }, ref) => {
     const [visible, setVisible] = useState(false);
 
     useImperativeHandle(ref, () => ({
@@ -34,8 +34,8 @@ export const CheckinCell = forwardRef(
         <div className="cell">
           <label>Nhận phòng</label>
 
-          {checkinVal !== "" ? (
-            <p className="data">{checkinVal}</p>
+          {checkin !== "" ? (
+            <p className="data">{checkin}</p>
           ) : (
             <p className="placeholder">Chọn ngày</p>
           )}

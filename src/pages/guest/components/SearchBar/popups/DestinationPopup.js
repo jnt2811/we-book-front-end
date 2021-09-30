@@ -8,10 +8,7 @@ export const DestinationPopup = ({
   recentSearch,
 }) => {
   return (
-    <div
-      className={searchBar["pop-up"] + " " + searchBar["destination"]}
-      style={{ left: 0 }}
-    >
+    <div className={searchBar["pop-up"] + " " + searchBar["destination"]}>
       {placePredictions.length ? (
         <>
           <h3 style={{ marginBottom: "10px" }}>Kết quả tìm kiếm</h3>

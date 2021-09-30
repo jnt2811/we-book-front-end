@@ -7,12 +7,13 @@ import { localGet, localSet } from "../../../../../helpers/localHelper";
 import { localKeys } from "../../../../../constances";
 
 export const DestinationCell = forwardRef(
-  ({ destinationVal, handleSearchData, cellContainerProps }, ref) => {
+  ({ destination, updateDestination, cellContainerProps }, ref) => {
     const { placePredictions, isPlacePredictionsLoading, getPlacePredictions } =
       usePlacesService({
         apiKey: process.env.GOOGLE_API_KEY,
       });
 
+    const [input, setInput] = useState();
     const [visible, setVisible] = useState(false);
     const [recentSearch, setRecentSearch] = useState(
       localGet(localKeys.RECENT_SEARCH, [])
@@ -24,6 +25,7 @@ export const DestinationCell = forwardRef(
 
     useImperativeHandle(ref, () => ({
       displayPopup() {
+        input.focus();
         setVisible(true);
       },
     }));
@@ -39,13 +41,13 @@ export const DestinationCell = forwardRef(
       const { value } = e.target;
       getPlacePredictions({ input: value });
 
-      handleSearchData(value);
+      updateDestination(value);
     };
 
     const handleSelectDesination = (val) => {
       let arr = [...recentSearch];
 
-      handleSearchData(val);
+      updateDestination(val);
 
       if (recentSearch.includes(val)) {
         arr.splice(arr.indexOf(val), 1);
@@ -85,11 +87,14 @@ export const DestinationCell = forwardRef(
           <input
             type="text"
             placeholder="Chọn điểm đến"
-            value={destinationVal}
+            value={destination}
             onFocus={() =>
               cellContainerProps.handleActiveCell(cellId.destination)
             }
             onChange={hanldeSearch}
+            ref={(input) => {
+              setInput(input);
+            }}
           />
         </div>
       </CellContainer>

@@ -8,9 +8,9 @@ import { CellContainer } from "./CellContainer";
 export const GuestsCell = forwardRef(
   (
     {
-      adultsVal,
-      childrenVal,
-      infantsVal,
+      adults,
+      children,
+      infants,
       updateAdults,
       updateChildren,
       updateInfants,
@@ -36,9 +36,9 @@ export const GuestsCell = forwardRef(
 
     const popupContent = (
       <GuestsPopup
-        adults={adultsVal}
-        children={childrenVal}
-        infants={infantsVal}
+        adults={adults}
+        children={children}
+        infants={infants}
         updateAdults={updateAdults}
         updateChildren={updateChildren}
         updateInfants={updateInfants}
@@ -57,16 +57,21 @@ export const GuestsCell = forwardRef(
         <Row className="cell">
           <Col flex="auto">
             <label>Khách</label>
-            {adultsVal + childrenVal + infantsVal > 0 ? (
-              <p className="data">
-                {adultsVal + childrenVal + infantsVal} khách
-              </p>
+            {adults + children + infants > 0 ? (
+              <p className="data">{adults + children + infants} khách</p>
             ) : (
               <p className="placeholder">Thêm người</p>
             )}
           </Col>
 
-          <Col className="btn" onClick={handleSearch} flex="45px">
+          <Col
+            className="btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleSearch();
+            }}
+            flex="45px"
+          >
             <SearchOutlined className="icon" />
           </Col>
         </Row>

@@ -1,8 +1,9 @@
 @import "../../../../assets/scss/mixins.scss";
-@use "sass:selector";
+@import "../../../../assets/scss/sizes.scss";
 
 $btn-size: 45px;
 $bar-width: 850px;
+$bar-margin-vertical: 5vh;
 
 @mixin blur-bg {
   background-color: #ffffff25;
@@ -12,8 +13,9 @@ $bar-width: 850px;
 .container {
   width: $bar-width;
   border-radius: 50px;
-  margin: 5vh auto 0 auto !important;
+  margin: $bar-margin-vertical auto 0 auto !important;
   @include blur-bg();
+  position: relative;
 
   :global(.cell-wrap) {
     border-radius: 50px;
@@ -112,9 +114,7 @@ $bar-width: 850px;
   @include blur-bg();
   position: absolute;
   top: 75px;
-  max-width: $bar-width;
-  width: max-content;
-  border-radius: 20px;
+  border-radius: 30px;
   padding: 25px;
   cursor: default;
 
@@ -124,6 +124,16 @@ $bar-width: 850px;
 
   &.guest {
     width: 400px;
+    right: 0;
+
+    p {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    span {
+      color: #ffffff99;
+    }
 
     button {
       background-color: unset;
@@ -157,18 +167,10 @@ $bar-width: 850px;
     margin: 20px 0;
   }
 
-  p {
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  span {
-    color: #ffffff99;
-  }
-
   &.destination {
     width: 500px;
     min-height: 300px;
+    left: 0;
 
     :global(.search-item) {
       display: flex;
@@ -190,6 +192,38 @@ $bar-width: 850px;
 
       &:hover {
         background-color: #ffffff25;
+      }
+    }
+  }
+
+  &.date-range {
+    left: calc((100vw - #{$bar-width}) / 2);
+    top: calc(#{$bar-margin-vertical} + #{$header-height} + 75px);
+    width: $bar-width;
+    text-align: center;
+
+    :global(.nav-btn) {
+      background-color: unset;
+      border: none;
+      z-index: 2;
+      width: 35px;
+      height: 35px;
+      @include btn-icon();
+
+      &:hover {
+        background-color: #ffffff25;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+
+        * {
+          color: #ffffff50;
+        }
+
+        &:hover {
+          background-color: unset;
+        }
       }
     }
   }

@@ -10,6 +10,7 @@ import {
   DestinationCell,
   GuestsCell,
 } from "./cells";
+import { DateRangePopup } from "./popups";
 
 export const SearchBar = () => {
   const history = useHistory();
@@ -38,17 +39,19 @@ export const SearchBar = () => {
   });
 
   const handleSearch = () => {
-    const destinationSearch = `${destinationKey}=${searchData[destinationKey]}`;
-    const checkinSearch = `${checkinKey}=${searchData[checkinKey]}`;
-    const checkoutSearch = `${checkoutKey}=${searchData[checkoutKey]}`;
-    const adultsSearch = `${adultsKey}=${searchData[adultsKey]}`;
-    const childrenSearch = `${childrenKey}=${searchData[childrenKey]}`;
-    const infantsSearch = `${infantsKey}=${searchData[infantsKey]}`;
+    if (!!searchData[destinationKey]) {
+      const destinationSearch = `${destinationKey}=${searchData[destinationKey]}`;
+      const checkinSearch = `${checkinKey}=${searchData[checkinKey]}`;
+      const checkoutSearch = `${checkoutKey}=${searchData[checkoutKey]}`;
+      const adultsSearch = `${adultsKey}=${searchData[adultsKey]}`;
+      const childrenSearch = `${childrenKey}=${searchData[childrenKey]}`;
+      const infantsSearch = `${infantsKey}=${searchData[infantsKey]}`;
 
-    history.push({
-      pathname: paths.RESULTS,
-      search: `?${destinationSearch}&${checkinSearch}&${checkoutSearch}&${adultsSearch}&${childrenSearch}&${infantsSearch}`,
-    });
+      history.push({
+        pathname: paths.RESULTS,
+        search: `?${destinationSearch}&${checkinSearch}&${checkoutSearch}&${adultsSearch}&${childrenSearch}&${infantsSearch}`,
+      });
+    } else destinationRef.current.displayPopup();
   };
 
   const handleHoverCell = (type, id) => {
@@ -67,6 +70,9 @@ export const SearchBar = () => {
     } else setCellListActive([]);
   };
 
+  const handleSearchData = (key, val) =>
+    setSearchData({ ...searchData, [key]: val });
+
   const cellContainerProps = {
     cellListHover,
     cellListActive,
@@ -74,41 +80,42 @@ export const SearchBar = () => {
     handleActiveCell,
   };
 
-  const handleSearchData = (key, val) =>
-    setSearchData({ ...searchData, [key]: val });
-
   return (
-    <Row className={searchBar["container"]}>
-      <DestinationCell
-        ref={destinationRef}
-        destinationVal={searchData[destinationKey]}
-        handleSearchData={(val) => handleSearchData(destinationKey, val)}
-        cellContainerProps={cellContainerProps}
-      />
+    <>
+      <Row className={searchBar["container"]}>
+        <DestinationCell
+          ref={destinationRef}
+          destination={searchData[destinationKey]}
+          updateDestination={(val) => handleSearchData(destinationKey, val)}
+          cellContainerProps={cellContainerProps}
+        />
 
-      <CheckinCell
-        ref={checkinRef}
-        checkinVal={searchData[checkinKey]}
-        cellContainerProps={cellContainerProps}
-      />
+        <CheckinCell
+          ref={checkinRef}
+          checkin={searchData[checkinKey]}
+          cellContainerProps={cellContainerProps}
+        />
 
-      <CheckoutCell
-        ref={checkoutRef}
-        checkoutVal={searchData[checkoutKey]}
-        cellContainerProps={cellContainerProps}
-      />
+        <CheckoutCell
+          ref={checkoutRef}
+          checkout={searchData[checkoutKey]}
+          cellContainerProps={cellContainerProps}
+        />
 
-      <GuestsCell
-        ref={guestsRef}
-        adultsVal={searchData[adultsKey]}
-        childrenVal={searchData[childrenKey]}
-        infantsVal={searchData[infantsKey]}
-        updateAdults={(val) => handleSearchData(adultsKey, val)}
-        updateChildren={(val) => handleSearchData(childrenKey, val)}
-        updateInfants={(val) => handleSearchData(infantsKey, val)}
-        cellContainerProps={cellContainerProps}
-        handleSearch={handleSearch}
-      />
-    </Row>
+        <GuestsCell
+          ref={guestsRef}
+          adults={searchData[adultsKey]}
+          children={searchData[childrenKey]}
+          infants={searchData[infantsKey]}
+          updateAdults={(val) => handleSearchData(adultsKey, val)}
+          updateChildren={(val) => handleSearchData(childrenKey, val)}
+          updateInfants={(val) => handleSearchData(infantsKey, val)}
+          cellContainerProps={cellContainerProps}
+          handleSearch={handleSearch}
+        />
+      </Row>
+
+      <DateRangePopup />
+    </>
   );
 };
