@@ -3,7 +3,7 @@ import { Col, Row } from "antd";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { GuestsPopup } from "../popups";
 import { cellId } from "../searchBarKeys";
-import { CellContainer } from "./CellContainer";
+import { CellContainer } from "../components/CellContainer";
 
 export const GuestsCell = forwardRef(
   (
@@ -28,7 +28,7 @@ export const GuestsCell = forwardRef(
     }));
 
     const handleClickOutside = () => {
-      if (cellContainerProps.cellListActive[0] === cellId.guests) {
+      if (cellContainerProps.cellActive === cellId.guests) {
         setVisible(false);
         cellContainerProps.handleActiveCell();
       }
@@ -68,6 +68,7 @@ export const GuestsCell = forwardRef(
             className="btn"
             onClick={(e) => {
               e.stopPropagation();
+              visible && setVisible(false);
               handleSearch();
             }}
             flex="45px"

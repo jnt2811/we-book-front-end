@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { DestinationPopup } from "../popups";
 import { cellId } from "../searchBarKeys";
-import { CellContainer } from "./CellContainer";
+import { CellContainer } from "../components/CellContainer";
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import { localGet, localSet } from "../../../../../helpers/localHelper";
 import { localKeys } from "../../../../../constances";
@@ -31,7 +31,7 @@ export const DestinationCell = forwardRef(
     }));
 
     const handleClickOutside = () => {
-      if (cellContainerProps.cellListActive[0] === cellId.destination) {
+      if (cellContainerProps.cellActive === cellId.destination) {
         setVisible(false);
         cellContainerProps.handleActiveCell();
       }

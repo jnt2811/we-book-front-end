@@ -48,11 +48,14 @@ export const Calendar = ({ offset = 0, onClick, chosenDate }) => {
             <div className="day-wrap">
               <button
                 className={`day${
+                  item.value.isSame(moment(chosenDate), "day") ? " active" : ""
+                }${
                   item.value.format("M") === currentTime.format("M")
                     ? " in-month"
                     : ""
                 }${item.value.isSame(moment(), "day") ? " today" : ""}`}
                 disabled={item.value.isBefore(moment())}
+                onClick={() => onClick(item.value)}
               >
                 {item.value.format("D")}
               </button>

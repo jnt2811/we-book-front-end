@@ -1,5 +1,5 @@
 import { Col, Divider, Row } from "antd";
-import searchBar from "../searchBar.module.scss";
+import searchBar from "./searchPopup.module.scss";
 import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
 
 export const GuestsPopup = ({

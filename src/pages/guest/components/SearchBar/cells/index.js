@@ -1,6 +1,5 @@
 import { DestinationCell } from "./DestinationCell";
-import { CheckinCell } from "./CheckinCell";
-import { CheckoutCell } from "./CheckoutCell";
 import { GuestsCell } from "./GuestsCell";
+import { DateRangeCell } from "./DateRangeCell";
 
-export { DestinationCell, CheckinCell, CheckoutCell, GuestsCell };
+export { DestinationCell, GuestsCell, DateRangeCell };

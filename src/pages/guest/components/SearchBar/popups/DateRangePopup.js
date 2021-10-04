@@ -2,10 +2,22 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Col, Row } from "antd";
 import { useState } from "react";
 import { Calendar } from "../../Calendar/Canlendar";
-import searchBar from "../searchBar.module.scss";
+import searchBar from "./searchPopup.module.scss";
 
-export const DateRangePopup = () => {
+export const DateRangePopup = ({
+  checkin,
+  checkout,
+  updateCheckin,
+  updateCheckout,
+  isCheckinActive = false,
+  isCheckoutActive = false,
+}) => {
   const [offset, setOffset] = useState(0);
+
+  const handleSelectDate = (val) => {
+    if (isCheckinActive) updateCheckin(val);
+    else if (isCheckoutActive) updateCheckout(val);
+  };
 
   return (
     <div className={searchBar["pop-up"] + " " + searchBar["date-range"]}>
@@ -25,11 +37,19 @@ export const DateRangePopup = () => {
 
       <Row justify="space-between" gutter={{ sm: 50 }}>
         <Col span={12}>
-          <Calendar offset={offset} />
+          <Calendar
+            offset={offset}
+            chosenDate={checkin}
+            onClick={handleSelectDate}
+          />
         </Col>
 
         <Col span={12}>
-          <Calendar offset={offset + 1} />
+          <Calendar
+            offset={offset + 1}
+            chosenDate={checkout}
+            onClick={handleSelectDate}
+          />
         </Col>
       </Row>
     </div>

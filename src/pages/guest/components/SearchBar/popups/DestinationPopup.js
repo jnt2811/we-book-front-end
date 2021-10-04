@@ -1,5 +1,5 @@
 import { EnvironmentOutlined, LoadingOutlined } from "@ant-design/icons";
-import searchBar from "../searchBar.module.scss";
+import searchBar from "./searchPopup.module.scss";
 
 export const DestinationPopup = ({
   onSelectResult,

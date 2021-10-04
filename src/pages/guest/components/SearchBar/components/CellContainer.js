@@ -8,40 +8,34 @@ export const CellContainer = ({
   id,
   visiblePopup,
   onClickOutside,
-  cellListHover,
-  cellListActive,
+  cellActive,
   handleHoverCell,
   handleActiveCell,
   span,
-  abortOnClick = false,
   popupContent,
-  ...props
+  abortOnClick = false,
 }) => {
   const ref = useRef();
 
-  ClickOutside({
-    ref: ref,
-    onClickOutside: onClickOutside,
-  });
+  onClickOutside !== null &&
+    ClickOutside({
+      ref: ref,
+      onClickOutside: onClickOutside,
+    });
 
   return (
     <Col
-      {...props}
       ref={ref}
       span={span}
-      className={`cell-wrap${cellListHover.includes(id) ? " hover" : ""}${
-        visiblePopup && cellListActive[0] === id
-          ? " active"
-          : cellListActive.includes(id)
-          ? " active-next"
-          : ""
-      }`}
+      className={`cell-wrap${cellActive === id ? " active" : ""}`}
       onMouseEnter={() => handleHoverCell(hoverType.in, id)}
       onMouseLeave={() => handleHoverCell(hoverType.out)}
       onClick={() => !abortOnClick && handleActiveCell(id)}
     >
-      {children}
-      {visiblePopup && popupContent}
+      <div className="cell">
+        {children}
+        {visiblePopup && popupContent}
+      </div>
     </Col>
   );
 };

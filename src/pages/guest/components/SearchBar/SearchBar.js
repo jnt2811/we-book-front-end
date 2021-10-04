@@ -4,13 +4,8 @@ import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { paths, searchKeys } from "../../../../constances";
 import { cellId, hoverType } from "./searchBarKeys";
-import {
-  CheckinCell,
-  CheckoutCell,
-  DestinationCell,
-  GuestsCell,
-} from "./cells";
-import { DateRangePopup } from "./popups";
+import { DateRangeCell, DestinationCell, GuestsCell } from "./cells";
+import { CellDivider } from "./components/CellDivider";
 
 export const SearchBar = () => {
   const history = useHistory();
@@ -23,12 +18,11 @@ export const SearchBar = () => {
   const infantsKey = searchKeys.INFANTS;
 
   const destinationRef = useRef();
-  const checkinRef = useRef();
-  const checkoutRef = useRef();
   const guestsRef = useRef();
+  const dateRangeRef = useRef();
 
-  const [cellListHover, setCellListHover] = useState([]);
-  const [cellListActive, setCellListActive] = useState([]);
+  const [cellHover, setCellHover] = useState();
+  const [cellActive, setCellActive] = useState();
   const [searchData, setSearchData] = useState({
     [destinationKey]: "",
     [checkinKey]: "",
@@ -41,8 +35,12 @@ export const SearchBar = () => {
   const handleSearch = () => {
     if (!!searchData[destinationKey]) {
       const destinationSearch = `${destinationKey}=${searchData[destinationKey]}`;
-      const checkinSearch = `${checkinKey}=${searchData[checkinKey]}`;
-      const checkoutSearch = `${checkoutKey}=${searchData[checkoutKey]}`;
+      const checkinSearch = `${checkinKey}=${searchData[checkinKey].format(
+        "DD/MM/YYYY"
+      )}`;
+      const checkoutSearch = `${checkoutKey}=${searchData[checkoutKey].format(
+        "DD/MM/YYYY"
+      )}`;
       const adultsSearch = `${adultsKey}=${searchData[adultsKey]}`;
       const childrenSearch = `${childrenKey}=${searchData[childrenKey]}`;
       const infantsSearch = `${infantsKey}=${searchData[infantsKey]}`;
@@ -55,34 +53,34 @@ export const SearchBar = () => {
   };
 
   const handleHoverCell = (type, id) => {
-    if (type === hoverType.in) setCellListHover([id, id + 1]);
-    else setCellListHover([]);
+    if (type === hoverType.in) setCellHover(id);
+    else setCellHover();
   };
 
   const handleActiveCell = (id) => {
     if (!!id) {
       if (id === cellId.destination) destinationRef.current.displayPopup();
-      else if (id === cellId.checkinDate) checkinRef.current.displayPopup();
-      else if (id === cellId.checkoutDate) checkoutRef.current.displayPopup();
+      else if (id === cellId.checkinDate) dateRangeRef.current.displayPopup();
+      else if (id === cellId.checkoutDate) dateRangeRef.current.displayPopup();
       else if (id === cellId.guests) guestsRef.current.displayPopup();
 
-      setCellListActive([id, id + 1]);
-    } else setCellListActive([]);
+      setCellActive(id);
+    } else setCellActive();
   };
 
   const handleSearchData = (key, val) =>
     setSearchData({ ...searchData, [key]: val });
 
   const cellContainerProps = {
-    cellListHover,
-    cellListActive,
+    cellHover,
+    cellActive,
     handleHoverCell,
     handleActiveCell,
   };
 
   return (
     <>
-      <Row className={searchBar["container"]}>
+      <Row className={searchBar["container"]} align="middle" wrap={false}>
         <DestinationCell
           ref={destinationRef}
           destination={searchData[destinationKey]}
@@ -90,16 +88,27 @@ export const SearchBar = () => {
           cellContainerProps={cellContainerProps}
         />
 
-        <CheckinCell
-          ref={checkinRef}
-          checkin={searchData[checkinKey]}
-          cellContainerProps={cellContainerProps}
+        <CellDivider
+          cellActive={cellActive}
+          cellHover={cellHover}
+          id1={cellId.destination}
+          id2={cellId.checkinDate}
         />
 
-        <CheckoutCell
-          ref={checkoutRef}
+        <DateRangeCell
+          ref={dateRangeRef}
+          checkin={searchData[checkinKey]}
           checkout={searchData[checkoutKey]}
           cellContainerProps={cellContainerProps}
+          updateCheckin={(val) => handleSearchData(checkinKey, val)}
+          updateCheckout={(val) => handleSearchData(checkoutKey, val)}
+        />
+
+        <CellDivider
+          cellActive={cellActive}
+          cellHover={cellHover}
+          id1={cellId.checkoutDate}
+          id2={cellId.guests}
         />
 
         <GuestsCell
@@ -114,8 +123,6 @@ export const SearchBar = () => {
           handleSearch={handleSearch}
         />
       </Row>
-
-      <DateRangePopup />
     </>
   );
 };

@@ -36,6 +36,10 @@
         background-color: #ffffff25;
       }
 
+      &:global(.active) {
+        background-color: #ffffff50;
+      }
+
       &:global(.in-month) {
         display: block;
       }

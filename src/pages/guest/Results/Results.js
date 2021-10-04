@@ -19,18 +19,18 @@ export const Results = () => {
 
   const handleFav = (id) => {};
 
-  console.log(searchKeys.DESTINATION, query.get(searchKeys.DESTINATION));
-  console.log(searchKeys.CHECKIN, query.get(searchKeys.CHECKIN));
-  console.log(searchKeys.CHECKOUT, query.get(searchKeys.CHECKOUT));
-  console.log(searchKeys.ADULTS, query.get(searchKeys.ADULTS));
-  console.log(searchKeys.CHILDREN, query.get(searchKeys.CHILDREN));
-  console.log(searchKeys.INFANTS, query.get(searchKeys.INFANTS));
-
   return (
     <div className={results.container}>
       <div className="list">
-        <p>300 chỗ ở</p>
-        <h1>Chỗ ở tại Hà Nội</h1>
+        <p>
+          300 chỗ ở _ {query.get(searchKeys.CHECKIN)} -{" "}
+          {query.get(searchKeys.CHECKOUT)} _{" "}
+          {parseInt(query.get(searchKeys.ADULTS)) +
+            parseInt(query.get(searchKeys.CHILDREN)) +
+            parseInt(query.get(searchKeys.INFANTS))}{" "}
+          khách
+        </p>
+        <h1>Chỗ ở tại {query.get(searchKeys.DESTINATION)}</h1>
 
         <div className="filters">
           <div className="btn active">

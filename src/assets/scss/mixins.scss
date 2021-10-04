@@ -10,3 +10,8 @@
   margin: 0;
   color: #333;
 }
+
+@mixin blur-bg {
+  background-color: #ffffff25;
+  backdrop-filter: blur(3rem);
+}
