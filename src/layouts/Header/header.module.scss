@@ -1,9 +1,6 @@
 @import "../../assets/scss/sizes.scss";
 @import "../../assets/scss/mixins.scss";
 
-$btn-size: 45px;
-$logo-width: 150px;
-
 @mixin button-std {
   @include btn-icon();
   width: $btn-size;
@@ -19,12 +16,15 @@ $logo-width: 150px;
 }
 
 @mixin container-std {
-  height: $header-height;
+  min-height: 200px;
   padding: 0 calc((100% - #{$container-width}) / 2);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   z-index: $header-z-index;
+
+  :global(.main) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   :global(.logo) img {
     width: $logo-width;

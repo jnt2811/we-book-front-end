@@ -1,5 +1,6 @@
 export const localGet = (key, fallback) => {
-  return localStorage.getItem(key) !== "undefined"
+  return localStorage.getItem(key) !== "undefined" &&
+    localStorage.getItem(key) !== "null"
     ? JSON.parse(localStorage.getItem(key))
     : fallback;
 };

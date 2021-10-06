@@ -1,14 +1,17 @@
 import searchBar from "./searchBar.module.scss";
 import { Row } from "antd";
 import { useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { paths, searchKeys } from "../../../../constances";
+import { useHistory, useLocation } from "react-router-dom";
+import { paths, searchKeys } from "../../constants";
 import { cellId, hoverType } from "./searchBarKeys";
 import { DateRangeCell, DestinationCell, GuestsCell } from "./cells";
 import { CellDivider } from "./components/CellDivider";
 
 export const SearchBar = () => {
   const history = useHistory();
+  const { pathname } = useLocation();
+
+  const isAtHome = pathname === paths.HOME;
 
   const destinationKey = searchKeys.DESTINATION;
   const checkinKey = searchKeys.CHECKIN;
@@ -35,12 +38,16 @@ export const SearchBar = () => {
   const handleSearch = () => {
     if (!!searchData[destinationKey]) {
       const destinationSearch = `${destinationKey}=${searchData[destinationKey]}`;
-      const checkinSearch = `${checkinKey}=${searchData[checkinKey].format(
-        "DD/MM/YYYY"
-      )}`;
-      const checkoutSearch = `${checkoutKey}=${searchData[checkoutKey].format(
-        "DD/MM/YYYY"
-      )}`;
+      const checkinSearch = `${checkinKey}=${
+        searchData[checkinKey] !== ""
+          ? searchData[checkinKey].format("DD/MM/YYYY")
+          : ""
+      }`;
+      const checkoutSearch = `${checkoutKey}=${
+        searchData[checkoutKey] !== ""
+          ? searchData[checkoutKey].format("DD/MM/YYYY")
+          : ""
+      }`;
       const adultsSearch = `${adultsKey}=${searchData[adultsKey]}`;
       const childrenSearch = `${childrenKey}=${searchData[childrenKey]}`;
       const infantsSearch = `${infantsKey}=${searchData[infantsKey]}`;
@@ -80,7 +87,11 @@ export const SearchBar = () => {
 
   return (
     <>
-      <Row className={searchBar["container"]} align="middle" wrap={false}>
+      <Row
+        className={searchBar[`container${isAtHome ? "-home" : ""}`]}
+        align="middle"
+        wrap={false}
+      >
         <DestinationCell
           ref={destinationRef}
           destination={searchData[destinationKey]}

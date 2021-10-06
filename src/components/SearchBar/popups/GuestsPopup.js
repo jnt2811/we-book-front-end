@@ -1,6 +1,8 @@
 import { Col, Divider, Row } from "antd";
 import searchBar from "./searchPopup.module.scss";
 import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
+import { useLocation } from "react-router-dom";
+import { paths } from "../../../constants";
 
 export const GuestsPopup = ({
   adults,
@@ -10,8 +12,19 @@ export const GuestsPopup = ({
   updateChildren,
   updateInfants,
 }) => {
+  const { pathname } = useLocation();
+  const isAtHome = pathname === paths.HOME;
+
   return (
-    <div className={searchBar["pop-up"] + " " + searchBar["guest"]}>
+    <div
+      className={
+        searchBar["pop-up"] +
+        " " +
+        searchBar["guest"] +
+        " " +
+        (isAtHome ? "home" : "")
+      }
+    >
       <Row className="wrap" align="middle" justify="space-between">
         <Col>
           <p>Người lớn</p>

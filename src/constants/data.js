@@ -1,7 +1,7 @@
 import { HomeBg } from "../assets/images";
 
 export const listingListSample = [
-  ...Array.apply(null, Array(25)).map((_, i) => ({
+  ...Array.apply(null, Array(5)).map((_, i) => ({
     id: i,
     name: `Căn hộ số ${i + 1}`,
     type: "Studio",

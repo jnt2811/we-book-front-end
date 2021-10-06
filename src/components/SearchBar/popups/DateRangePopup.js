@@ -1,6 +1,8 @@
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Col, Row } from "antd";
 import { useState } from "react";
+import { useLocation } from "react-router";
+import { paths } from "../../../constants";
 import { Calendar } from "../../Calendar/Canlendar";
 import searchBar from "./searchPopup.module.scss";
 
@@ -13,6 +15,8 @@ export const DateRangePopup = ({
   isCheckoutActive = false,
 }) => {
   const [offset, setOffset] = useState(0);
+  const { pathname } = useLocation();
+  const isAtHome = pathname === paths.HOME;
 
   const handleSelectDate = (val) => {
     if (isCheckinActive) updateCheckin(val);
@@ -20,7 +24,15 @@ export const DateRangePopup = ({
   };
 
   return (
-    <div className={searchBar["pop-up"] + " " + searchBar["date-range"]}>
+    <div
+      className={
+        searchBar["pop-up"] +
+        " " +
+        searchBar["date-range"] +
+        " " +
+        (isAtHome ? "home" : "")
+      }
+    >
       <Row justify="space-between" align="middle">
         <button
           className="nav-btn"

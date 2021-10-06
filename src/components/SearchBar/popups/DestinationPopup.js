@@ -1,4 +1,6 @@
 import { EnvironmentOutlined, LoadingOutlined } from "@ant-design/icons";
+import { useLocation } from "react-router-dom";
+import { paths } from "../../../constants";
 import searchBar from "./searchPopup.module.scss";
 
 export const DestinationPopup = ({
@@ -7,8 +9,18 @@ export const DestinationPopup = ({
   placePredictions,
   recentSearch,
 }) => {
+  const { pathname } = useLocation();
+  const isAtHome = pathname === paths.HOME;
   return (
-    <div className={searchBar["pop-up"] + " " + searchBar["destination"]}>
+    <div
+      className={
+        searchBar["pop-up"] +
+        " " +
+        searchBar["destination"] +
+        " " +
+        (isAtHome ? "home" : "")
+      }
+    >
       {placePredictions.length ? (
         <>
           <h3 style={{ marginBottom: "10px" }}>Kết quả tìm kiếm</h3>

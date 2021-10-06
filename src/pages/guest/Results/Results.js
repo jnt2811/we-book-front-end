@@ -1,4 +1,4 @@
-import { listingListSample } from "../../../constances/data";
+import { listingListSample } from "../../../constants/data";
 import results from "./results.module.scss";
 import {
   HeartOutlined,
@@ -7,7 +7,7 @@ import {
   StarFilled,
 } from "@ant-design/icons";
 import { useHistory, useLocation } from "react-router-dom";
-import { paths, searchKeys } from "../../../constances";
+import { paths, searchKeys } from "../../../constants";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);

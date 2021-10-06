@@ -1,5 +1,5 @@
 import { Route, Switch } from "react-router-dom";
-import { paths } from "../constances";
+import { paths } from "../constants";
 import { Dashboard, Listings } from "../pages";
 
 export const HostRoutes = () => {

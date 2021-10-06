@@ -4,7 +4,7 @@ import { cellId } from "../searchBarKeys";
 import { CellContainer } from "../components/CellContainer";
 import { CellDivider } from "../components/CellDivider";
 import { DateRangePopup } from "../popups";
-import { ClickOutside } from "../../../../../hooks/ClickOutside";
+import { ClickOutside } from "../../../hooks/ClickOutside";
 
 export const DateRangeCell = forwardRef(
   (

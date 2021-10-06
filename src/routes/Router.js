@@ -1,5 +1,5 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { paths } from "../constances";
+import { paths } from "../constants";
 import { Header } from "../layouts";
 import { GuestRoutes } from "./GuestRoutes";
 import { HostRoutes } from "./HostRoutes";

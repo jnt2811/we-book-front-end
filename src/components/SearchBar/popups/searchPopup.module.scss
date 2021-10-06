@@ -1,13 +1,17 @@
-@import "../../../../../assets/scss/mixins.scss";
-@import "../../../../../assets/scss/sizes.scss";
+@import "../../../assets/scss/mixins.scss";
+@import "../../../assets/scss/sizes.scss";
 
 .pop-up {
-  @include blur-bg();
+  background-color: #333;
   position: absolute;
   top: 75px;
   border-radius: 30px;
   padding: 25px;
   cursor: default;
+
+  &:global(.home) {
+    @include blur-bg();
+  }
 
   * {
     color: #fff;
