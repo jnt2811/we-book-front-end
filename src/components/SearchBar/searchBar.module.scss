@@ -13,8 +13,6 @@ $bar-margin-vertical: 5vh;
   :global(.cell-wrap) {
     border-radius: 50px;
     padding: 10px 30px !important;
-    // display: flex;
-    // align-items: center;
     cursor: pointer;
   }
 
@@ -82,8 +80,16 @@ $bar-margin-vertical: 5vh;
 
 .container-home {
   @include container-std();
-  @include blur-bg(); // home
   margin-top: $bar-margin-vertical !important;
+
+  &::before {
+    content: "";
+    @include blur-bg();
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 50px;
+  }
 
   :global(.cell-wrap) {
     &:hover,
@@ -126,7 +132,16 @@ $bar-margin-vertical: 5vh;
 .container {
   @include container-std();
   background-color: #fff;
-  border: 1px solid #333;
+  // border: 1px solid #333;
+
+  &::before {
+    content: "";
+    border: 1px solid #333;
+    position: absolute;
+    width: calc(100% - 1px);
+    height: 100%;
+    border-radius: 50px;
+  }
 
   :global(.cell-wrap) {
     &:hover {
