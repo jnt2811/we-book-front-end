@@ -1,4 +1,4 @@
-import { Home } from "./guest/Home/Home";
+import Home from "./guest/Home/Home";
 import { Results } from "./guest/Results/Results";
 import { ListingView } from "./guest/ListingView/ListingView";
 import { FavoriteList } from "./guest/FavoriteList/FavoriteList";

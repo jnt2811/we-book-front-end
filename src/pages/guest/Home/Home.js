@@ -3,7 +3,7 @@ import home from "./home.module.scss";
 import { useClickOutside } from "jnt-hooks";
 import { useRef, useState } from "react";
 
-export const Home = () => {
+export default function Home() {
   const [isBlue, setIsBlue] = useState(false);
   const ref = useRef();
 
@@ -12,8 +12,8 @@ export const Home = () => {
   console.log("object");
 
   return (
-    <div className={home.container}>
+    <div className={home["container"]}>
       <SearchBar />
     </div>
   );
-};
+}
