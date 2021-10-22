@@ -66,9 +66,12 @@
           color: #333;
         }
 
-        &:hover,
+        &:hover {
+          border: 1px solid #dadada;
+        }
+
         &:global(.active) {
-          box-shadow: 0 0 5px #00000025;
+          border: 1px solid #333;
         }
       }
     }

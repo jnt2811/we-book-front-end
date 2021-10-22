@@ -1,19 +1,19 @@
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Col, Row } from "antd";
 import { useState } from "react";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 import { paths } from "../../../constants";
-import { Calendar } from "../../Calendar/Canlendar";
+import Calendar from "../../Calendar/Canlendar";
 import searchBar from "./searchPopup.module.scss";
 
-export const DateRangePopup = ({
+export default function DateRangePopup({
   checkin,
   checkout,
   updateCheckin,
   updateCheckout,
   isCheckinActive = false,
   isCheckoutActive = false,
-}) => {
+}) {
   const [offset, setOffset] = useState(0);
   const { pathname } = useLocation();
   const isAtHome = pathname === paths.HOME;
@@ -66,4 +66,4 @@ export const DateRangePopup = ({
       </Row>
     </div>
   );
-};
+}

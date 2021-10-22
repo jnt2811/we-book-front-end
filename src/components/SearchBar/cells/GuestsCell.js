@@ -3,9 +3,9 @@ import { Col, Row } from "antd";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { GuestsPopup } from "../popups";
 import { cellId } from "../searchBarKeys";
-import { CellContainer } from "../components/CellContainer";
+import CellContainer from "../components/CellContainer";
 
-export const GuestsCell = forwardRef(
+const GuestsCell = forwardRef(
   (
     {
       adults,
@@ -80,3 +80,5 @@ export const GuestsCell = forwardRef(
     );
   }
 );
+
+export default GuestsCell;

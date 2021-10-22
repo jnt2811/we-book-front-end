@@ -3,12 +3,12 @@ import { useLocation } from "react-router-dom";
 import { paths } from "../../../constants";
 import searchBar from "./searchPopup.module.scss";
 
-export const DestinationPopup = ({
+export default function DestinationPopup({
   onSelectResult,
   isPlacePredictionsLoading,
   placePredictions,
   recentSearch,
-}) => {
+}) {
   const { pathname } = useLocation();
   const isAtHome = pathname === paths.HOME;
   return (
@@ -71,4 +71,4 @@ export const DestinationPopup = ({
       )}
     </div>
   );
-};
+}

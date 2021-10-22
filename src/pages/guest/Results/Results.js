@@ -13,7 +13,7 @@ const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
 
-export const Results = () => {
+export default function Results() {
   const history = useHistory();
   const query = useQuery();
 
@@ -112,4 +112,4 @@ export const Results = () => {
       </div>
     </div>
   );
-};
+}

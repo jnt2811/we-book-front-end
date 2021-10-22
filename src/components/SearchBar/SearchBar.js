@@ -5,9 +5,9 @@ import { useHistory, useLocation } from "react-router-dom";
 import { paths, searchKeys } from "../../constants";
 import { cellId, hoverType } from "./searchBarKeys";
 import { DateRangeCell, DestinationCell, GuestsCell } from "./cells";
-import { CellDivider } from "./components/CellDivider";
+import CellDivider from "./components/CellDivider";
 
-export const SearchBar = () => {
+export default function SearchBar() {
   const history = useHistory();
   const { pathname } = useLocation();
 
@@ -136,4 +136,4 @@ export const SearchBar = () => {
       </Row>
     </>
   );
-};
+}
