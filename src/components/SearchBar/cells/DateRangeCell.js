@@ -1,12 +1,12 @@
 import { Col, Row } from "antd";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { cellId } from "../searchBarKeys";
-import { CellContainer } from "../components/CellContainer";
-import { CellDivider } from "../components/CellDivider";
+import CellContainer from "../components/CellContainer";
+import CellDivider from "../components/CellDivider";
 import { DateRangePopup } from "../popups";
 import { ClickOutside } from "../../../hooks/ClickOutside";
 
-export const DateRangeCell = forwardRef(
+const DateRangeCell = forwardRef(
   (
     { checkin, checkout, updateCheckin, updateCheckout, cellContainerProps },
     ref
@@ -96,3 +96,5 @@ export const DateRangeCell = forwardRef(
     );
   }
 );
+
+export default DateRangeCell;

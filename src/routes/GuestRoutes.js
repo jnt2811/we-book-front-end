@@ -9,7 +9,7 @@ import {
   Trips,
 } from "../pages";
 
-export const GuestRoutes = () => {
+export default function GuestRoutes() {
   return (
     <Switch>
       <Route exact path={paths.HOME} component={Home} />
@@ -20,4 +20,4 @@ export const GuestRoutes = () => {
       <Route exact path={paths.TRIPS} component={Trips} />
     </Switch>
   );
-};
+}

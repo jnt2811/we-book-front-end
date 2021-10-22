@@ -5,7 +5,7 @@ import { useMemo } from "react";
 
 const dayNames = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
 
-export const Calendar = ({ offset = 0, onClick, chosenDate }) => {
+export default function Calendar({ offset = 0, onClick, chosenDate }) {
   const currentTime = useMemo(() => moment().add(offset, "month"), [offset]);
 
   const dayList = useMemo(
@@ -65,4 +65,4 @@ export const Calendar = ({ offset = 0, onClick, chosenDate }) => {
       </Row>
     </div>
   );
-};
+}

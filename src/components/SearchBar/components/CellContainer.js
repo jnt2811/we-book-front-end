@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { ClickOutside } from "../../../hooks/ClickOutside";
 import { hoverType } from "../searchBarKeys";
 
-export const CellContainer = ({
+export default function CellContainer({
   children,
   id,
   visiblePopup,
@@ -14,7 +14,7 @@ export const CellContainer = ({
   span,
   popupContent,
   abortOnClick = false,
-}) => {
+}) {
   const ref = useRef();
 
   onClickOutside !== null &&
@@ -38,4 +38,4 @@ export const CellContainer = ({
       </div>
     </Col>
   );
-};
+}

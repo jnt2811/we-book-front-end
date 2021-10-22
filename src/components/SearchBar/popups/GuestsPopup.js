@@ -4,14 +4,14 @@ import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router-dom";
 import { paths } from "../../../constants";
 
-export const GuestsPopup = ({
+export default function GuestsPopup({
   adults,
   children,
   infants,
   updateAdults,
   updateChildren,
   updateInfants,
-}) => {
+}) {
   const { pathname } = useLocation();
   const isAtHome = pathname === paths.HOME;
 
@@ -89,4 +89,4 @@ export const GuestsPopup = ({
       </Row>
     </div>
   );
-};
+}

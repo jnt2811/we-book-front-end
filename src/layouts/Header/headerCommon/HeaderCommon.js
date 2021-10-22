@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import UserPopup from "../userPopup/UserPopup";
 import { ClickOutside } from "../../../hooks/ClickOutside";
-import { SearchBar } from "../../../components/SearchBar/SearchBar";
+import SearchBar from "../../../components/SearchBar/SearchBar";
 
 const HeaderCommon = ({ location }) => {
   const userBtnRef = useRef();
@@ -51,11 +51,7 @@ const HeaderCommon = ({ location }) => {
               <img src={LogoLight} alt="" />
             </Link>
 
-            {/* <button onClick={() => setIsSearchActive((bool) => !bool)}>
-              Click me
-            </button> */}
-
-            {(isAtResults || isAtListingView) && (
+            {(isAtResults || isAtListingView) && !isSearchActive && (
               <div
                 className="mini-search-bar"
                 onClick={() => !isSearchActive && setIsSearchActive(true)}

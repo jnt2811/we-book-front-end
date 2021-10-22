@@ -1,12 +1,12 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { DestinationPopup } from "../popups";
 import { cellId } from "../searchBarKeys";
-import { CellContainer } from "../components/CellContainer";
+import CellContainer from "../components/CellContainer";
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import { localGet, localSet } from "../../../helpers/localHelper";
 import { localKeys } from "../../../constants/keys";
 
-export const DestinationCell = forwardRef(
+const DestinationCell = forwardRef(
   ({ destination, updateDestination, cellContainerProps }, ref) => {
     const { placePredictions, isPlacePredictionsLoading, getPlacePredictions } =
       usePlacesService({
@@ -101,3 +101,5 @@ export const DestinationCell = forwardRef(
     );
   }
 );
+
+export default DestinationCell;

@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 
-export const ListingView = () => {
+export default function ListingView() {
   const { id } = useParams();
 
   return (
@@ -8,4 +8,4 @@ export const ListingView = () => {
       <h1>Listing ID: {id}</h1>
     </div>
   );
-};
+}

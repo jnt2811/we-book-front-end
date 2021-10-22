@@ -1,7 +1,7 @@
-export const Listings = () => {
+export default function Listings() {
   return (
     <div className="listings">
       <h1>Listings</h1>
     </div>
   );
-};
+}

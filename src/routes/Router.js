@@ -1,10 +1,10 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { paths } from "../constants";
 import { Header } from "../layouts";
-import { GuestRoutes } from "./GuestRoutes";
-import { HostRoutes } from "./HostRoutes";
+import GuestRoutes from "./GuestRoutes";
+import HostRoutes from "./HostRoutes";
 
-export const Router = () => {
+export default function Router() {
   return (
     <BrowserRouter>
       <Header />
@@ -15,4 +15,4 @@ export const Router = () => {
       </Switch>
     </BrowserRouter>
   );
-};
+}
