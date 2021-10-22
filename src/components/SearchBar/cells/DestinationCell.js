@@ -3,7 +3,7 @@ import { DestinationPopup } from "../popups";
 import { cellId } from "../searchBarKeys";
 import CellContainer from "../components/CellContainer";
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
-import { localGet, localSet } from "../../../helpers/localHelper";
+import { localGet, localSet } from "../../../helpers/localHandler";
 import { localKeys } from "../../../constants/keys";
 
 const DestinationCell = forwardRef(

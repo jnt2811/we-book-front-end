@@ -1,11 +1,12 @@
-import { handlePostRequest } from "../../utils/httpRequests";
-import apis from "../apis";
+import apis from "../../constants/apis";
+import { requestPost } from "../../helpers/requestHandler";
 
 export const requestDoLogin = (dataRequest) => {
-  let { password } = dataRequest;
-  dataRequest = { ...dataRequest, password };
-
   const headers = {};
+  return requestPost(apis.LOGIN, dataRequest, headers);
+};
 
-  return handlePostRequest(apis.LOGIN, dataRequest, headers);
+export const requestDoSignup = (dataRequest) => {
+  const headers = {};
+  return requestPost(apis.LOGIN, dataRequest, headers);
 };

@@ -11,6 +11,7 @@ const loginSlice = createSlice({
   initialState: initState,
   reducers: {
     doLogin() {},
+    doLogout() {},
 
     loginSuccess(state, action) {
       return action.payload;
@@ -26,7 +27,7 @@ const loginSlice = createSlice({
   },
 });
 
-export const { doLogin, loginSuccess, loginFail, resetLogin } =
+export const { doLogin, loginSuccess, loginFail, resetLogin, doLogout } =
   loginSlice.actions;
 
 export default loginSlice.reducer;

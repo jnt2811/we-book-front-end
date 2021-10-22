@@ -1,12 +1,12 @@
 import axios from "axios";
 import { localKeys } from "../constants";
-import { localGet } from "./localHelper";
+import { localGet } from "./localHandler";
 
 const initHeaders = {
   Authorization: "bearer " + localGet(localKeys.ACCESS_TOKEN),
 };
 
-export const httpRequestPost = async (api, data, headers = initHeaders) => {
+export const requestPost = async (api, data, headers = initHeaders) => {
   try {
     return axios.post(api, data, { headers: headers, timeout: 5000 });
   } catch (error) {
@@ -14,7 +14,7 @@ export const httpRequestPost = async (api, data, headers = initHeaders) => {
   }
 };
 
-export const httpRequestGet = async (api, headers = initHeaders) => {
+export const requestGet = async (api, headers = initHeaders) => {
   try {
     return axios.get(api, { headers: headers, timeout: 5000 });
   } catch (error) {
@@ -22,7 +22,7 @@ export const httpRequestGet = async (api, headers = initHeaders) => {
   }
 };
 
-export const httpRequestPatch = async (api, data, headers = initHeaders) => {
+export const requestPatch = async (api, data, headers = initHeaders) => {
   try {
     return axios.patch(api, data, { headers: headers, timeout: 5000 });
   } catch (error) {
@@ -30,7 +30,7 @@ export const httpRequestPatch = async (api, data, headers = initHeaders) => {
   }
 };
 
-export const httpRequestPut = async (api, data, headers = initHeaders) => {
+export const requestPut = async (api, data, headers = initHeaders) => {
   try {
     return axios.put(api, data, { headers: headers, timeout: 5000 });
   } catch (error) {
@@ -38,7 +38,7 @@ export const httpRequestPut = async (api, data, headers = initHeaders) => {
   }
 };
 
-export const httpRequestDelete = async (api, headers = initHeaders) => {
+export const requestDelete = async (api, headers = initHeaders) => {
   try {
     return axios.delete(api, { headers: headers, timeout: 5000 });
   } catch (error) {

@@ -1,6 +1,7 @@
-export const priceFormatter = (price) => {
-  price = price.toString();
-  let str = "";
+import { authCodes } from "../constants";
 
-  for (let i = price.length; i <= 0; i--) {}
+export const codeFormatter = (code = "") => {
+  if (typeof code !== "string") return "";
+  if (code.slice(0, 1) === "0") return authCodes[code];
+  return "";
 };
