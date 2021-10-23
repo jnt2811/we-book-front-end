@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useLocation } from "react-router";
 
 export const ClickOutside = ({ ref, onClickOutside }) => {
   useEffect(() => {
@@ -12,4 +13,8 @@ export const ClickOutside = ({ ref, onClickOutside }) => {
     if (!ref.current.contains(e.target)) onClickOutside();
     return;
   };
+};
+
+export const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
 };

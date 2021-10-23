@@ -5,7 +5,7 @@ import { LogoLight } from "../../../assets/images";
 import { useEffect, useRef, useState } from "react";
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import UserPopup from "../userPopup/UserPopup";
-import { ClickOutside } from "../../../hooks/ClickOutside";
+import { ClickOutside } from "../../../hooks";
 import SearchBar from "../../../components/SearchBar/SearchBar";
 
 const HeaderCommon = ({ location }) => {

@@ -21,32 +21,34 @@ export function* handleLogin(action) {
   try {
     const response = yield call(() => requestDoLogin(action.payload));
 
-    if (response.status) {
-      localSet(localKeys.ACCESS_TOKEN, response.data.access_token);
-      localSet(localKeys.REFRESH_TOKEN, response.data.refresh_token);
+    const res = response.data;
+
+    if (res.status) {
+      localSet(localKeys.ACCESS_TOKEN, res.data.access_token);
+      localSet(localKeys.REFRESH_TOKEN, res.data.refresh_token);
 
       yield put(
         loginSuccess({
           isOk: true,
-          user: response.data.user,
+          user: res.data.user_data,
         })
       );
     } else {
       yield put(
         loginFail({
           isOk: false,
-          message: codeFormatter(response.code),
+          message: codeFormatter(res.code),
           user: {},
         })
       );
     }
   } catch (error) {
-    console.log("Login Error", error.response);
+    console.log("Login Error", error);
 
     yield put(
       loginFail({
         isOk: false,
-        message: error.response.data,
+        message: error,
         user: {},
       })
     );
@@ -57,21 +59,23 @@ export function* handleSignup(action) {
   try {
     const response = yield call(() => requestDoSignup(action.payload));
 
-    if (response.status) {
-      localSet(localKeys.ACCESS_TOKEN, response.data.access_token);
-      localSet(localKeys.REFRESH_TOKEN, response.data.refresh_token);
+    const res = response.data;
+
+    if (res.status) {
+      localSet(localKeys.ACCESS_TOKEN, res.data.access_token);
+      localSet(localKeys.REFRESH_TOKEN, res.data.refresh_token);
 
       yield put(
         loginSuccess({
           isOk: true,
-          user: response.data.user,
+          user: res.data.user_data,
         })
       );
     } else {
       yield put(
         loginFail({
           isOk: false,
-          message: codeFormatter(response.code),
+          message: codeFormatter(res.code),
           user: {},
         })
       );
@@ -82,7 +86,7 @@ export function* handleSignup(action) {
     yield put(
       loginFail({
         isOk: false,
-        message: error.response.data,
+        message: error.response,
         user: {},
       })
     );

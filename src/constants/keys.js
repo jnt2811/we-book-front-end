@@ -5,6 +5,7 @@ export const searchKeys = {
   ADULTS: "adults",
   CHILDREN: "children",
   INFANTS: "infants",
+  SIGNUP: "signup",
 };
 
 export const localKeys = {

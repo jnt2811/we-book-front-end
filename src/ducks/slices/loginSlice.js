@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initState = {
-  isOk: false,
+  isOk: undefined,
   message: undefined,
   user: {},
 };

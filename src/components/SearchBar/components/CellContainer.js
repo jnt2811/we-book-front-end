@@ -1,6 +1,6 @@
 import { Col } from "antd";
 import { useRef } from "react";
-import { ClickOutside } from "../../../hooks/ClickOutside";
+import { ClickOutside } from "../../../hooks";
 import { hoverType } from "../searchBarKeys";
 
 export default function CellContainer({

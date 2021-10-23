@@ -6,12 +6,9 @@ import {
   RightOutlined,
   StarFilled,
 } from "@ant-design/icons";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { paths, searchKeys } from "../../../constants";
-
-const useQuery = () => {
-  return new URLSearchParams(useLocation().search);
-};
+import { useQuery } from "../../../hooks";
 
 export default function Results() {
   const history = useHistory();

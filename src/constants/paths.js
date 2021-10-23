@@ -1,6 +1,10 @@
 const hosting = "/hosting";
 
 const paths = {
+  // Common
+  AUTH: "/auth",
+  NOT_FOUND: "/404",
+
   // Guest
   HOME: "/",
   RESULTS: "/results",

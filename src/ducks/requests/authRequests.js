@@ -8,5 +8,5 @@ export const requestDoLogin = (dataRequest) => {
 
 export const requestDoSignup = (dataRequest) => {
   const headers = {};
-  return requestPost(apis.LOGIN, dataRequest, headers);
+  return requestPost(apis.SIGNUP, dataRequest, headers);
 };

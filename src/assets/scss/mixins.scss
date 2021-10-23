@@ -12,6 +12,16 @@
 }
 
 @mixin blur-bg {
-  background-color: #ffffff25;
+  background-color: #ffffff25 !important;
   backdrop-filter: blur(3rem);
+}
+
+@mixin std-btn {
+  height: 40px;
+  border-radius: 5px;
+}
+
+@mixin std-input {
+  height: 40px;
+  border-radius: 5px;
 }

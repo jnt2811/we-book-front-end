@@ -1,13 +1,19 @@
 import { Divider, Switch } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import { paths } from "../../../constants";
-import {} from "react-router-dom";
 import userPopupHome from "./userPopupHome.module.scss";
 import userPopupCommon from "./userPopupCommon.module.scss";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { localGet } from "../../../helpers/localHandler";
+import { localKeys, searchKeys } from "../../../constants/keys";
+import { useDispatch } from "react-redux";
+import { doLogout } from "../../../ducks/slices/loginSlice";
 
 const UserPopup = forwardRef((props, ref) => {
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
+
+  const isAuth = localGet(localKeys.ACCESS_TOKEN) !== "";
 
   const isHost = pathname.slice(0, paths.HOSTING.length) === paths.HOSTING;
   const isAtHome = pathname === paths.HOME;
@@ -42,90 +48,114 @@ const UserPopup = forwardRef((props, ref) => {
           isAtHome ? userPopupHome["container"] : userPopupCommon["container"]
         }
       >
-        <div className="switch">
-          <span>Khách</span>
-
-          <Switch defaultChecked={isHost} onChange={handleSwitch} />
-
-          <span>Chủ nhà</span>
-        </div>
-
-        <Divider className="divider" />
-
-        {isHost ? (
+        {isAuth ? (
           <>
+            <div className="switch">
+              <span>Khách</span>
+
+              <Switch defaultChecked={isHost} onChange={handleSwitch} />
+
+              <span>Chủ nhà</span>
+            </div>
+
+            <Divider className="divider" />
+
+            {isHost ? (
+              <>
+                <Link
+                  className={`dropdown-btn${
+                    pathname === paths.LISTINGS ? " active" : ""
+                  }`}
+                  to={paths.LISTINGS}
+                >
+                  Quản lý nhà/phòng cho thuê
+                </Link>
+
+                <Link
+                  className={`dropdown-btn${
+                    pathname === paths.LISTING_NEW ? " active" : ""
+                  }`}
+                  to={paths.LISTING_NEW}
+                >
+                  Tạo mục cho thuê mới
+                </Link>
+
+                <Link
+                  className={`dropdown-btn${
+                    pathname === paths.HISTORY ? " active" : ""
+                  }`}
+                  to={paths.HISTORY}
+                >
+                  Lịch sử giao dịch
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  className={`dropdown-btn${
+                    pathname === paths.FAV_LIST ? " active" : ""
+                  }`}
+                  to={paths.FAV_LIST}
+                >
+                  Danh sách yêu thích
+                </Link>
+
+                <Link
+                  className={`dropdown-btn${
+                    pathname === paths.TRIPS ? " active" : ""
+                  }`}
+                  to={paths.TRIPS}
+                >
+                  Chuyến đi
+                </Link>
+              </>
+            )}
+
+            <Divider className="divider" />
+
             <Link
               className={`dropdown-btn${
-                pathname === paths.LISTINGS ? " active" : ""
+                pathname === paths.PROFILE ? " active" : ""
               }`}
-              to={paths.LISTINGS}
+              to={paths.PROFILE}
             >
-              Quản lý nhà/phòng cho thuê
+              Hồ sơ
             </Link>
 
             <Link
               className={`dropdown-btn${
-                pathname === paths.LISTING_NEW ? " active" : ""
+                pathname === paths.ACCOUNT ? " active" : ""
               }`}
-              to={paths.LISTING_NEW}
+              to={paths.ACCOUNT}
             >
-              Tạo mục cho thuê mới
+              Tài khoản
             </Link>
 
-            <Link
-              className={`dropdown-btn${
-                pathname === paths.HISTORY ? " active" : ""
-              }`}
-              to={paths.HISTORY}
-            >
-              Lịch sử giao dịch
-            </Link>
+            <Divider className="divider" />
+
+            <span className="dropdown-btn" onClick={() => dispatch(doLogout())}>
+              Đăng xuất
+            </span>
           </>
         ) : (
           <>
-            <Link
-              className={`dropdown-btn${
-                pathname === paths.FAV_LIST ? " active" : ""
-              }`}
-              to={paths.FAV_LIST}
-            >
-              Danh sách yêu thích
+            <Link className="dropdown-btn" to={paths.AUTH}>
+              Đăng nhập
             </Link>
 
+            <Divider className="divider" />
+
             <Link
-              className={`dropdown-btn${
-                pathname === paths.TRIPS ? " active" : ""
-              }`}
-              to={paths.TRIPS}
+              className="dropdown-btn"
+              to={{
+                pathname: paths.AUTH,
+                search: `?${searchKeys.SIGNUP}=true`,
+              }}
             >
-              Chuyến đi
+              Đăng ký
             </Link>
           </>
         )}
-
-        <Divider className="divider" />
-
-        <Link
-          className={`dropdown-btn${
-            pathname === paths.PROFILE ? " active" : ""
-          }`}
-          to={paths.PROFILE}
-        >
-          Hồ sơ
-        </Link>
-
-        <Link
-          className={`dropdown-btn${
-            pathname === paths.ACCOUNT ? " active" : ""
-          }`}
-          to={paths.ACCOUNT}
-        >
-          Tài khoản
-        </Link>
-
-        <Divider className="divider" />
-
-        <span className="dropdown-btn">Đăng xuất</span>
       </div>
     )
   );

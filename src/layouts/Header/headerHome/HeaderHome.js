@@ -5,7 +5,7 @@ import { LogoDark } from "../../../assets/images";
 import { useRef, useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import UserPopup from "../userPopup/UserPopup";
-import { ClickOutside } from "../../../hooks/ClickOutside";
+import { ClickOutside } from "../../../hooks";
 
 const HeaderHome = () => {
   const userBtnRef = useRef();

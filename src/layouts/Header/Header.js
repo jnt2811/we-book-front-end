@@ -4,7 +4,7 @@ import { paths } from "../../constants";
 import { LogoDark, LogoLight } from "../../assets/images";
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useEffect, useRef, useState } from "react";
-import { ClickOutside } from "../../hooks/ClickOutside";
+import { ClickOutside } from "../../hooks";
 import { AccountPopup } from "./AccountPopup";
 import { SearchBar } from "../../components/SearchBar/SearchBar";
 
