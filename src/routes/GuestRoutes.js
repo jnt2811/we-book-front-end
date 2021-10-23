@@ -1,4 +1,4 @@
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { paths } from "../constants";
 import {
   Account,
@@ -8,6 +8,7 @@ import {
   Results,
   Trips,
 } from "../pages";
+import { PrivateRoute } from "./CommonRoutes";
 
 export default function GuestRoutes() {
   return (
@@ -15,9 +16,10 @@ export default function GuestRoutes() {
       <Route exact path={paths.HOME} component={Home} />
       <Route exact path={paths.RESULTS} component={Results} />
       <Route path={paths.LISTING_VIEW_wId} component={ListingView} />
-      <Route exact path={paths.FAV_LIST} component={FavoriteList} />
-      <Route exact path={paths.ACCOUNT} component={Account} />
-      <Route exact path={paths.TRIPS} component={Trips} />
+      <PrivateRoute exact path={paths.FAV_LIST} component={FavoriteList} />
+      <PrivateRoute exact path={paths.ACCOUNT} component={Account} />
+      <PrivateRoute exact path={paths.TRIPS} component={Trips} />
+      <Redirect from="*" to={paths.NOT_FOUND} />
     </Switch>
   );
 }

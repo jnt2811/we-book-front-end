@@ -6,19 +6,7 @@ import { cellId } from "../searchBarKeys";
 import CellContainer from "../components/CellContainer";
 
 const GuestsCell = forwardRef(
-  (
-    {
-      adults,
-      children,
-      infants,
-      updateAdults,
-      updateChildren,
-      updateInfants,
-      cellContainerProps,
-      handleSearch,
-    },
-    ref
-  ) => {
+  ({ guests, updateGuests, cellContainerProps, handleSearch }, ref) => {
     const [visible, setVisible] = useState(false);
 
     useImperativeHandle(ref, () => ({
@@ -35,14 +23,7 @@ const GuestsCell = forwardRef(
     };
 
     const popupContent = (
-      <GuestsPopup
-        adults={adults}
-        children={children}
-        infants={infants}
-        updateAdults={updateAdults}
-        updateChildren={updateChildren}
-        updateInfants={updateInfants}
-      />
+      <GuestsPopup guests={guests} updateGuests={updateGuests} />
     );
 
     return (
@@ -57,8 +38,8 @@ const GuestsCell = forwardRef(
         <Row className="cell">
           <Col flex="auto">
             <label>Khách</label>
-            {adults + children + infants > 0 ? (
-              <p className="data">{adults + children + infants} khách</p>
+            {guests > 0 ? (
+              <p className="data">{guests} khách</p>
             ) : (
               <p className="placeholder">Thêm người</p>
             )}

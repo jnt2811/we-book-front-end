@@ -14,20 +14,19 @@ export default function Results() {
   const history = useHistory();
   const query = useQuery();
 
+  const destination = query.get(searchKeys.DESTINATION);
+  const checkin = query.get(searchKeys.CHECKIN);
+  const checkout = query.get(searchKeys.CHECKOUT);
+  const guests = query.get(searchKeys.GUESTS);
+
   const handleFav = (id) => {};
 
   return (
     <div className={results.container}>
       <div className="list">
-        <p>
-          300 chỗ ở _ {query.get(searchKeys.CHECKIN)} -{" "}
-          {query.get(searchKeys.CHECKOUT)} _{" "}
-          {parseInt(query.get(searchKeys.ADULTS)) +
-            parseInt(query.get(searchKeys.CHILDREN)) +
-            parseInt(query.get(searchKeys.INFANTS))}{" "}
-          khách
-        </p>
-        <h1>Chỗ ở tại {query.get(searchKeys.DESTINATION)}</h1>
+        <p>300 chỗ ở</p>
+
+        <h1>Chỗ ở tại {destination}</h1>
 
         <div className="filters">
           <div className="btn active">

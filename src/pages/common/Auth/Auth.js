@@ -136,10 +136,6 @@ export default function Auth() {
                 pattern: /\S+@\S+\.\S+/,
                 message: "Hãy nhập đúng định dạng email",
               },
-              // {
-              //   pattern: /^[0]?[35789]\d{8}$/,
-              //   message: "Hãy nhập đúng định dạng số điện thoại",
-              // },
             ]}
           >
             <Input

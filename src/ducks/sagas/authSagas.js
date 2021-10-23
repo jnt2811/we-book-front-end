@@ -24,13 +24,16 @@ export function* handleLogin(action) {
     const res = response.data;
 
     if (res.status) {
-      localSet(localKeys.ACCESS_TOKEN, res.data.access_token);
-      localSet(localKeys.REFRESH_TOKEN, res.data.refresh_token);
+      const { access_token, refresh_token, user_data } = res.data;
+
+      localSet(localKeys.ACCESS_TOKEN, access_token);
+      localSet(localKeys.REFRESH_TOKEN, refresh_token);
+      localSet(localKeys.USER, user_data);
 
       yield put(
         loginSuccess({
           isOk: true,
-          user: res.data.user_data,
+          user: user_data,
         })
       );
     } else {
@@ -62,13 +65,16 @@ export function* handleSignup(action) {
     const res = response.data;
 
     if (res.status) {
-      localSet(localKeys.ACCESS_TOKEN, res.data.access_token);
-      localSet(localKeys.REFRESH_TOKEN, res.data.refresh_token);
+      const { access_token, refresh_token, user_data } = res.data;
+
+      localSet(localKeys.ACCESS_TOKEN, access_token);
+      localSet(localKeys.REFRESH_TOKEN, refresh_token);
+      localSet(localKeys.USER, user_data);
 
       yield put(
         loginSuccess({
           isOk: true,
-          user: res.data.user_data,
+          user: user_data,
         })
       );
     } else {
@@ -96,5 +102,7 @@ export function* handleSignup(action) {
 export function* handleLogout() {
   yield localRemove(localKeys.ACCESS_TOKEN);
   yield localRemove(localKeys.REFRESH_TOKEN);
+  yield localRemove(localKeys.USER);
+
   window.location.reload();
 }

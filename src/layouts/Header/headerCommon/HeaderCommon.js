@@ -1,16 +1,17 @@
 import { Link, withRouter } from "react-router-dom";
 import headerCommon from "./headerCommon.module.scss";
-import { paths } from "../../../constants";
+import { paths, searchKeys } from "../../../constants";
 import { LogoLight } from "../../../assets/images";
 import { useEffect, useRef, useState } from "react";
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import UserPopup from "../userPopup/UserPopup";
-import { ClickOutside } from "../../../hooks";
+import { ClickOutside, useQuery } from "../../../hooks";
 import SearchBar from "../../../components/SearchBar/SearchBar";
 
 const HeaderCommon = ({ location }) => {
   const userBtnRef = useRef();
   const userPopupRef = useRef();
+  const query = useQuery();
 
   const { pathname } = location;
 
@@ -84,7 +85,12 @@ const HeaderCommon = ({ location }) => {
 
           {isSearchActive && (
             <>
-              <SearchBar />
+              <SearchBar
+                destination={query.get(searchKeys.DESTINATION)}
+                checkin={query.get(searchKeys.CHECKIN)}
+                checkout={query.get(searchKeys.CHECKOUT)}
+                guests={query.get(searchKeys.GUESTS)}
+              />
               <div style={{ height: "35px" }} />
             </>
           )}

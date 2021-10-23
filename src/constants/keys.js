@@ -2,9 +2,7 @@ export const searchKeys = {
   DESTINATION: "destination",
   CHECKIN: "checkin",
   CHECKOUT: "checkout",
-  ADULTS: "adults",
-  CHILDREN: "children",
-  INFANTS: "infants",
+  GUESTS: "guests",
   SIGNUP: "signup",
 };
 

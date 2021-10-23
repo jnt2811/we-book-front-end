@@ -6,8 +6,14 @@ import { paths, searchKeys } from "../../constants";
 import { cellId, hoverType } from "./searchBarKeys";
 import { DateRangeCell, DestinationCell, GuestsCell } from "./cells";
 import CellDivider from "./components/CellDivider";
+import moment from "moment";
 
-export default function SearchBar() {
+export default function SearchBar({
+  destination = "",
+  checkin = "",
+  checkout = "",
+  guests = 0,
+}) {
   const history = useHistory();
   const { pathname } = useLocation();
 
@@ -16,9 +22,7 @@ export default function SearchBar() {
   const destinationKey = searchKeys.DESTINATION;
   const checkinKey = searchKeys.CHECKIN;
   const checkoutKey = searchKeys.CHECKOUT;
-  const adultsKey = searchKeys.ADULTS;
-  const childrenKey = searchKeys.CHILDREN;
-  const infantsKey = searchKeys.INFANTS;
+  const guestsKey = searchKeys.GUESTS;
 
   const destinationRef = useRef();
   const guestsRef = useRef();
@@ -27,12 +31,10 @@ export default function SearchBar() {
   const [cellHover, setCellHover] = useState();
   const [cellActive, setCellActive] = useState();
   const [searchData, setSearchData] = useState({
-    [destinationKey]: "",
-    [checkinKey]: "",
-    [checkoutKey]: "",
-    [adultsKey]: 0,
-    [childrenKey]: 0,
-    [infantsKey]: 0,
+    [destinationKey]: destination,
+    [checkinKey]: checkin !== "" ? moment(checkin) : "",
+    [checkoutKey]: checkout !== "" ? moment(checkout) : "",
+    [guestsKey]: guests,
   });
 
   const handleSearch = () => {
@@ -40,21 +42,19 @@ export default function SearchBar() {
       const destinationSearch = `${destinationKey}=${searchData[destinationKey]}`;
       const checkinSearch = `${checkinKey}=${
         searchData[checkinKey] !== ""
-          ? searchData[checkinKey].format("DD/MM/YYYY")
+          ? searchData[checkinKey].toISOString()
           : ""
       }`;
       const checkoutSearch = `${checkoutKey}=${
         searchData[checkoutKey] !== ""
-          ? searchData[checkoutKey].format("DD/MM/YYYY")
+          ? searchData[checkoutKey].toISOString()
           : ""
       }`;
-      const adultsSearch = `${adultsKey}=${searchData[adultsKey]}`;
-      const childrenSearch = `${childrenKey}=${searchData[childrenKey]}`;
-      const infantsSearch = `${infantsKey}=${searchData[infantsKey]}`;
+      const guestsSearch = `${guestsKey}=${searchData[guestsKey]}`;
 
       history.push({
         pathname: paths.RESULTS,
-        search: `?${destinationSearch}&${checkinSearch}&${checkoutSearch}&${adultsSearch}&${childrenSearch}&${infantsSearch}`,
+        search: `?${destinationSearch}&${checkinSearch}&${checkoutSearch}&${guestsSearch}`,
       });
     } else destinationRef.current.displayPopup();
   };
@@ -124,12 +124,8 @@ export default function SearchBar() {
 
         <GuestsCell
           ref={guestsRef}
-          adults={searchData[adultsKey]}
-          children={searchData[childrenKey]}
-          infants={searchData[infantsKey]}
-          updateAdults={(val) => handleSearchData(adultsKey, val)}
-          updateChildren={(val) => handleSearchData(childrenKey, val)}
-          updateInfants={(val) => handleSearchData(infantsKey, val)}
+          guests={searchData[guestsKey]}
+          updateGuests={(val) => handleSearchData(guestsKey, val)}
           cellContainerProps={cellContainerProps}
           handleSearch={handleSearch}
         />

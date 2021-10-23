@@ -3,9 +3,11 @@ import Results from "./guest/Results/Results";
 import ListingView from "./guest/ListingView/ListingView";
 import FavoriteList from "./guest/FavoriteList/FavoriteList";
 import Account from "./guest/Account/Account";
+import Trips from "./guest/Trips";
 import Dashboard from "./host/Dashboard/Dashboard";
 import Listings from "./host/Listings/Listings";
-import Trips from "./guest/Trips";
+import Auth from "./common/Auth/Auth";
+import NotFound from "./common/NotFound/NotFound";
 
 export {
   Home,
@@ -16,4 +18,6 @@ export {
   Dashboard,
   Listings,
   Trips,
+  Auth,
+  NotFound,
 };
