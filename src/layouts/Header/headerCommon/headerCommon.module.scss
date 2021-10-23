@@ -24,8 +24,12 @@
       justify-content: space-between;
       padding: 0 calc((100% - #{$container-width}) / 2);
 
-      :global(.logo) img {
-        width: $logo-width;
+      :global(.logo) {
+        width: 300px;
+
+        img {
+          width: $logo-width;
+        }
       }
 
       :global(.mini-search-bar) {
@@ -56,22 +60,28 @@
         }
       }
 
-      :global(.user-btn) {
-        @include btn-icon();
-        width: 45px;
-        height: 45px;
+      :global(.user-wrap) {
+        width: 300px;
+        display: flex;
+        justify-content: flex-end;
 
-        * {
-          font-size: 20px;
-          color: #333;
-        }
+        :global(.user-btn) {
+          @include btn-icon();
+          width: 45px;
+          height: 45px;
 
-        &:hover {
-          border: 1px solid #dadada;
-        }
+          * {
+            font-size: 20px;
+            color: #333;
+          }
 
-        &:global(.active) {
-          border: 1px solid #333;
+          &:hover {
+            border: 1px solid #dadada;
+          }
+
+          &:global(.active) {
+            border: 1px solid #333;
+          }
         }
       }
     }

@@ -31,10 +31,16 @@ export default function SearchBar({
   const [cellHover, setCellHover] = useState();
   const [cellActive, setCellActive] = useState();
   const [searchData, setSearchData] = useState({
-    [destinationKey]: destination,
-    [checkinKey]: checkin !== "" ? moment(checkin) : "",
-    [checkoutKey]: checkout !== "" ? moment(checkout) : "",
-    [guestsKey]: guests,
+    [destinationKey]: destination || "",
+    [checkinKey]:
+      checkin !== "" && checkin !== undefined && checkin !== null
+        ? moment(checkin)
+        : "",
+    [checkoutKey]:
+      checkout !== "" && checkout !== undefined && checkout !== null
+        ? moment(checkout)
+        : "",
+    [guestsKey]: parseInt(guests),
   });
 
   const handleSearch = () => {

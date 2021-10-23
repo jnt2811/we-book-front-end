@@ -13,6 +13,11 @@ const HeaderCommon = ({ location }) => {
   const userPopupRef = useRef();
   const query = useQuery();
 
+  const destination = query.get(searchKeys.DESTINATION);
+  const checkin = query.get(searchKeys.CHECKIN);
+  const checkout = query.get(searchKeys.CHECKOUT);
+  const guests = query.get(searchKeys.GUESTS);
+
   const { pathname } = location;
 
   const isHost = pathname.slice(0, paths.HOSTING.length) === paths.HOSTING;
@@ -67,7 +72,7 @@ const HeaderCommon = ({ location }) => {
               </div>
             )}
 
-            <div ref={userBtnRef}>
+            <div ref={userBtnRef} className="user-wrap">
               <div
                 className={`user-btn${isUserBtnActive ? " active" : ""}`}
                 onClick={() => {
@@ -86,10 +91,10 @@ const HeaderCommon = ({ location }) => {
           {isSearchActive && (
             <>
               <SearchBar
-                destination={query.get(searchKeys.DESTINATION)}
-                checkin={query.get(searchKeys.CHECKIN)}
-                checkout={query.get(searchKeys.CHECKOUT)}
-                guests={query.get(searchKeys.GUESTS)}
+                destination={destination}
+                checkin={checkin}
+                checkout={checkout}
+                guests={guests}
               />
               <div style={{ height: "35px" }} />
             </>
