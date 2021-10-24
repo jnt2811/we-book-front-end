@@ -9,7 +9,7 @@ import {
   loginFail,
   loginSuccess,
 } from "../slices/loginSlice";
-import { doSignup } from "../slices/signupSlice";
+import { doSignup, signupFail, signupSuccess } from "../slices/signupSlice";
 
 export function* watchDoAuth() {
   yield takeLatest(doLogin.type, handleLogin);
@@ -72,14 +72,14 @@ export function* handleSignup(action) {
       localSet(localKeys.USER, user_data);
 
       yield put(
-        loginSuccess({
+        signupSuccess({
           isOk: true,
           user: user_data,
         })
       );
     } else {
       yield put(
-        loginFail({
+        signupFail({
           isOk: false,
           message: codeFormatter(res.code),
           user: {},
@@ -90,7 +90,7 @@ export function* handleSignup(action) {
     console.log("Signup Error", error.response);
 
     yield put(
-      loginFail({
+      signupFail({
         isOk: false,
         message: error.response,
         user: {},

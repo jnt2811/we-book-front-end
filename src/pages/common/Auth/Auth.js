@@ -23,37 +23,41 @@ export default function Auth() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const { isOk, message } = loginReducer;
+    if (isLogin) {
+      const { isOk, message } = loginReducer;
 
-    if (isOk === true) {
-      setIsLoading(false);
-      notification.success({ message: "Chào mừng bạn trở lại We Book!" });
-      dispatch(resetLogin());
-      history.push(paths.HOME);
-    }
+      if (isOk === true) {
+        setIsLoading(false);
+        notification.success({ message: "Chào mừng bạn trở lại We Book!" });
+        dispatch(resetLogin());
+        history.push(paths.HOME);
+      }
 
-    if (isOk === false) {
-      setIsLoading(false);
-      notification.error({ message: message });
-      dispatch(resetLogin());
+      if (isOk === false) {
+        setIsLoading(false);
+        notification.error({ message: message });
+        dispatch(resetLogin());
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loginReducer]);
 
   useEffect(() => {
-    const { isOk, message } = signupReducer;
+    if (!isLogin) {
+      const { isOk, message } = signupReducer;
 
-    if (isOk === true) {
-      setIsLoading(false);
-      notification.success({ message: "Chào mừng bạn đến với We Book!" });
-      dispatch(resetSignup());
-      history.push(paths.HOME);
-    }
+      if (isOk === true) {
+        setIsLoading(false);
+        notification.success({ message: "Chào mừng bạn đến với We Book!" });
+        dispatch(resetSignup());
+        history.push(paths.HOME);
+      }
 
-    if (isOk === false) {
-      setIsLoading(false);
-      notification.error({ message: message });
-      dispatch(resetSignup());
+      if (isOk === false) {
+        setIsLoading(false);
+        notification.error({ message: message });
+        dispatch(resetSignup());
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signupReducer]);
