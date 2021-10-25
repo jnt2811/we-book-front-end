@@ -1,19 +1,34 @@
 import fieldContainer from "./fieldContainer.module.scss";
+import { CloseOutlined, EditOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import { Col, Row } from "antd";
 
 export default function FieldContainer({ children, label, value, onSave }) {
+  const [editVisible, setEditVisible] = useState(false);
+
   return (
-    <div className={fieldContainer["row"]}>
-      <div className={fieldContainer["cell"]}>
+    <Row className={fieldContainer["row"]} align="middle">
+      <Col flex="200px" className={fieldContainer["cell"]}>
         <label>{label}</label>
-      </div>
+      </Col>
 
-      <div className={fieldContainer["cell"]}>
+      <Col flex="auto" className={fieldContainer["cell"]}>
         <span>{value}</span>
-      </div>
+      </Col>
 
-      <div className={fieldContainer["cell"]}>
-        <span>Chỉnh sửa</span>
-      </div>
-    </div>
+      <Col flex="0px" className={fieldContainer["cell"]}>
+        {!editVisible ? (
+          <EditOutlined
+            onClick={() => setEditVisible(true)}
+            className={fieldContainer["btn"]}
+          />
+        ) : (
+          <CloseOutlined
+            onClick={() => setEditVisible(false)}
+            className={fieldContainer["btn"]}
+          />
+        )}
+      </Col>
+    </Row>
   );
 }
