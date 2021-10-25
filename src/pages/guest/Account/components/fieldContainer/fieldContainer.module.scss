@@ -1,0 +1,14 @@
+.row {
+  display: table-row;
+  width: 100%;
+
+  .cell {
+    display: table-cell;
+    background-color: red;
+    border: 1px solid #fff;
+
+    &:last-child {
+      width: 0px;
+    }
+  }
+}

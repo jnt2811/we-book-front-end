@@ -10,7 +10,7 @@ p,
 a,
 span,
 label {
-  @include standard-typo();
+  @include std-typo();
   color: #333;
 }
 

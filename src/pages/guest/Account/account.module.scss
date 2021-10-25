@@ -1,0 +1,15 @@
+@import "../../../assets/scss/sizes.scss";
+
+.container {
+  padding: 25px calc((100% - #{$container-width} + 200px) / 2);
+
+  .avatar {
+    text-align: center;
+    margin: 0 0 50px 0;
+  }
+
+  .field-container {
+    display: table;
+    width: 100%;
+  }
+}
