@@ -39,10 +39,8 @@ const PasswordDrawer = forwardRef((props, ref) => {
           <Input.Password />
         </Form.Item>
 
-        <br />
-
         <Form.Item>
-          <Button htmlType="submit">Cập nhật</Button>
+          <Button htmlType="submit">Lưu</Button>
         </Form.Item>
       </Form>
     </Drawer>
