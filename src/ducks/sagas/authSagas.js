@@ -162,7 +162,7 @@ export function* handleEditUser(action) {
       yield put(
         authSuccess({
           isOk: true,
-          message: codeFormatter("005"),
+          message: codeFormatter("010"),
           user: user_data,
         })
       );

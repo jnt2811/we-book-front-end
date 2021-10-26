@@ -27,7 +27,7 @@ const authSlice = createSlice({
     },
 
     resetAuth(state) {
-      if (state.message === authCodes["005"]) {
+      if (state.message === authCodes["010"]) {
         return { ...state, message: undefined };
       }
       return initState;

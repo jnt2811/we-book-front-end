@@ -44,7 +44,7 @@ export default function Account() {
   const userData = useMemo(
     () => {
       if (!!authReducer.isOk) {
-        if (authReducer.message === authCodes["005"]) {
+        if (authReducer.message === authCodes["010"]) {
           if (!!currentActiveField) {
             fieldRefs[currentActiveField].current.toggleOff();
             setCurrentActiveField();
