@@ -8,7 +8,16 @@ import { DeleteOutlined } from "@ant-design/icons";
 export default function Listings() {
   function deleteRequest(id) {
     requestDelete(apis.LISTING_HOST + "/" + id).then((result) => {
-      // const data = result.data;
+      const data = result.data;
+
+      if (data.status) {
+        setListingList(
+          data.data.map((item) => ({
+            ...item,
+            key: item.id,
+          }))
+        );
+      }
     });
   }
   const columns = [
@@ -34,7 +43,7 @@ export default function Listings() {
         <div>
           <a
             className={listings["deleteIcon"]}
-            onclick={() => {
+            onClick={() => {
               deleteRequest(record.id);
             }}
           >
