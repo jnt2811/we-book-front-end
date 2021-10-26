@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+
+  :global(.btn) {
+    border: 1px solid #dadada;
+    border-radius: 50px;
+    margin-right: 10px;
+    padding: 5px 15px;
+    cursor: pointer;
+
+    &:hover,
+    &:global(.active) {
+      border-color: #333;
+    }
+
+    &:global(.active) {
+      border-width: 2px;
+    }
+  }
+}

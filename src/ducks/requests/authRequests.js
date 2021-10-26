@@ -1,5 +1,9 @@
 import apis from "../../constants/apis";
-import { requestPost } from "../../helpers/requestHandler";
+import {
+  requestGet,
+  requestPatch,
+  requestPost,
+} from "../../helpers/requestHandler";
 
 export const requestDoLogin = (dataRequest) => {
   const headers = {};
@@ -9,4 +13,12 @@ export const requestDoLogin = (dataRequest) => {
 export const requestDoSignup = (dataRequest) => {
   const headers = {};
   return requestPost(apis.SIGNUP, dataRequest, headers);
+};
+
+export const requestDoGetUser = () => {
+  return requestGet(apis.USER);
+};
+
+export const requestDoEditUser = (dataRequest) => {
+  return requestPatch(apis.USER, dataRequest);
 };

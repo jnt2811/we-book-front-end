@@ -5,6 +5,7 @@ import HeaderHome from "./headerHome/HeaderHome";
 
 const HeaderMonitor = ({ location }) => {
   const { pathname } = location;
+
   const isAtHome = pathname === paths.HOME;
   const isAtAuth = pathname === paths.AUTH;
 

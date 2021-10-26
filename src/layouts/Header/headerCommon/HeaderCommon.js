@@ -7,18 +7,20 @@ import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import UserPopup from "../userPopup/UserPopup";
 import { ClickOutside, useQuery } from "../../../hooks";
 import SearchBar from "../../../components/SearchBar/SearchBar";
+import { Avatar } from "antd";
+import { useSelector } from "react-redux";
 
 const HeaderCommon = ({ location }) => {
   const userBtnRef = useRef();
   const userPopupRef = useRef();
   const query = useQuery();
+  const authReducer = useSelector((state) => state.auth);
+  const { pathname } = location;
 
   const destination = query.get(searchKeys.DESTINATION);
   const checkin = query.get(searchKeys.CHECKIN);
   const checkout = query.get(searchKeys.CHECKOUT);
   const guests = query.get(searchKeys.GUESTS);
-
-  const { pathname } = location;
 
   const isHost = pathname.slice(0, paths.HOSTING.length) === paths.HOSTING;
   const isAtResults = pathname === paths.RESULTS;
@@ -81,7 +83,13 @@ const HeaderCommon = ({ location }) => {
                   setIsSearchActive(false);
                 }}
               >
-                <UserOutlined className="icon" />
+                {!!authReducer.isOk ? (
+                  <Avatar src={authReducer.user.avatar} size={35}>
+                    {authReducer.user.name}
+                  </Avatar>
+                ) : (
+                  <UserOutlined className="icon" />
+                )}
               </div>
 
               <UserPopup ref={userPopupRef} />

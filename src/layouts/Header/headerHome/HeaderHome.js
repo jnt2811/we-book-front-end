@@ -6,11 +6,13 @@ import { useRef, useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import UserPopup from "../userPopup/UserPopup";
 import { ClickOutside } from "../../../hooks";
+import { useSelector } from "react-redux";
+import { Avatar } from "antd";
 
 const HeaderHome = () => {
   const userBtnRef = useRef();
   const userPopupRef = useRef();
-
+  const authReducer = useSelector((state) => state.auth);
   const [isUserBtnActive, setIsUserBtnActive] = useState(false);
 
   ClickOutside({
@@ -35,7 +37,13 @@ const HeaderHome = () => {
             setIsUserBtnActive((bool) => !bool);
           }}
         >
-          <UserOutlined className="icon" />
+          {!!authReducer.isOk ? (
+            <Avatar src={authReducer.user.avatar} size={35}>
+              {authReducer.user.name}
+            </Avatar>
+          ) : (
+            <UserOutlined className="icon" />
+          )}
         </div>
 
         <UserPopup ref={userPopupRef} />

@@ -1,0 +1,76 @@
+@import "../../../../../assets/scss/mixins.scss";
+
+$card-padding: 20px;
+
+.container {
+  box-shadow: 0 0 5px #00000025;
+  margin: 20px 0;
+  padding: $card-padding;
+  border-radius: 15px;
+  height: 250px;
+  display: flex;
+  position: relative;
+  cursor: pointer;
+
+  :global(.thumbnail) img {
+    width: 300px;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    background-color: #cecece;
+    margin-right: 20px;
+    border-radius: 10px;
+  }
+
+  :global(.content) {
+    :global(.divider) {
+      height: 1px;
+      width: 50px;
+      background-color: #dadada;
+      margin: 10px 0;
+    }
+
+    :global(.rating) {
+      position: absolute;
+      bottom: $card-padding;
+      display: flex;
+      align-items: center;
+
+      :global(.icon) * {
+        color: #333;
+        margin-right: 5px;
+      }
+    }
+
+    :global(.pricing) {
+      position: absolute;
+      bottom: $card-padding;
+      right: $card-padding;
+
+      span {
+        font-size: 18px;
+        font-weight: 600;
+      }
+    }
+
+    :global(.fav-btn) {
+      @include btn-icon();
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+
+      &:hover {
+        background-color: #f1f1f1;
+      }
+
+      :global(.icon) * {
+        color: #333;
+        font-size: 22px;
+        margin-bottom: -2px;
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ import CellContainer from "../components/CellContainer";
 import CellDivider from "../components/CellDivider";
 import { DateRangePopup } from "../popups";
 import { ClickOutside } from "../../../hooks";
+import { momentToDate } from "../../../helpers/formatter";
 
 const DateRangeCell = forwardRef(
   (
@@ -48,7 +49,7 @@ const DateRangeCell = forwardRef(
             <label>Nhận phòng</label>
 
             {checkin !== "" ? (
-              <p className="data">{checkin.format("DD/MM/YYYY")}</p>
+              <p className="data">{momentToDate(checkin)}</p>
             ) : (
               <p className="placeholder">Chọn ngày</p>
             )}
@@ -71,7 +72,7 @@ const DateRangeCell = forwardRef(
             <label>Trả phòng</label>
 
             {checkout !== "" ? (
-              <p className="data">{checkout.format("DD/MM/YYYY")}</p>
+              <p className="data">{momentToDate(checkout)}</p>
             ) : (
               <p className="placeholder">Chọn ngày</p>
             )}

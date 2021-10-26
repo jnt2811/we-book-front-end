@@ -9,6 +9,5 @@ export const searchKeys = {
 export const localKeys = {
   ACCESS_TOKEN: "accessToken",
   REFRESH_TOKEN: "refreshToken",
-  USER: "user",
   RECENT_SEARCH: "recentSearch",
 };

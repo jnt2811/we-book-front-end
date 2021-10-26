@@ -1,8 +1,8 @@
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch } from "react-router-dom";
 import { paths } from "../constants";
 import { Header } from "../layouts";
 import { Auth, NotFound } from "../pages";
-import { AuthRoute, PrivateRoute } from "./CommonRoutes";
+import { AuthRoute, PrivateRoute, PublicRoute } from "./RouteTypes";
 import GuestRoutes from "./GuestRoutes";
 import HostRoutes from "./HostRoutes";
 
@@ -12,10 +12,10 @@ export default function Router() {
       <Header />
 
       <Switch>
-        <Route exact path={paths.NOT_FOUND} component={NotFound} />
+        <PublicRoute exact path={paths.NOT_FOUND} component={NotFound} />
         <AuthRoute exact path={paths.AUTH} component={Auth} />
         <PrivateRoute path={paths.HOSTING} component={HostRoutes} />
-        <Route path={paths.HOME} component={GuestRoutes} />
+        <PublicRoute path={paths.HOME} component={GuestRoutes} />
       </Switch>
     </BrowserRouter>
   );

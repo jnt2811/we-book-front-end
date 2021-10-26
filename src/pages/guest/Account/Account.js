@@ -1,15 +1,22 @@
 import { LockOutlined } from "@ant-design/icons";
-import { Button, Input, Row, Form, Select } from "antd";
+import { Button, Input, Row, Form, Select, DatePicker } from "antd";
 import account from "./account.module.scss";
 import AvatarUser from "./components/avatarUser/AvatarUser";
 import FieldContainer from "./components/fieldContainer/FieldContainer";
-import { localGet } from "../../../helpers/localHandler";
-import { localKeys } from "../../../constants/keys";
-import { useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import PasswordDrawer from "./components/passwordDrawer/PasswordDrawer";
 import { useForm } from "antd/lib/form/Form";
+import { useSelector, useDispatch } from "react-redux";
+import { doEditUser, resetAuth } from "../../../ducks/slices/authSlice";
+import { authCodes } from "../../../constants";
+import {
+  milliToDate,
+  milliToMoment,
+  momentToMilli,
+} from "../../../helpers/formatter";
 
 const fieldKeys = {
+  AVATAR: "avatar",
   NAME: "name",
   GENDER: "gender",
   DOB: "dob",
@@ -19,8 +26,12 @@ const fieldKeys = {
 };
 
 export default function Account() {
-  const userData = localGet(localKeys.USER, {});
+  const authReducer = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const [currentActiveField, setCurrentActiveField] = useState();
   const drawerRef = useRef();
+  const [form] = useForm();
+
   const fieldRefs = {
     [fieldKeys.NAME]: useRef(),
     [fieldKeys.GENDER]: useRef(),
@@ -29,15 +40,41 @@ export default function Account() {
     [fieldKeys.PHONE]: useRef(),
     [fieldKeys.ADDRESS]: useRef(),
   };
-  const [form] = useForm();
+
+  const userData = useMemo(
+    () => {
+      if (!!authReducer.isOk) {
+        if (authReducer.message === authCodes["005"]) {
+          if (!!currentActiveField) {
+            fieldRefs[currentActiveField].current.toggleOff();
+            setCurrentActiveField();
+          }
+          dispatch(resetAuth());
+        }
+        return authReducer.user;
+      }
+      return {};
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [authReducer]
+  );
 
   const onFinish = (values) => {
+    if (Object.keys(values)[0] === fieldKeys.DOB) {
+      values[fieldKeys.DOB] = momentToMilli(values[fieldKeys.DOB]);
+    }
     console.log(values);
-    fieldRefs.nameRef.current.toggle();
+    fieldRefs[Object.keys(values)[0]].current.loadingOn();
+    dispatch(doEditUser(values));
   };
 
   const handleToggle = (key) => {
-    fieldRefs[fieldKeys[key]].current.toggle();
+    if (!!currentActiveField) fieldRefs[currentActiveField].current.toggleOff();
+    if (key === fieldKeys.DOB) {
+      form.setFields([{ name: key, value: milliToMoment(userData[key]) }]);
+    } else form.setFields([{ name: key, value: userData[key] }]);
+    fieldRefs[key].current.toggleOn();
+    setCurrentActiveField(key);
   };
 
   return (
@@ -55,7 +92,10 @@ export default function Account() {
       </Row>
 
       <div className={account["avatar"]}>
-        <AvatarUser src={userData.avatar} txt={userData.name} />
+        <AvatarUser
+          src={userData[fieldKeys.AVATAR]}
+          txt={userData[fieldKeys.NAME]}
+        />
       </div>
 
       <Form
@@ -65,22 +105,40 @@ export default function Account() {
       >
         <FieldContainer
           label="Họ và tên"
-          value={userData.name}
+          value={userData[fieldKeys.NAME]}
           onSave={() => form.submit()}
           ref={fieldRefs[fieldKeys.NAME]}
+          onClickEdit={() => handleToggle(fieldKeys.NAME)}
         >
-          <Form.Item name="name" initialValue={userData.name}>
+          <Form.Item
+            name={fieldKeys.NAME}
+            rules={[
+              {
+                required: true,
+                message: "Hãy điền đầy đủ họ và tên",
+              },
+            ]}
+          >
             <Input placeholder="Điền họ và tên của bạn" />
           </Form.Item>
         </FieldContainer>
 
         <FieldContainer
           label="Giới tính"
-          value={userData.gender}
+          value={userData[fieldKeys.GENDER]}
           onSave={() => form.submit()}
           ref={fieldRefs[fieldKeys.GENDER]}
+          onClickEdit={() => handleToggle(fieldKeys.GENDER)}
         >
-          <Form.Item name="gender" initialValue={userData.gender}>
+          <Form.Item
+            name={fieldKeys.GENDER}
+            rules={[
+              {
+                required: true,
+                message: "Hãy chọn giới tính",
+              },
+            ]}
+          >
             <Select placeholder="Chọn giới tính của bạn">
               <Select.Option value="Nam">Nam</Select.Option>
               <Select.Option value="Nữ">Nữ</Select.Option>
@@ -91,44 +149,69 @@ export default function Account() {
 
         <FieldContainer
           label="Ngày sinh"
-          value={userData.dob}
+          value={milliToDate(userData[fieldKeys.DOB])}
           onSave={() => form.submit()}
           ref={fieldRefs[fieldKeys.DOB]}
+          onClickEdit={() => handleToggle(fieldKeys.DOB)}
         >
-          <Form.Item name="dob" initialValue={userData.dob}>
-            <Input placeholder="DD/MM/YYYY" />
+          <Form.Item
+            name={fieldKeys.DOB}
+            rules={[
+              {
+                required: true,
+                message: "Hãy chọn ngày tháng năm sinh",
+              },
+            ]}
+          >
+            <DatePicker format="DD/MM/YYYY" />
           </Form.Item>
         </FieldContainer>
 
         <FieldContainer
           label="Email"
-          value={userData.email}
-          onSave={() => form.submit()}
-          ref={fieldRefs[fieldKeys.EMAIL]}
-        >
-          <Form.Item name="email" initialValue={userData.email}>
-            <Input placeholder="Điền email của bạn" />
-          </Form.Item>
-        </FieldContainer>
+          value={userData[fieldKeys.EMAIL]}
+        ></FieldContainer>
 
         <FieldContainer
           label="Số điện thoại"
-          value={userData.phone}
+          value={userData[fieldKeys.PHONE]}
           onSave={() => form.submit()}
           ref={fieldRefs[fieldKeys.PHONE]}
+          onClickEdit={() => handleToggle(fieldKeys.PHONE)}
         >
-          <Form.Item name="phone" initialValue={userData.phone}>
+          <Form.Item
+            name={fieldKeys.PHONE}
+            rules={[
+              {
+                required: true,
+                message: "Hãy điền số điện thoại",
+              },
+              {
+                pattern: /^[0]?[35789]\d{8}$/,
+                message: "Hãy điền đúng định dạng số điện thoại",
+              },
+            ]}
+          >
             <Input placeholder="Điền số điện thoại của bạn" />
           </Form.Item>
         </FieldContainer>
 
         <FieldContainer
           label="Địa chỉ"
-          value={userData.address}
+          value={userData[fieldKeys.ADDRESS]}
           onSave={() => form.submit()}
           ref={fieldRefs[fieldKeys.ADDRESS]}
+          onClickEdit={() => handleToggle(fieldKeys.ADDRESS)}
         >
-          <Form.Item name="address" initialValue={userData.address}>
+          <Form.Item
+            name={fieldKeys.ADDRESS}
+            rules={[
+              {
+                required: true,
+                message: "Hãy điền địa chỉ",
+              },
+            ]}
+          >
             <Input placeholder="Điền địa chỉ sinh sống của bạn" />
           </Form.Item>
         </FieldContainer>

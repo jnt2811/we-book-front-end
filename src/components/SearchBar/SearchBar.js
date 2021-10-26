@@ -6,7 +6,7 @@ import { paths, searchKeys } from "../../constants";
 import { cellId, hoverType } from "./searchBarKeys";
 import { DateRangeCell, DestinationCell, GuestsCell } from "./cells";
 import CellDivider from "./components/CellDivider";
-import moment from "moment";
+import { milliToMoment, momentToMilli } from "../../helpers/formatter";
 
 export default function SearchBar({
   destination = "",
@@ -34,11 +34,11 @@ export default function SearchBar({
     [destinationKey]: destination || "",
     [checkinKey]:
       checkin !== "" && checkin !== undefined && checkin !== null
-        ? moment(checkin)
+        ? milliToMoment(checkin)
         : "",
     [checkoutKey]:
       checkout !== "" && checkout !== undefined && checkout !== null
-        ? moment(checkout)
+        ? milliToMoment(checkout)
         : "",
     [guestsKey]: parseInt(guests),
   });
@@ -48,12 +48,12 @@ export default function SearchBar({
       const destinationSearch = `${destinationKey}=${searchData[destinationKey]}`;
       const checkinSearch = `${checkinKey}=${
         searchData[checkinKey] !== ""
-          ? searchData[checkinKey].toISOString()
+          ? momentToMilli(searchData[checkinKey])
           : ""
       }`;
       const checkoutSearch = `${checkoutKey}=${
         searchData[checkoutKey] !== ""
-          ? searchData[checkoutKey].toISOString()
+          ? momentToMilli(searchData[checkoutKey])
           : ""
       }`;
       const guestsSearch = `${guestsKey}=${searchData[guestsKey]}`;

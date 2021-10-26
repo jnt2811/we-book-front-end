@@ -6,14 +6,12 @@ import { Button, Col, Form, Input, notification, Row, Switch } from "antd";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { doLogin, resetLogin } from "../../../ducks/slices/loginSlice";
-import { doSignup, resetSignup } from "../../../ducks/slices/signupSlice";
+import { resetAuth, doLogin, doSignup } from "../../../ducks/slices/authSlice";
 import { useQuery } from "../../../hooks";
 import { searchKeys } from "../../../constants";
 
 export default function Auth() {
-  const loginReducer = useSelector((state) => state.login);
-  const signupReducer = useSelector((state) => state.signup);
+  const authReducer = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const query = useQuery();
 
@@ -23,44 +21,25 @@ export default function Auth() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (isLogin) {
-      const { isOk, message } = loginReducer;
+    const { isOk, message } = authReducer;
 
-      if (isOk === true) {
-        setIsLoading(false);
-        notification.success({ message: "Chào mừng bạn trở lại We Book!" });
-        dispatch(resetLogin());
-        history.push(paths.HOME);
-      }
+    if (isOk === true) {
+      setIsLoading(false);
+      notification.success({
+        message: isLogin
+          ? "Chào mừng bạn trở lại We Book!"
+          : "Chào mừng bạn đến với We Book!",
+      });
+      history.push(paths.HOME);
+    }
 
-      if (isOk === false) {
-        setIsLoading(false);
-        notification.error({ message: message });
-        dispatch(resetLogin());
-      }
+    if (isOk === false) {
+      setIsLoading(false);
+      notification.error({ message: message });
+      dispatch(resetAuth());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loginReducer]);
-
-  useEffect(() => {
-    if (!isLogin) {
-      const { isOk, message } = signupReducer;
-
-      if (isOk === true) {
-        setIsLoading(false);
-        notification.success({ message: "Chào mừng bạn đến với We Book!" });
-        dispatch(resetSignup());
-        history.push(paths.HOME);
-      }
-
-      if (isOk === false) {
-        setIsLoading(false);
-        notification.error({ message: message });
-        dispatch(resetSignup());
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [signupReducer]);
+  }, [authReducer]);
 
   const handleSwitch = (checked) => {
     setIsLogin(!checked);
