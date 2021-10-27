@@ -1,4 +1,28 @@
 @import "../../../assets/scss/mixins.scss";
+@import "../../../assets/scss/sizes.scss";
 
 .container {
+  .top {
+    padding: 25px calc((100% - #{$container-width}) / 2);
+
+    .head {
+      margin-bottom: 5px;
+    }
+
+    .sub-head {
+      color: #999;
+    }
+  }
+
+  .gallery {
+    display: flex;
+    justify-content: space-between;
+
+    .gallery-item {
+      width: calc(100% / 3 - 1px);
+      height: 300px;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
 }
