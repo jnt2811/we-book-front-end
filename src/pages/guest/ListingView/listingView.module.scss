@@ -1,9 +1,11 @@
 @import "../../../assets/scss/mixins.scss";
 @import "../../../assets/scss/sizes.scss";
 
+$block-padding: 25px calc((100% - #{$container-width}) / 2);
+
 .container {
   .top {
-    padding: 25px calc((100% - #{$container-width}) / 2);
+    padding: $block-padding;
 
     .head {
       margin-bottom: 5px;
@@ -23,6 +25,42 @@
       height: 300px;
       object-fit: cover;
       object-position: center;
+    }
+  }
+
+  .mid {
+    padding: $block-padding;
+
+    h2 {
+      margin-right: 10px;
+    }
+
+    .num {
+      position: relative;
+      margin-right: 15px;
+      font-size: 16px;
+
+      &::before {
+        content: "";
+        width: 3px;
+        height: 3px;
+        background-color: #333;
+        border-radius: 50px;
+        position: absolute;
+        left: -9px;
+        top: calc(100% / 2 - 2px);
+      }
+
+      &:first-child {
+        &::before {
+          width: 0;
+        }
+      }
+    }
+
+    .desc,
+    .amenity {
+      font-size: 16px;
     }
   }
 }
