@@ -1,8 +1,8 @@
 import { Button, Col, Drawer, Form, Input, Row, Select } from "antd";
 import { forwardRef, useImperativeHandle, useState, useEffect } from "react";
 import newListing from "./newListing.module.scss";
-import { requestPost, requestGet } from "../../../helpers/requestHandler";
-import { apis } from "../../../constants";
+import { requestPost, requestGet } from "../../../../../helpers/requestHandler";
+import { apis } from "../../../../../constants";
 
 const NewListing = forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false);
@@ -12,34 +12,34 @@ const NewListing = forwardRef((props, ref) => {
       setVisible(true);
     },
   }));
-  // const [listingList, setListingList] = useState([]);
+  const [listingList, setListingList] = useState([]);
 
-  // useEffect(() => {
-  //   requestGet(apis.LISTING_HOST).then((result) => {
-  //     const data = result.data;
+  useEffect(() => {
+    requestGet(apis.LISTING_HOST).then((result) => {
+      const data = result.data;
 
-  //     if (data.status) {
-  //       setListingList(
-  //         data.data.map((item) => ({
-  //           ...item,
-  //           key: item.id,
-  //         }))
-  //       );
-  //     }
-  //   });
-  // }, []);
+      if (data.status) {
+        setListingList(
+          data.data.map((item) => ({
+            ...item,
+            key: item.id,
+          }))
+        );
+      }
+    });
+  }, []);
   const onFinish = (values) => {
     // console.log(values);
     requestPost(apis.LISTING_HOST, values).then((result) => {
       const data = values.data;
-      // if (data.status) {
-      //   setListingList(
-      //     data.data.map((item) => ({
-      //       ...item,
-      //       key: item.id,
-      //     }))
-      //   );
-      // }
+      if (data.status) {
+        setListingList(
+          data.data.map((item) => ({
+            ...item,
+            key: item.id,
+          }))
+        );
+      }
     });
   };
 
@@ -189,6 +189,16 @@ const NewListing = forwardRef((props, ref) => {
                 <Select.Option value="12">12</Select.Option>
                 <Select.Option value="13">13</Select.Option>
                 <Select.Option value="14">14</Select.Option>
+                <Select.Option value="15">15</Select.Option>
+                <Select.Option value="16">16</Select.Option>
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={20}>
+          <Col span={12}>
+            <Form.Item name="gallery" label="gallery fake (tạm thời)">
+              <Select placeholder="Please select a number">
                 <Select.Option value="15">15</Select.Option>
                 <Select.Option value="16">16</Select.Option>
               </Select>
