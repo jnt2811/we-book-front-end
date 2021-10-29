@@ -1,11 +1,13 @@
 import listings from "./listings.module.scss";
-import { Table } from "antd";
-import { useState, useEffect } from "react";
+import { Table, Row, Button } from "antd";
+import { useState, useEffect, useRef } from "react";
 import { requestDelete, requestGet } from "../../../helpers/requestHandler";
 import { apis } from "../../../constants";
 import { DeleteOutlined } from "@ant-design/icons";
+import NewListing from "./components/NewListing/NewListing";
 
 export default function Listings() {
+  const newListingRef = useRef();
   function deleteRequest(id) {
     requestDelete(apis.LISTING_HOST + "/" + id).then((result) => {
       const data = result.data;
@@ -20,6 +22,7 @@ export default function Listings() {
       }
     });
   }
+
   const columns = [
     { title: "ID", key: "id", dataIndex: "id" },
     { title: "Tên nơi ở", key: "name", dataIndex: "name" },
@@ -41,14 +44,14 @@ export default function Listings() {
       dataIndex: "active",
       render: (text, record) => (
         <div>
-          <a
+          <span
             className={listings["deleteIcon"]}
             onClick={() => {
               deleteRequest(record.id);
             }}
           >
             <DeleteOutlined />
-          </a>
+          </span>
         </div>
       ),
     },
@@ -73,10 +76,20 @@ export default function Listings() {
 
   return (
     <div className={listings["container"]}>
-      <h1>Danh sách nơi ở</h1>
-      <div className={listings["containerOfTable"]}>
-        <Table dataSource={listingList} columns={columns} />;
-      </div>
+      <Row justify="space-between" className={listings["top"]}>
+        <h1>Danh sách nơi ở</h1>
+
+        <Button
+          className={listings["btn"]}
+          onClick={() => newListingRef.current.open()}
+        >
+          Tạo mới
+        </Button>
+      </Row>
+
+      <Table dataSource={listingList} columns={columns} />
+
+      <NewListing ref={newListingRef} />
     </div>
   );
 }
