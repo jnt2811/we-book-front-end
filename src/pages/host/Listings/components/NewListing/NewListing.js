@@ -6,6 +6,7 @@ import { apis } from "../../../../../constants";
 
 const NewListing = forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false);
+  const array = ["a", "b", "c", "d", "e", "f"];
 
   useImperativeHandle(ref, () => ({
     open() {
@@ -19,6 +20,7 @@ const NewListing = forwardRef((props, ref) => {
       const data = result.data;
 
       if (data.status) {
+        setVisible(false);
         setListingList(
           data.data.map((item) => ({
             ...item,
@@ -29,18 +31,18 @@ const NewListing = forwardRef((props, ref) => {
     });
   }, []);
   const onFinish = (values) => {
-    // console.log(values);
-    requestPost(apis.LISTING_HOST, values).then((result) => {
-      const data = values.data;
-      if (data.status) {
-        setListingList(
-          data.data.map((item) => ({
-            ...item,
-            key: item.id,
-          }))
-        );
-      }
-    });
+    console.log(values);
+    // requestPost(apis.LISTING_HOST, values).then((result) => {
+    //   const data = values.data;
+    //   if (data.status) {
+    //     setListingList(
+    //       data.data.map((item) => ({
+    //         ...item,
+    //         key: item.id,
+    //       }))
+    //     );
+    //   }
+    // });
   };
 
   return (
@@ -66,22 +68,11 @@ const NewListing = forwardRef((props, ref) => {
           <Col span={12}>
             <Form.Item name="beds" label="Số giường">
               <Select placeholder="Please select a number">
-                <Select.Option value="1">1</Select.Option>
-                <Select.Option value="2">2</Select.Option>
-                <Select.Option value="3">3</Select.Option>
-                <Select.Option value="4">4</Select.Option>
-                <Select.Option value="5">5</Select.Option>
-                <Select.Option value="6">6</Select.Option>
-                <Select.Option value="7">7</Select.Option>
-                <Select.Option value="8">8</Select.Option>
-                <Select.Option value="9">9</Select.Option>
-                <Select.Option value="10">10</Select.Option>
-                <Select.Option value="11">11</Select.Option>
-                <Select.Option value="12">12</Select.Option>
-                <Select.Option value="13">13</Select.Option>
-                <Select.Option value="14">14</Select.Option>
-                <Select.Option value="15">15</Select.Option>
-                <Select.Option value="16">16</Select.Option>
+                {array.map((i) => (
+                  <Select.Option key={i} value={i}>
+                    {i}
+                  </Select.Option>
+                ))}
               </Select>
             </Form.Item>
           </Col>
@@ -206,9 +197,7 @@ const NewListing = forwardRef((props, ref) => {
           </Col>
         </Row>
 
-        <Button htmlType="submit" onClick={() => setVisible(false)}>
-          Tạo mới
-        </Button>
+        <Button htmlType="submit">Tạo mới</Button>
       </Form>
     </Drawer>
   );
