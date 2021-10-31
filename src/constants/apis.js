@@ -13,6 +13,7 @@ const apis = {
   // api nơi ở
   LISTING_GUEST: url + "/listing",
   LISTING_HOST: url + "/listing/host",
+  Place: url + "/listing/place",
 };
 
 export default apis;
