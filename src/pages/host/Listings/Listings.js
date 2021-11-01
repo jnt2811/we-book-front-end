@@ -1,61 +1,14 @@
 import listings from "./listings.module.scss";
-import { Table, Row, Button } from "antd";
+import { Table, Row, Button, Tag, Col } from "antd";
 import { useState, useEffect, useRef } from "react";
-import { requestDelete, requestGet } from "../../../helpers/requestHandler";
+import { requestGet } from "../../../helpers/requestHandler";
 import { apis } from "../../../constants";
-import { DeleteOutlined } from "@ant-design/icons";
-import NewListing from "./components/NewListing/NewListing";
+import { EditOutlined, SyncOutlined } from "@ant-design/icons";
+import ListingConfig from "./components/ListingConfig/ListingConfig";
+import moment from "moment";
 
 export default function Listings() {
-  const newListingRef = useRef();
-  function deleteRequest(id) {
-    requestDelete(apis.LISTING_HOST + "/" + id).then((result) => {
-      const data = result.data;
-
-      if (data.status) {
-        setListingList(
-          data.data.map((item) => ({
-            ...item,
-            key: item.id,
-          }))
-        );
-      }
-    });
-  }
-
-  const columns = [
-    { title: "ID", key: "id", dataIndex: "id" },
-    { title: "Tên nơi ở", key: "name", dataIndex: "name" },
-    {
-      title: "Giá/đêm",
-      key: "price",
-      dataIndex: "price",
-      render: (price) => `${price} đồng`,
-    },
-    {
-      title: "Hoạt động",
-      key: "active",
-      dataIndex: "active",
-      render: (active) => (active === 1 ? "Hoạt động" : "Tạm dừng"),
-    },
-    {
-      title: "Action",
-      key: "action",
-      dataIndex: "active",
-      render: (text, record) => (
-        <div>
-          <span
-            className={listings["deleteIcon"]}
-            onClick={() => {
-              deleteRequest(record.id);
-            }}
-          >
-            <DeleteOutlined />
-          </span>
-        </div>
-      ),
-    },
-  ];
+  const configRef = useRef();
 
   const [listingList, setListingList] = useState([]);
 
@@ -74,6 +27,54 @@ export default function Listings() {
     });
   }, []);
 
+  const columns = [
+    { title: "Tên nơi ở", key: "name", dataIndex: "name" },
+    {
+      title: "Trạng thái",
+      key: "active",
+      dataIndex: "active",
+      render: (active) =>
+        active > 0 ? (
+          <Tag color="green">Hoạt động</Tag>
+        ) : (
+          <Tag color="red">Tạm dừng</Tag>
+        ),
+    },
+    { title: "Vị trí", key: "address", dataIndex: "address" },
+    {
+      title: "Giá/đêm",
+      key: "price",
+      dataIndex: "price",
+      render: (price) => `${price} đ`,
+    },
+    {
+      title: "Sửa đổi lần cuối",
+      key: "updated_at",
+      dataIndex: "updated_at",
+      render: (updated_at) => moment(updated_at).format("DD/MM/YYYY HH:mm:ss"),
+    },
+    {
+      title: "",
+      key: "action",
+      dataIndex: "active",
+      render: (active, listing) => (
+        <Row gutter={10}>
+          <Col>
+            <Button
+              icon={<EditOutlined />}
+              type="primary"
+              onClick={() => configRef.current.open(listing)}
+            ></Button>
+          </Col>
+
+          <Col>
+            <Button icon={<SyncOutlined />} type="primary" danger></Button>
+          </Col>
+        </Row>
+      ),
+    },
+  ];
+
   return (
     <div className={listings["container"]}>
       <Row justify="space-between" className={listings["top"]}>
@@ -81,7 +82,8 @@ export default function Listings() {
 
         <Button
           className={listings["btn"]}
-          onClick={() => newListingRef.current.open()}
+          onClick={() => configRef.current.open()}
+          type="primary"
         >
           Tạo mới
         </Button>
@@ -89,7 +91,7 @@ export default function Listings() {
 
       <Table dataSource={listingList} columns={columns} />
 
-      <NewListing ref={newListingRef} />
+      <ListingConfig ref={configRef} />
     </div>
   );
 }

@@ -73,15 +73,6 @@ const UserPopup = forwardRef((props, ref) => {
 
                 <Link
                   className={`dropdown-btn${
-                    pathname === paths.LISTING_NEW ? " active" : ""
-                  }`}
-                  to={paths.LISTING_NEW}
-                >
-                  Tạo mục cho thuê mới
-                </Link>
-
-                <Link
-                  className={`dropdown-btn${
                     pathname === paths.HISTORY ? " active" : ""
                   }`}
                   to={paths.HISTORY}
