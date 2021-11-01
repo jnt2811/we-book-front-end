@@ -1,19 +1,65 @@
 import fieldContainer from "./fieldContainer.module.scss";
+import { CloseOutlined, EditOutlined } from "@ant-design/icons";
+import { forwardRef, useImperativeHandle, useState } from "react";
+import { Button, Col, Row } from "antd";
 
-export default function FieldContainer({ children, label, value, onSave }) {
-  return (
-    <div className={fieldContainer["row"]}>
-      <div className={fieldContainer["cell"]}>
-        <label>{label}</label>
-      </div>
+const FieldContainer = forwardRef(
+  ({ children, label, value, onSave, onClickEdit }, ref) => {
+    const [editVisible, setEditVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-      <div className={fieldContainer["cell"]}>
-        <span>{value}</span>
-      </div>
+    useImperativeHandle(ref, () => ({
+      toggleOn() {
+        setEditVisible(true);
+      },
+      toggleOff() {
+        if (isLoading) setIsLoading(false);
+        setEditVisible(false);
+      },
+      loadingOn() {
+        setIsLoading(true);
+      },
+    }));
 
-      <div className={fieldContainer["cell"]}>
-        <span>Chỉnh sửa</span>
-      </div>
-    </div>
-  );
-}
+    return (
+      <Row className={fieldContainer["row"]}>
+        <Col flex="160px" className={fieldContainer["cell"]}>
+          <label>{label}</label>
+        </Col>
+
+        <Col flex="auto" className={fieldContainer["cell"]}>
+          {editVisible ? (
+            <>
+              {children}
+              <Button onClick={onSave} loading={isLoading}>
+                Lưu
+              </Button>
+            </>
+          ) : !!value ? (
+            <span>{value}</span>
+          ) : (
+            <span style={{ color: "#00000060" }}>Chưa có dữ liệu</span>
+          )}
+        </Col>
+
+        <Col flex="0px" className={fieldContainer["cell"]}>
+          {!children ? (
+            <></>
+          ) : !editVisible ? (
+            <EditOutlined
+              onClick={onClickEdit}
+              className={fieldContainer["btn"]}
+            />
+          ) : (
+            <CloseOutlined
+              onClick={() => setEditVisible(false)}
+              className={fieldContainer["btn"]}
+            />
+          )}
+        </Col>
+      </Row>
+    );
+  }
+);
+
+export default FieldContainer;

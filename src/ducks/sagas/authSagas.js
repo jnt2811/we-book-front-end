@@ -2,19 +2,28 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { localKeys } from "../../constants";
 import { codeFormatter } from "../../helpers/formatter";
 import { localRemove, localSet } from "../../helpers/localHandler";
-import { requestDoLogin, requestDoSignup } from "../requests/authRequests";
+import {
+  requestDoEditUser,
+  requestDoGetUser,
+  requestDoLogin,
+  requestDoSignup,
+} from "../requests/authRequests";
 import {
   doLogin,
+  doSignup,
   doLogout,
-  loginFail,
-  loginSuccess,
-} from "../slices/loginSlice";
-import { doSignup, signupFail, signupSuccess } from "../slices/signupSlice";
+  authSuccess,
+  authFail,
+  doGetUser,
+  doEditUser,
+} from "../slices/authSlice";
 
 export function* watchDoAuth() {
   yield takeLatest(doLogin.type, handleLogin);
   yield takeLatest(doSignup.type, handleSignup);
   yield takeLatest(doLogout.type, handleLogout);
+  yield takeLatest(doGetUser.type, handleGetUser);
+  yield takeLatest(doEditUser.type, handleEditUser);
 }
 
 export function* handleLogin(action) {
@@ -28,20 +37,19 @@ export function* handleLogin(action) {
 
       localSet(localKeys.ACCESS_TOKEN, access_token);
       localSet(localKeys.REFRESH_TOKEN, refresh_token);
-      localSet(localKeys.USER, user_data);
 
       yield put(
-        loginSuccess({
+        authSuccess({
           isOk: true,
           user: user_data,
         })
       );
     } else {
       yield put(
-        loginFail({
+        authFail({
           isOk: false,
           message: codeFormatter(res.code),
-          user: {},
+          user: undefined,
         })
       );
     }
@@ -49,10 +57,10 @@ export function* handleLogin(action) {
     console.log("Login Error", error);
 
     yield put(
-      loginFail({
+      authFail({
         isOk: false,
         message: error,
-        user: {},
+        user: undefined,
       })
     );
   }
@@ -69,20 +77,19 @@ export function* handleSignup(action) {
 
       localSet(localKeys.ACCESS_TOKEN, access_token);
       localSet(localKeys.REFRESH_TOKEN, refresh_token);
-      localSet(localKeys.USER, user_data);
 
       yield put(
-        signupSuccess({
+        authSuccess({
           isOk: true,
           user: user_data,
         })
       );
     } else {
       yield put(
-        signupFail({
+        authFail({
           isOk: false,
           message: codeFormatter(res.code),
-          user: {},
+          user: undefined,
         })
       );
     }
@@ -90,10 +97,10 @@ export function* handleSignup(action) {
     console.log("Signup Error", error.response);
 
     yield put(
-      signupFail({
+      authFail({
         isOk: false,
         message: error.response,
-        user: {},
+        user: undefined,
       })
     );
   }
@@ -102,7 +109,81 @@ export function* handleSignup(action) {
 export function* handleLogout() {
   yield localRemove(localKeys.ACCESS_TOKEN);
   yield localRemove(localKeys.REFRESH_TOKEN);
-  yield localRemove(localKeys.USER);
 
   window.location.reload();
+}
+
+export function* handleGetUser() {
+  try {
+    const response = yield call(requestDoGetUser);
+
+    const res = response.data;
+
+    if (res.status) {
+      const { user_data } = res.data;
+
+      yield put(
+        authSuccess({
+          isOk: true,
+          user: user_data,
+        })
+      );
+    } else {
+      yield put(
+        authFail({
+          isOk: false,
+          message: "Get User Error",
+          user: undefined,
+        })
+      );
+    }
+  } catch (error) {
+    console.log("Get User Error", error.response);
+
+    yield put(
+      authFail({
+        isOk: false,
+        message: error.response,
+        user: undefined,
+      })
+    );
+  }
+}
+
+export function* handleEditUser(action) {
+  try {
+    const response = yield call(() => requestDoEditUser(action.payload));
+
+    const res = response.data;
+
+    if (res.status) {
+      const { user_data } = res.data;
+
+      yield put(
+        authSuccess({
+          isOk: true,
+          message: codeFormatter("010"),
+          user: user_data,
+        })
+      );
+    } else {
+      yield put(
+        authFail({
+          isOk: false,
+          message: "Edit User Error",
+          user: undefined,
+        })
+      );
+    }
+  } catch (error) {
+    console.log("Edit User Error", error.response);
+
+    yield put(
+      authFail({
+        isOk: false,
+        message: error.response,
+        user: undefined,
+      })
+    );
+  }
 }

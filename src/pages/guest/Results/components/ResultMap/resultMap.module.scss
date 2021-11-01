@@ -1,0 +1,10 @@
+@import "../../../../../assets/scss/sizes.scss";
+
+.container {
+  position: fixed;
+  top: $header-height;
+  right: 0;
+  background-color: #cecece;
+  width: $map-width;
+  height: 100vh;
+}

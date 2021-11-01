@@ -7,7 +7,7 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { localGet } from "../../../helpers/localHandler";
 import { localKeys, searchKeys } from "../../../constants/keys";
 import { useDispatch } from "react-redux";
-import { doLogout } from "../../../ducks/slices/loginSlice";
+import { doLogout } from "../../../ducks/slices/authSlice";
 
 const UserPopup = forwardRef((props, ref) => {
   const { pathname } = useLocation();

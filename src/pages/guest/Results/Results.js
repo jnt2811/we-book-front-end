@@ -1,111 +1,73 @@
-import { listingListSample } from "../../../constants/data";
 import results from "./results.module.scss";
-import {
-  HeartOutlined,
-  LeftOutlined,
-  RightOutlined,
-  StarFilled,
-} from "@ant-design/icons";
-import { useHistory } from "react-router-dom";
-import { paths, searchKeys } from "../../../constants";
+import { apis, paths, searchKeys } from "../../../constants";
 import { useQuery } from "../../../hooks";
+import ListingCard from "./components/ListingCard/ListingCard";
+import ResultMap from "./components/ResultMap/ResultMap";
+import FilterBar from "./components/FilterBar/FilterBar";
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { requestPost } from "../../../helpers/requestHandler";
+import { Col, Row, Skeleton } from "antd";
+// import PaginationBar from "./components/PaginationBar/PaginationBar";
 
 export default function Results() {
-  const history = useHistory();
   const query = useQuery();
+  const history = useHistory();
 
   const destination = query.get(searchKeys.DESTINATION);
-  const checkin = query.get(searchKeys.CHECKIN);
-  const checkout = query.get(searchKeys.CHECKOUT);
-  const guests = query.get(searchKeys.GUESTS);
+  // const checkin = query.get(searchKeys.CHECKIN);
+  // const checkout = query.get(searchKeys.CHECKOUT);
+  // const guests = query.get(searchKeys.GUESTS);
 
-  const handleFav = (id) => {};
+  const [listingList, setListingList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (destination === null || destination === "") history.push(paths.HOME);
+    setIsLoading(true);
+    requestPost(apis.LISTING_GUEST, { destination }).then((result) => {
+      setListingList(result.data.data);
+      setIsLoading(false);
+    });
+  }, [destination, history]);
 
   return (
-    <div className={results.container}>
+    <div className={results["container"]}>
       <div className="list">
-        <p>300 chỗ ở</p>
+        <p>{listingList.length} chỗ ở</p>
 
         <h1>Chỗ ở tại {destination}</h1>
 
-        <div className="filters">
-          <div className="btn active">
-            <span>Loại nơi ở</span>
-          </div>
+        <FilterBar />
 
-          <div className="btn">
-            <span>Giá</span>
-          </div>
+        {isLoading ? (
+          <Row style={{ marginTop: 20 }} gutter={25}>
+            <Col>
+              <Skeleton.Avatar
+                active={isLoading}
+                shape="square"
+                style={{ borderRadius: 10, width: 300, height: 250 }}
+              />
+            </Col>
 
-          <div className="btn">
-            <span>Bộ lọc khác</span>
-          </div>
-        </div>
+            <Col>
+              <Skeleton.Button
+                active={isLoading}
+                size="large"
+                style={{ borderRadius: 10 }}
+              />
+            </Col>
+          </Row>
+        ) : (
+          listingList.map((listing) => (
+            <ListingCard listing={listing} key={listing.id} />
+          ))
+        )}
 
-        {listingListSample.map((listing) => (
-          <div
-            className="card"
-            key={listing.id}
-            onClick={() => history.push(paths.LISTING_VIEW_nId + listing.id)}
-          >
-            <div className="thumbnail">
-              <img src={listing.thumbnail} alt="" />
-            </div>
-
-            <div className="content">
-              <span>{listing.type}</span>
-              <h3>{listing.name}</h3>
-
-              <div className="divider" />
-
-              <div className="rating">
-                <StarFilled className="icon" />
-                <p>5 (12 đánh giá)</p>
-              </div>
-
-              <p className="pricing">
-                <span>{listing.price} VND</span> / đêm
-              </p>
-
-              <div
-                className="fav-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleFav(listing.id);
-                }}
-              >
-                <HeartOutlined className="icon" />
-              </div>
-            </div>
-          </div>
-        ))}
-
-        <div className="pagination">
-          <button
-            className="btn"
-            onClick={() => console.log("object")}
-            disabled
-          >
-            <LeftOutlined />
-          </button>
-
-          <button className="btn active">
-            <span>1</span>
-          </button>
-
-          <button className="btn">
-            <span>2</span>
-          </button>
-
-          <button className="btn">
-            <RightOutlined />
-          </button>
-        </div>
+        {/* <PaginationBar /> */}
       </div>
 
-      <div className="map">
-        <h1>Map</h1>
-      </div>
+      <ResultMap />
     </div>
   );
 }
