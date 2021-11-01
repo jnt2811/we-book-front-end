@@ -1,7 +1,7 @@
 import { Button, Col, Drawer, Form, Input, Row, Select } from "antd";
 import { forwardRef, useImperativeHandle, useState, useEffect } from "react";
 import newListing from "./newListing.module.scss";
-import { requestPost, requestGet } from "../../../../../helpers/requestHandler";
+import { requestGet } from "../../../../../helpers/requestHandler";
 import { apis } from "../../../../../constants";
 
 const NewListing = forwardRef((props, ref) => {
@@ -23,7 +23,9 @@ const NewListing = forwardRef((props, ref) => {
       }
       console.log(placeData);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   console.log(placeData);
 
   const onFinish = (values) => {
