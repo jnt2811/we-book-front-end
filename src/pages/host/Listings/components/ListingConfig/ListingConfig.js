@@ -4,6 +4,7 @@ import listingConfig from "./listingConfig.module.scss";
 import { requestGet } from "../../../../../helpers/requestHandler";
 import { apis } from "../../../../../constants";
 import { useForm } from "antd/lib/form/Form";
+import UploadGallery from "../UploadGallery/UploadGallery";
 
 const fields = {
   NAME: "name",
@@ -16,20 +17,28 @@ const fields = {
   BEDS: "beds",
   PLACE: "place",
   AMENITY: "amenity",
+  GALLERY: "gallery",
 };
 
-const NewListing = forwardRef((props, ref) => {
+const ListingConfig = forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
+  const [gallery, setGallery] = useState([]);
 
   useImperativeHandle(ref, () => ({
     open(listing) {
       if (!!listing) {
         form.setFields(
-          Object.keys(fields).map((key) => ({
-            name: [fields[key]],
-            value: listing[fields[key]],
-          }))
+          Object.keys(fields).map((key) => {
+            if (fields[key] === fields.GALLERY) {
+              if (!!listing.gallery) setGallery(JSON.parse(listing.gallery));
+              return {};
+            }
+            return {
+              name: [fields[key]],
+              value: listing[fields[key]],
+            };
+          })
         );
         setIsEditListing(true);
       }
@@ -37,6 +46,8 @@ const NewListing = forwardRef((props, ref) => {
       setVisible(true);
     },
   }));
+
+  console.log(gallery);
 
   const [placeList, setPlaceList] = useState([]);
   const [amenityList, setAmenityList] = useState([]);
@@ -58,12 +69,24 @@ const NewListing = forwardRef((props, ref) => {
 
   const onClose = () => {
     form.resetFields();
+    setGallery([]);
+    setIsEditListing(false);
     setVisible(false);
   };
 
   const onFinish = (values) => {
-    values.gallery = JSON.parse(values.gallery);
-    console.log(values);
+    if (values.gallery.length < 3) {
+      form.setFields([
+        { name: fields.GALLERY, errors: ["Hãy tải lên ít nhất 3 bức ảnh"] },
+      ]);
+    } else {
+      values.gallery = JSON.stringify(gallery);
+      values.place = JSON.parse(values.place);
+      if (!!values.amenity) {
+        values.amenity = values.amenity.map((item) => JSON.parse(item));
+      } else values.amenity = [];
+      console.log(values);
+    }
   };
 
   return (
@@ -72,7 +95,7 @@ const NewListing = forwardRef((props, ref) => {
       visible={visible}
       title={!isEditListing ? "Tạo mới nơi ở" : "Chỉnh sửa nơi ở"}
       onClose={onClose}
-      width={500}
+      width={401}
       footer={
         <Row gutter={10}>
           <Col>
@@ -210,9 +233,13 @@ const NewListing = forwardRef((props, ref) => {
             ))}
           </Select>
         </Form.Item>
+
+        <Form.Item name={fields.GALLERY} label="Ảnh">
+          <UploadGallery gallery={gallery} setGallery={setGallery} />
+        </Form.Item>
       </Form>
     </Drawer>
   );
 });
 
-export default NewListing;
+export default ListingConfig;
