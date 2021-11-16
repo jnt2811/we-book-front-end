@@ -82,14 +82,14 @@ const UserPopup = forwardRef((props, ref) => {
               </>
             ) : (
               <>
-                <Link
+                {/* <Link
                   className={`dropdown-btn${
                     pathname === paths.FAV_LIST ? " active" : ""
                   }`}
                   to={paths.FAV_LIST}
                 >
                   Danh sách yêu thích
-                </Link>
+                </Link> */}
 
                 <Link
                   className={`dropdown-btn${
@@ -102,16 +102,16 @@ const UserPopup = forwardRef((props, ref) => {
               </>
             )}
 
-            <Divider className="divider" />
+            {/* <Divider className="divider" /> */}
 
-            <Link
+            {/* <Link
               className={`dropdown-btn${
                 pathname === paths.PROFILE ? " active" : ""
               }`}
               to={paths.PROFILE}
             >
               Hồ sơ
-            </Link>
+            </Link> */}
 
             <Link
               className={`dropdown-btn${

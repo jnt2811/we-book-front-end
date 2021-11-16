@@ -15,6 +15,11 @@ export const requestDoSignup = (dataRequest) => {
   return requestPost(apis.SIGNUP, dataRequest, headers);
 };
 
+export const requestRefreshToken = (dataRequest) => {
+  const headers = {};
+  return requestPost(apis.TOKEN, dataRequest, headers);
+};
+
 export const requestDoGetUser = () => {
   return requestGet(apis.USER);
 };

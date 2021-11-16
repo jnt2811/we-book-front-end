@@ -1,12 +1,13 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { localKeys } from "../../constants";
 import { codeFormatter } from "../../helpers/formatter";
-import { localRemove, localSet } from "../../helpers/localHandler";
+import { localGet, localRemove, localSet } from "../../helpers/localHandler";
 import {
   requestDoEditUser,
   requestDoGetUser,
   requestDoLogin,
   requestDoSignup,
+  requestRefreshToken,
 } from "../requests/authRequests";
 import {
   doLogin,
@@ -16,6 +17,7 @@ import {
   authFail,
   doGetUser,
   doEditUser,
+  doRefreshToken,
 } from "../slices/authSlice";
 
 export function* watchDoAuth() {
@@ -24,6 +26,7 @@ export function* watchDoAuth() {
   yield takeLatest(doLogout.type, handleLogout);
   yield takeLatest(doGetUser.type, handleGetUser);
   yield takeLatest(doEditUser.type, handleEditUser);
+  yield takeLatest(doRefreshToken.type, handleRefreshToken);
 }
 
 export function* handleLogin(action) {
@@ -113,6 +116,29 @@ export function* handleLogout() {
   window.location.reload();
 }
 
+export function* handleRefreshToken(action) {
+  try {
+    const refreshToken = yield localGet(localKeys.REFRESH_TOKEN, undefined);
+
+    if (!!refreshToken && refreshToken !== "") {
+      const response = yield call(() =>
+        requestRefreshToken({ token: refreshToken })
+      );
+
+      if (response.data.status) {
+        yield localSet(localKeys.ACCESS_TOKEN, response.data.data.access_token);
+        window.location.reload();
+      } else {
+        yield put(doLogout());
+      }
+    } else {
+      yield put(doLogout());
+    }
+  } catch (error) {
+    yield put(doLogout());
+  }
+}
+
 export function* handleGetUser() {
   try {
     const response = yield call(requestDoGetUser);
@@ -140,13 +166,7 @@ export function* handleGetUser() {
   } catch (error) {
     console.log("Get User Error", error.response);
 
-    yield put(
-      authFail({
-        isOk: false,
-        message: error.response,
-        user: undefined,
-      })
-    );
+    yield put(doRefreshToken());
   }
 }
 
