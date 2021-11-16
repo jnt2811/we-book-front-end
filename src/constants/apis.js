@@ -1,5 +1,5 @@
-// const url = "https://we-book-back-end.herokuapp.com";
-const url = "http://localhost:5100";
+const url = "https://we-book-back-end.herokuapp.com";
+// const url = "http://localhost:5100";
 
 const apis = {
   // api xác thực
