@@ -81,6 +81,8 @@ const DestinationCell = forwardRef(
         onClickOutside={handleClickOutside}
         abortOnClick
         popupContent={popUpContent}
+        onClear={() => updateDestination("")}
+        visibleClear={destination !== ""}
       >
         <div className="cell">
           <label>Địa điểm</label>

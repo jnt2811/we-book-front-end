@@ -34,6 +34,9 @@ const GuestsCell = forwardRef(
         visiblePopup={visible}
         onClickOutside={handleClickOutside}
         popupContent={popupContent}
+        isFinalCol
+        onClear={() => updateGuests(0)}
+        visibleClear={guests !== 0}
       >
         <Row className="cell">
           <Col flex="auto">

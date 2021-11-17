@@ -50,14 +50,17 @@ export default function Calendar({ offset = 0, onClick, chosenDate }) {
               <button
                 className={cn(
                   "day",
-                  item.value.isSame(moment(chosenDate[0]), "day") ||
-                    item.value.isSame(moment(chosenDate[1]), "day")
-                    ? " active"
-                    : "",
-                  item.value.format("M") === currentTime.format("M")
-                    ? "in-month"
-                    : "",
-                  item.value.isSame(moment(), "day") ? " today" : ""
+                  (item.value.isSame(moment(chosenDate[0]), "day") ||
+                    item.value.isSame(moment(chosenDate[1]), "day")) &&
+                    "active",
+                  item.value.format("M") === currentTime.format("M") &&
+                    "in-month",
+                  item.value.isSame(moment(), "day") && " today",
+                  chosenDate[0] !== "" &&
+                    chosenDate[1] !== "" &&
+                    item.value.isAfter(chosenDate[0]) &&
+                    item.value.isBefore(chosenDate[1]) &&
+                    "between"
                 )}
                 disabled={item.value.isBefore(moment())}
                 onClick={() => onClick(item.value)}
