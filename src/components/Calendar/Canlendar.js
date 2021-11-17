@@ -2,6 +2,7 @@ import { Col, Row } from "antd";
 import calendar from "./calendar.module.scss";
 import moment from "moment";
 import { useMemo } from "react";
+import cn from "classnames";
 
 const dayNames = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
 
@@ -47,13 +48,17 @@ export default function Calendar({ offset = 0, onClick, chosenDate }) {
           >
             <div className="day-wrap">
               <button
-                className={`day${
-                  item.value.isSame(moment(chosenDate), "day") ? " active" : ""
-                }${
+                className={cn(
+                  "day",
+                  item.value.isSame(moment(chosenDate[0]), "day") ||
+                    item.value.isSame(moment(chosenDate[1]), "day")
+                    ? " active"
+                    : "",
                   item.value.format("M") === currentTime.format("M")
-                    ? " in-month"
-                    : ""
-                }${item.value.isSame(moment(), "day") ? " today" : ""}`}
+                    ? "in-month"
+                    : "",
+                  item.value.isSame(moment(), "day") ? " today" : ""
+                )}
                 disabled={item.value.isBefore(moment())}
                 onClick={() => onClick(item.value)}
               >

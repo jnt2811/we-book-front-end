@@ -51,7 +51,7 @@ export default function DateRangePopup({
         <Col span={12}>
           <Calendar
             offset={offset}
-            chosenDate={checkin}
+            chosenDate={[checkin, checkout]}
             onClick={handleSelectDate}
           />
         </Col>
@@ -59,7 +59,7 @@ export default function DateRangePopup({
         <Col span={12}>
           <Calendar
             offset={offset + 1}
-            chosenDate={checkout}
+            chosenDate={[checkin, checkout]}
             onClick={handleSelectDate}
           />
         </Col>
