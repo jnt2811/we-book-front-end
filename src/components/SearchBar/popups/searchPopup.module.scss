@@ -26,6 +26,10 @@
       font-weight: 600;
     }
 
+    :global(.data) {
+      color: #fff;
+    }
+
     span {
       color: #ffffff99;
     }
