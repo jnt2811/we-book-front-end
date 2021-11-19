@@ -111,8 +111,16 @@ export default function SearchBar({
           checkin={checkinData}
           checkout={checkoutData}
           cellContainerProps={cellContainerProps}
-          updateCheckin={(val) => setCheckinData(val)}
-          updateCheckout={(val) => setCheckoutData(val)}
+          updateCheckin={(val) => {
+            setCheckinData(val);
+            if (val !== "" && checkoutData === "")
+              setCellActive(cellId.checkoutDate);
+          }}
+          updateCheckout={(val) => {
+            setCheckoutData(val);
+            if (val !== "" && checkinData === "")
+              setCellActive(cellId.checkinDate);
+          }}
         />
 
         <CellDivider

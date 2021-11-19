@@ -2,7 +2,6 @@ import results from "./results.module.scss";
 import { apis, paths, searchKeys } from "../../../constants";
 import { useQuery } from "../../../hooks";
 import ListingCard from "./components/ListingCard/ListingCard";
-import ResultMap from "./components/ResultMap/ResultMap";
 import FilterBar from "./components/FilterBar/FilterBar";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -58,6 +57,8 @@ export default function Results() {
 
         <FilterBar />
 
+        <br />
+
         {isLoading ? (
           <Row style={{ marginTop: 20 }} gutter={25}>
             <Col>
@@ -77,9 +78,13 @@ export default function Results() {
             </Col>
           </Row>
         ) : (
-          listingList.map((listing) => (
-            <ListingCard listing={listing} key={listing.id} />
-          ))
+          <Row gutter={[20, 20]}>
+            {listingList.map((listing) => (
+              <Col span={8} key={listing.id}>
+                <ListingCard listing={listing} />
+              </Col>
+            ))}
+          </Row>
         )}
 
         {!isLoading && (
@@ -91,8 +96,6 @@ export default function Results() {
           />
         )}
       </div>
-
-      <ResultMap />
     </div>
   );
 }

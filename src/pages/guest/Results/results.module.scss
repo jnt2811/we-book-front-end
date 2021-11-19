@@ -1,8 +1,9 @@
 @import "../../../assets/scss/sizes.scss";
 
 .container {
+  padding: 25px calc((100% - #{$container-width}) / 2);
+
   :global(.list) {
-    padding: 25px;
-    margin-right: calc(#{$map-width});
+    // margin-right: calc(#{$map-width});
   }
 }
