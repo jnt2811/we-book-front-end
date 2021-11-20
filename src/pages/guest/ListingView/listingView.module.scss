@@ -13,16 +13,22 @@ $block-padding: 25px calc((100% - #{$container-width}) / 2);
 
     .sub-head {
       color: #999;
+      margin-left: 5px;
+    }
+
+    svg {
+      color: #999;
     }
   }
 
   .gallery {
     display: flex;
-    justify-content: space-between;
+    overflow: hidden;
+    // justify-content: space-between;
 
     .gallery-item {
-      width: calc(100% / 3 - 1px);
-      height: 300px;
+      height: 350px;
+      width: calc(100vw / 3);
       object-fit: cover;
       object-position: center;
     }

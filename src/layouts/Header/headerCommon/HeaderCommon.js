@@ -102,7 +102,7 @@ const HeaderCommon = ({ location }) => {
                 destination={destination}
                 checkin={checkin}
                 checkout={checkout}
-                guests={guests}
+                guests={guests | 0}
               />
               <div style={{ height: "35px" }} />
             </>

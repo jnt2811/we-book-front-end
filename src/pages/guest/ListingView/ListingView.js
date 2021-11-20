@@ -3,8 +3,8 @@ import listingView from "./listingView.module.scss";
 import { useState, useEffect } from "react";
 import { requestGet } from "../../../helpers/requestHandler";
 import { apis } from "../../../constants";
-import { Avatar, Col, Divider, Row, Tooltip } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { Avatar, Col, Divider, Image, Row, Tooltip } from "antd";
+import { EnvironmentOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 
 export default function ListingView() {
   const { id } = useParams();
@@ -26,21 +26,20 @@ export default function ListingView() {
     });
   }, [id]);
 
-  return (
+  return !!listing.id ? (
     <div className={listingView["container"]}>
       <div className={listingView["top"]} justify="space-between">
         <h1 className={listingView["head"]}>{listing.name}</h1>
 
-        <Row justify="space-between">
+        <Row align="middle">
+          <EnvironmentOutlined />
           <p className={listingView["sub-head"]}>{listing.address}</p>
-
-          {/* <span>Lưu</span> */}
         </Row>
       </div>
 
       <div className={listingView["gallery"]}>
         {JSON.parse(listing.gallery).map((src, i) => (
-          <img
+          <Image
             src={src}
             alt=""
             className={listingView["gallery-item"]}
@@ -108,5 +107,7 @@ export default function ListingView() {
         </Col>
       </Row>
     </div>
+  ) : (
+    <></>
   );
 }
