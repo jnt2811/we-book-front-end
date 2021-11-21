@@ -2,21 +2,30 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initState = {
   isOk: undefined,
-  code: undefined,
   place: [],
   amenity: [],
-  listingList: [],
 };
 
 const listingSlice = createSlice({
   name: "listing",
   initialState: initState,
   reducers: {
-    doGetPlace() {},
-    doGetAmenity() {},
+    doGetListing() {},
+
+    listingSuccess(state, action) {
+      return action.payload;
+    },
+    listingFail(state, action) {
+      return action.payload;
+    },
+
+    resetListing() {
+      return initState;
+    },
   },
 });
 
-export const { doGetPlace, doGetAmenity } = listingSlice.actions;
+export const { doGetListing, listingFail, listingSuccess, resetListing } =
+  listingSlice.actions;
 
 export default listingSlice.reducer;

@@ -25,3 +25,14 @@
   height: 40px;
   border-radius: 5px;
 }
+
+@mixin primary-btn {
+  @include std-btn();
+
+  background-color: #333 !important;
+  border-color: #333 !important;
+
+  * {
+    color: #fff;
+  }
+}

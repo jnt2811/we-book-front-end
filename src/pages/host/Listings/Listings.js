@@ -45,7 +45,7 @@ export default function Listings() {
       title: "Giá/đêm",
       key: "price",
       dataIndex: "price",
-      render: (price) => `${price} đ`,
+      render: (price) => `${price | 0} đ`,
     },
     {
       title: "Sửa đổi lần cuối",

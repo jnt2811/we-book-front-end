@@ -1,39 +1,51 @@
 import { call, put, takeLatest } from "@redux-saga/core/effects";
-import { requestDoGetPlace } from "../requests/listingRequests";
-import { doGetPlace } from "../slices/listingSlice";
+import {
+  requestDoGetPlace,
+  requestDoGetAmenity,
+} from "../requests/listingRequests";
+import {
+  doGetListing,
+  listingFail,
+  listingSuccess,
+} from "../slices/listingSlice";
 
-export function* watchDoAuth() {
-  yield takeLatest(doGetPlace.type, handleGetPlace);
+export function* watchDoListing() {
+  yield takeLatest(doGetListing.type, handleGetListing);
 }
 
-export function* handleGetPlace(action) {
+export function* handleGetListing(action) {
   try {
-    const response = yield call(() => requestDoGetPlace(action.payload));
+    const responsePlace = yield call(() => requestDoGetPlace(action.payload));
+    const responseAmenity = yield call(() =>
+      requestDoGetAmenity(action.payload)
+    );
 
-    const res = response.data;
+    const resPlace = responsePlace.data;
+    const resAmenity = responseAmenity.data;
 
-    if (res.status) {
-      yield put();
-      // authSuccess({
-      //   isOk: true,
-      //   user: user_data,
-      // })
+    if (resPlace.status && resAmenity.status) {
+      yield put(
+        listingSuccess({
+          isOk: true,
+          place: resPlace.data,
+          amenity: resAmenity.data,
+        })
+      );
     } else {
-      yield put();
-      // authFail({
-      //   isOk: false,
-      //   message: codeFormatter(res.code),
-      //   user: undefined,
-      // })
+      yield put(
+        listingFail({
+          isOk: false,
+        })
+      );
     }
   } catch (error) {
-    console.log("Get Place Error", error);
+    console.log("Get Place and Amenity Error", error);
 
-    yield put();
-    // authFail({
-    //   isOk: false,
-    //   message: error,
-    //   user: undefined,
-    // })
+    yield put(
+      listingFail({
+        isOk: false,
+        message: error,
+      })
+    );
   }
 }

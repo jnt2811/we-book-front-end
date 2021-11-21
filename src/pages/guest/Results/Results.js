@@ -48,7 +48,7 @@ export default function Results() {
     });
   }, [checkin, checkout, destination, guests, history, offset]);
 
-  return (
+  return !isLoading ? (
     <div className={results["container"]}>
       <div className="list">
         <p>{totalResults} chỗ ở</p>
@@ -59,33 +59,13 @@ export default function Results() {
 
         <br />
 
-        {isLoading ? (
-          <Row style={{ marginTop: 20 }} gutter={25}>
-            <Col>
-              <Skeleton.Avatar
-                active={isLoading}
-                shape="square"
-                style={{ borderRadius: 10, width: 300, height: 250 }}
-              />
+        <Row gutter={[20, 20]}>
+          {listingList.map((listing) => (
+            <Col span={8} key={listing.id}>
+              <ListingCard listing={listing} />
             </Col>
-
-            <Col>
-              <Skeleton.Button
-                active={isLoading}
-                size="large"
-                style={{ borderRadius: 10 }}
-              />
-            </Col>
-          </Row>
-        ) : (
-          <Row gutter={[20, 20]}>
-            {listingList.map((listing) => (
-              <Col span={8} key={listing.id}>
-                <ListingCard listing={listing} />
-              </Col>
-            ))}
-          </Row>
-        )}
+          ))}
+        </Row>
 
         {!isLoading && (
           <PaginationBar
@@ -96,6 +76,68 @@ export default function Results() {
           />
         )}
       </div>
+    </div>
+  ) : (
+    <div className={results["container-preview"]}>
+      <Skeleton.Button active shape="round" className={results["sub-title"]} />
+      <Skeleton.Button
+        active
+        shape="round"
+        size="large"
+        className={results["title"]}
+      />
+
+      <Row>
+        <Skeleton.Button
+          active
+          shape="round"
+          size="large"
+          className={results["btn"]}
+        />
+
+        <Skeleton.Button
+          active
+          shape="round"
+          size="large"
+          className={results["btn"]}
+        />
+
+        <Skeleton.Button
+          active
+          shape="round"
+          size="large"
+          className={results["btn"]}
+        />
+      </Row>
+
+      <Row className={results["gallery"]} wrap={false} gutter={20}>
+        <Col span={8}>
+          <Skeleton.Button
+            active
+            shape="round"
+            className={results["card-image"]}
+          />
+          <Skeleton active round />
+        </Col>
+
+        <Col span={8}>
+          <Skeleton.Button
+            active
+            shape="round"
+            className={results["card-image"]}
+          />
+          <Skeleton active round />
+        </Col>
+
+        <Col span={8}>
+          <Skeleton.Button
+            active
+            shape="round"
+            className={results["card-image"]}
+          />
+          <Skeleton active round />
+        </Col>
+      </Row>
     </div>
   );
 }

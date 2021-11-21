@@ -3,15 +3,6 @@
 $card-padding: 20px;
 
 .container {
-  // box-shadow: 0 0 5px #00000025;
-  // margin: 20px 0;
-  // padding: $card-padding;
-  // border-radius: 15px;
-  // height: 250px;
-  // display: flex;
-  // position: relative;
-  // cursor: pointer;
-
   :global(.thumbnail) img {
     width: 100%;
     height: 250px;
@@ -23,20 +14,11 @@ $card-padding: 20px;
   }
 
   :global(.content) {
-    // :global(.divider) {
-    //   height: 1px;
-    //   width: 50px;
-    //   background-color: #dadada;
-    //   margin: 10px 0;
-    // }
-
     p {
       color: #333;
     }
 
     :global(.rating) {
-      // position: absolute;
-      // bottom: $card-padding;
       display: flex;
       align-items: center;
       margin-top: 10px;
@@ -48,9 +30,6 @@ $card-padding: 20px;
     }
 
     :global(.pricing) {
-      // position: absolute;
-      // bottom: $card-padding;
-      // right: $card-padding;
       color: #333;
 
       span {

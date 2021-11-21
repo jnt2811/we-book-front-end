@@ -3,7 +3,7 @@ import listingView from "./listingView.module.scss";
 import { useState, useEffect } from "react";
 import { requestGet } from "../../../helpers/requestHandler";
 import { apis } from "../../../constants";
-import { Avatar, Col, Divider, Image, Row, Tooltip } from "antd";
+import { Avatar, Col, Divider, Image, Row, Skeleton, Tooltip } from "antd";
 import { EnvironmentOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 
 export default function ListingView() {
@@ -15,6 +15,7 @@ export default function ListingView() {
     amenity: [],
     host: {},
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     requestGet(apis.LISTING_GUEST + "/" + id).then((result) => {
@@ -22,11 +23,12 @@ export default function ListingView() {
 
       if (data.status) {
         setListing(data.data);
+        setIsLoading(false);
       }
     });
   }, [id]);
 
-  return !!listing.id ? (
+  return !isLoading ? (
     <div className={listingView["container"]}>
       <div className={listingView["top"]} justify="space-between">
         <h1 className={listingView["head"]}>{listing.name}</h1>
@@ -108,6 +110,38 @@ export default function ListingView() {
       </Row>
     </div>
   ) : (
-    <></>
+    <div className={listingView["container-preview"]}>
+      <div className={listingView["wrapper"]}>
+        <Skeleton.Button
+          active
+          shape="round"
+          size="large"
+          className={listingView["title"]}
+        />
+        <Skeleton.Button
+          active
+          shape="round"
+          className={listingView["sub-title"]}
+        />
+      </div>
+
+      <Row className={listingView["gallery"]} wrap={false}>
+        <Skeleton.Avatar
+          active
+          shape="square"
+          className={listingView["gallery-item"]}
+        />
+        <Skeleton.Avatar
+          active
+          shape="square"
+          className={listingView["gallery-item"]}
+        />
+        <Skeleton.Avatar
+          active
+          shape="square"
+          className={listingView["gallery-item"]}
+        />
+      </Row>
+    </div>
   );
 }

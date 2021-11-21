@@ -1,3 +1,5 @@
+@import "../../../../../assets/scss/mixins.scss";
+
 .row {
   box-shadow: 0 0 5px #00000025;
   border-radius: 10px;
@@ -27,5 +29,9 @@
     &:hover {
       background-color: #00000015;
     }
+  }
+
+  .save-btn {
+    @include primary-btn();
   }
 }

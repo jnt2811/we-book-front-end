@@ -5,6 +5,9 @@ import { requestGet } from "../../../../../helpers/requestHandler";
 import { apis } from "../../../../../constants";
 import { useForm } from "antd/lib/form/Form";
 import UploadGallery from "../UploadGallery/UploadGallery";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { doGetListing } from "../../../../../ducks/slices/listingSlice";
 
 const fields = {
   NAME: "name",
@@ -25,18 +28,21 @@ const ListingConfig = forwardRef((props, ref) => {
   const [form] = useForm();
   const [gallery, setGallery] = useState([]);
 
+  const listingReducer = useSelector((state) => state.listing);
+  const dispatch = useDispatch();
+
   useImperativeHandle(ref, () => ({
     open(listing) {
       if (!!listing) {
         form.setFields(
-          Object.keys(fields).map((key) => {
-            if (fields[key] === fields.GALLERY) {
+          Object.values(fields).map((key) => {
+            if (key === fields.GALLERY) {
               if (!!listing.gallery) setGallery(JSON.parse(listing.gallery));
               return {};
             }
             return {
-              name: [fields[key]],
-              value: listing[fields[key]],
+              name: [key],
+              value: listing[key],
             };
           })
         );
@@ -47,23 +53,17 @@ const ListingConfig = forwardRef((props, ref) => {
     },
   }));
 
-  console.log(gallery);
-
   const [placeList, setPlaceList] = useState([]);
   const [amenityList, setAmenityList] = useState([]);
   const [isEditListing, setIsEditListing] = useState(false);
 
   useEffect(() => {
-    requestGet(apis.PLACE).then((result) => {
-      if (result.data.status) {
-        setPlaceList(result.data.data);
-      }
-    });
-    requestGet(apis.AMENITY).then((result) => {
-      if (result.data.status) {
-        setAmenityList(result.data.data);
-      }
-    });
+    if (listingReducer.isOk === undefined || listingReducer.isOk === null) {
+      dispatch(doGetListing());
+    } else if (!!listingReducer.isOk) {
+      setPlaceList(listingReducer.place);
+      setAmenityList(listingReducer.amenity);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -75,7 +75,8 @@ const ListingConfig = forwardRef((props, ref) => {
   };
 
   const onFinish = (values) => {
-    if (values.gallery.length < 3) {
+    console.log(gallery);
+    if (gallery.length < 3) {
       form.setFields([
         { name: fields.GALLERY, errors: ["Hãy tải lên ít nhất 3 bức ảnh"] },
       ]);
@@ -99,13 +100,14 @@ const ListingConfig = forwardRef((props, ref) => {
       footer={
         <Row gutter={10}>
           <Col>
-            <Button onClick={() => form.submit()} type="primary">
-              {!isEditListing ? "Tạo mới" : "Lưu thay đổi"}
-            </Button>
-          </Col>
-          <Col>
             <Button onClick={onClose} danger>
               {!isEditListing ? "Huỷ bỏ" : "Quay lại"}
+            </Button>
+          </Col>
+
+          <Col>
+            <Button onClick={() => form.submit()} type="primary">
+              {!isEditListing ? "Tạo mới" : "Lưu thay đổi"}
             </Button>
           </Col>
         </Row>
@@ -123,7 +125,13 @@ const ListingConfig = forwardRef((props, ref) => {
         <Form.Item
           name={fields.PRICE}
           label="Giá/đêm (đ)"
-          rules={[{ required: true, message: "Hãy điền giá/đêm" }]}
+          rules={[
+            { required: true, message: "Hãy điền giá/đêm" },
+            {
+              pattern: /^[+]?\d+([.]\d+)?$/,
+              message: "Hãy điền số hợp lệ",
+            },
+          ]}
         >
           <Input placeholder="Điền giá nơi ở" />
         </Form.Item>
@@ -158,6 +166,10 @@ const ListingConfig = forwardRef((props, ref) => {
               required: true,
               message: "Hãy điền số lượng khách",
             },
+            {
+              pattern: /^[+]?\d+([.]\d+)?$/,
+              message: "Hãy điền số hợp lệ",
+            },
           ]}
         >
           <Input type="number" min="1" placeholder="Điền số lượng khách" />
@@ -171,6 +183,10 @@ const ListingConfig = forwardRef((props, ref) => {
             {
               required: true,
               message: "Hãy điền số phòng ngủ",
+            },
+            {
+              pattern: /^[+]?\d+([.]\d+)?$/,
+              message: "Hãy điền số hợp lệ",
             },
           ]}
         >
@@ -186,6 +202,10 @@ const ListingConfig = forwardRef((props, ref) => {
               required: true,
               message: "Hãy điền số phòng tắm",
             },
+            {
+              pattern: /^[+]?\d+([.]\d+)?$/,
+              message: "Hãy điền số hợp lệ",
+            },
           ]}
         >
           <Input type="number" min="1" placeholder="Điền số phòng tắm" />
@@ -199,6 +219,10 @@ const ListingConfig = forwardRef((props, ref) => {
             {
               required: true,
               message: "Hãy điền số giường ngủ",
+            },
+            {
+              pattern: /^[+]?\d+([.]\d+)?$/,
+              message: "Hãy điền số hợp lệ",
             },
           ]}
         >
@@ -234,7 +258,7 @@ const ListingConfig = forwardRef((props, ref) => {
           </Select>
         </Form.Item>
 
-        <Form.Item name={fields.GALLERY} label="Ảnh">
+        <Form.Item name={fields.GALLERY} label="Ảnh (min 3)">
           <UploadGallery gallery={gallery} setGallery={setGallery} />
         </Form.Item>
       </Form>

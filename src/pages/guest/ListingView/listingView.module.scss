@@ -1,11 +1,11 @@
 @import "../../../assets/scss/mixins.scss";
 @import "../../../assets/scss/sizes.scss";
 
-$block-padding: 25px calc((100% - #{$container-width}) / 2);
+$hor-padding: calc((100% - #{$container-width}) / 2);
 
 .container {
   .top {
-    padding: $block-padding;
+    padding: 25px $hor-padding;
 
     .head {
       margin-bottom: 5px;
@@ -24,7 +24,6 @@ $block-padding: 25px calc((100% - #{$container-width}) / 2);
   .gallery {
     display: flex;
     overflow: hidden;
-    // justify-content: space-between;
 
     .gallery-item {
       height: 350px;
@@ -35,7 +34,7 @@ $block-padding: 25px calc((100% - #{$container-width}) / 2);
   }
 
   .mid {
-    padding: $block-padding;
+    padding: 25px $hor-padding;
 
     h2 {
       margin-right: 10px;
@@ -67,6 +66,32 @@ $block-padding: 25px calc((100% - #{$container-width}) / 2);
     .desc,
     .amenity {
       font-size: 16px;
+    }
+  }
+}
+
+.container-preview {
+  .wrapper {
+    padding: 0 $hor-padding;
+  }
+
+  .title {
+    width: 600px !important;
+    display: block;
+    padding: 25px 0 20px 0;
+  }
+
+  .sub-title {
+    width: 300px !important;
+    margin-bottom: 15px;
+  }
+
+  .gallery {
+    overflow: hidden;
+
+    .gallery-item span {
+      height: 350px !important;
+      width: calc(100vw / 3) !important;
     }
   }
 }
