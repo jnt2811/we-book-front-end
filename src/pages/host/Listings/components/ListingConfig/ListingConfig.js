@@ -8,6 +8,7 @@ import UploadGallery from "../UploadGallery/UploadGallery";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { doGetListing } from "../../../../../ducks/slices/listingSlice";
+import { memo } from "react";
 
 const fields = {
   NAME: "name",
@@ -58,14 +59,15 @@ const ListingConfig = forwardRef((props, ref) => {
   const [isEditListing, setIsEditListing] = useState(false);
 
   useEffect(() => {
-    if (listingReducer.isOk === undefined || listingReducer.isOk === null) {
+    if (listingReducer.isOk === undefined) {
       dispatch(doGetListing());
     } else if (!!listingReducer.isOk) {
       setPlaceList(listingReducer.place);
       setAmenityList(listingReducer.amenity);
+    } else {
+      console.log("ERROR: GET LISTING AND AMENITY");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, listingReducer]);
 
   const onClose = () => {
     form.resetFields();
@@ -266,4 +268,4 @@ const ListingConfig = forwardRef((props, ref) => {
   );
 });
 
-export default ListingConfig;
+export default memo(ListingConfig);

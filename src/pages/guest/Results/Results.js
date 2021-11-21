@@ -22,11 +22,42 @@ export default function Results() {
   const [totalResults, setTotalResults] = useState(0);
   const [offset, setOffset] = useState(0);
   const [listingList, setListingList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [filterData, setFilterData] = useState({
+    price: { min: "", max: "" },
+    places: [],
+    amenities: [],
+  });
 
+  // Tìm kiếm khi data tìm kiếm thay đổi
   useEffect(() => {
     if (!destination || destination === "") history.push(paths.HOME);
-    setIsLoading(true);
+
+    requestPost(apis.LISTING_GUEST, {
+      destination,
+      checkin,
+      checkout,
+      guests,
+      offset: 0,
+    }).then((result) => {
+      const { status } = result.data;
+
+      if (status) {
+        const { size, total, listings } = result.data.data;
+
+        setPageSize(size);
+        setTotalResults(total);
+        setListingList(listings);
+      }
+
+      setIsLoading(false);
+    });
+  }, [checkin, checkout, destination, guests, history]);
+
+  // Tìm kiếm khi thay đổi pagination
+  useEffect(() => {
+    if (!destination || destination === "") history.push(paths.HOME);
+
     requestPost(apis.LISTING_GUEST, {
       destination,
       checkin,
@@ -46,7 +77,8 @@ export default function Results() {
 
       setIsLoading(false);
     });
-  }, [checkin, checkout, destination, guests, history, offset]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offset]);
 
   return !isLoading ? (
     <div className={results["container"]}>

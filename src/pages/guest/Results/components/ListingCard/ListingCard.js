@@ -1,16 +1,20 @@
 import { StarFilled } from "@ant-design/icons";
+import { memo } from "react";
 import { Link } from "react-router-dom";
 import { paths } from "../../../../../constants";
 import listingCard from "./listingCard.module.scss";
 
-export default function ListingCard({ listing }) {
+const ListingCard = ({ listing }) => {
   return (
     <Link
       className={listingCard["container"]}
       to={paths.LISTING_VIEW_nId + listing.id}
     >
       <div className="thumbnail">
-        <img src={!!listing.gallery && JSON.parse(listing.gallery)[0]} alt="" />
+        <img
+          src={!!listing.gallery ? JSON.parse(listing.gallery)[0] : undefined}
+          alt=""
+        />
       </div>
 
       <div className="content">
@@ -32,4 +36,6 @@ export default function ListingCard({ listing }) {
       </div>
     </Link>
   );
-}
+};
+
+export default memo(ListingCard);

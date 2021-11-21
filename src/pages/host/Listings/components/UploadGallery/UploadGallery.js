@@ -2,8 +2,18 @@ import { Upload, notification, Modal } from "antd";
 import { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { storage } from "../../../../../firebase";
+import { memo } from "react";
 
-export default function UploadGallery({ gallery = [], setGallery }) {
+const getBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+};
+
+const UploadGallery = ({ gallery = [], setGallery }) => {
   const [fileList, setFileList] = useState([]);
   const [previewImage, setPreviewImage] = useState("");
 
@@ -97,13 +107,6 @@ export default function UploadGallery({ gallery = [], setGallery }) {
       </Modal>
     </>
   );
-}
-
-const getBase64 = (file) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
 };
+
+export default memo(UploadGallery);

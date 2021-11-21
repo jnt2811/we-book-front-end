@@ -2,13 +2,14 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import paginationBar from "./paginationBar.module.scss";
 import cn from "classnames";
 import { useMemo } from "react";
+import { memo } from "react";
 
-export default function PaginationBar({
+const PaginationBar = ({
   offset = 0,
   pageSize = 1,
   totalResults = 0,
   setOffset = () => {},
-}) {
+}) => {
   const pageArr = useMemo(
     () =>
       pageSize > 0
@@ -54,4 +55,6 @@ export default function PaginationBar({
       )}
     </div>
   );
-}
+};
+
+export default memo(PaginationBar);
