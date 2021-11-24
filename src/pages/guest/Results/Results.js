@@ -18,9 +18,9 @@ export default function Results() {
   const checkout = query.get(searchKeys.CHECKOUT);
   const guests = query.get(searchKeys.GUESTS);
 
-  const [pageSize, setPageSize] = useState(0);
-  const [totalResults, setTotalResults] = useState(0);
-  const [offset, setOffset] = useState(0);
+  const [totalResult, setTotalResult] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
   const [listingList, setListingList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterData, setFilterData] = useState({
@@ -29,65 +29,51 @@ export default function Results() {
     amenities: [],
   });
 
-  // Tìm kiếm khi data tìm kiếm thay đổi
   useEffect(() => {
-    if (!destination || destination === "") history.push(paths.HOME);
-
-    requestPost(apis.LISTING_GUEST, {
-      destination,
-      checkin,
-      checkout,
-      guests,
-      offset: 0,
-    }).then((result) => {
-      const { status } = result.data;
-
-      if (status) {
-        const { size, total, listings } = result.data.data;
-
-        setPageSize(size);
-        setTotalResults(total);
-        setListingList(listings);
-      }
-
-      setIsLoading(false);
-    });
-  }, [checkin, checkout, destination, guests, history]);
-
-  // Tìm kiếm khi thay đổi pagination
-  useEffect(() => {
-    if (!destination || destination === "") history.push(paths.HOME);
-
-    requestPost(apis.LISTING_GUEST, {
-      destination,
-      checkin,
-      checkout,
-      guests,
-      offset: offset,
-    }).then((result) => {
-      const { status } = result.data;
-
-      if (status) {
-        const { size, total, listings } = result.data.data;
-
-        setPageSize(size);
-        setTotalResults(total);
-        setListingList(listings);
-      }
-
-      setIsLoading(false);
-    });
+    getResult();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offset]);
+  }, []);
+
+  const getResult = async (page = 1) => {
+    setIsLoading(true);
+
+    if (!destination || destination === "") history.push(paths.HOME);
+    else {
+      try {
+        const dataReq = {
+          destination,
+          checkin,
+          checkout,
+          guests,
+          page: page,
+          ...filterData,
+        };
+
+        const res = await requestPost(apis.LISTING_GUEST, dataReq);
+        const dataRes = res.data;
+
+        if (dataRes.status) {
+          setListingList(dataRes.result);
+          setCurrentPage(dataRes.current_page);
+          setTotalPage(dataRes.total_page);
+          setTotalResult(dataRes.total_result);
+        }
+
+        setIsLoading(false);
+      } catch (error) {
+        console.log("get search result error", error);
+      }
+    }
+  };
 
   return !isLoading ? (
     <div className={results["container"]}>
       <div className="list">
-        <p>{totalResults} chỗ ở</p>
+        <p>{totalResult} chỗ ở</p>
 
         <h1>Chỗ ở tại {destination}</h1>
 
-        <FilterBar />
+        <FilterBar filterData={filterData} setFilterData={setFilterData} />
 
         <br />
 
@@ -101,10 +87,11 @@ export default function Results() {
 
         {!isLoading && (
           <PaginationBar
-            offset={offset}
-            pageSize={pageSize}
-            totalResults={totalResults}
-            setOffset={setOffset}
+            currentPage={currentPage}
+            totalPage={totalPage}
+            onNext={() => getResult(currentPage + 1)}
+            onPrev={() => getResult(currentPage - 1)}
+            onNum={(page) => getResult(page)}
           />
         )}
       </div>

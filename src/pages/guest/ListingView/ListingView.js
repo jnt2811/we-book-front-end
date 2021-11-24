@@ -18,14 +18,16 @@ export default function ListingView() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    requestGet(apis.LISTING_GUEST + "/" + id).then((result) => {
-      const data = result.data;
+    requestGet(apis.LISTING_GUEST + "/" + id)
+      .then((res) => {
+        const dataRes = res.data;
 
-      if (data.status) {
-        setListing(data.data);
-        setIsLoading(false);
-      }
-    });
+        if (dataRes.status) {
+          setListing(dataRes.result);
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => console.log("get listing detail error", err));
   }, [id]);
 
   return !isLoading ? (

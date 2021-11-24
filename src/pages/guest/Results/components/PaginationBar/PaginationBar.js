@@ -5,40 +5,30 @@ import { useMemo } from "react";
 import { memo } from "react";
 
 const PaginationBar = ({
-  offset = 0,
-  pageSize = 1,
-  totalResults = 0,
-  setOffset = () => {},
+  onNext,
+  onPrev,
+  onNum,
+  currentPage = 1,
+  totalPage = 1,
 }) => {
   const pageArr = useMemo(
-    () =>
-      pageSize > 0
-        ? [
-            ...Array.apply(null, Array(parseInt(totalResults / pageSize))).map(
-              (_, i) => i + 1
-            ),
-          ]
-        : [],
-    [pageSize, totalResults]
+    () => [...Array.apply(null, Array(totalPage)).map((_, i) => i + 1)],
+    [totalPage]
   );
 
   return (
     <div className={paginationBar["container"]}>
       {pageArr.length > 0 && (
-        <button
-          className="btn"
-          onClick={() => setOffset((val) => val - 1)}
-          disabled={pageArr[0] === offset + 1}
-        >
+        <button className="btn" onClick={onPrev} disabled={currentPage === 1}>
           <LeftOutlined />
         </button>
       )}
 
       {pageArr.map((item) => (
         <button
-          className={cn("btn", item === offset + 1 && "active")}
+          className={cn("btn", item === currentPage && "active")}
           key={item}
-          onClick={() => item !== offset + 1 && setOffset(item - 1)}
+          onClick={() => item !== currentPage && onNum(item)}
         >
           <span>{item}</span>
         </button>
@@ -47,8 +37,8 @@ const PaginationBar = ({
       {pageArr.length > 0 && (
         <button
           className="btn"
-          disabled={pageArr[pageArr.length - 1] === offset + 1}
-          onClick={() => setOffset((val) => val + 1)}
+          disabled={currentPage === totalPage}
+          onClick={onNext}
         >
           <RightOutlined />
         </button>

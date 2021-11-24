@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import filterBar from "./filterBar.module.scss";
 import { doGetListing } from "../../../../../ducks/slices/listingSlice";
 import cn from "classnames";
-import { Button, Checkbox, Col, Form, Input, Row, Slider } from "antd";
+import { Button, Checkbox, Col, Form, Input, Row } from "antd";
 import { ClickOutside } from "../../../../../hooks";
 import { useForm } from "antd/lib/form/Form";
 
@@ -58,7 +58,7 @@ const FilterBar = ({ filterData, setFilterData }) => {
   });
 
   const onFilter = (values) => {
-    console.log("Filter", values);
+    // console.log("Filter", values);
 
     const { price, places, amenities } = values;
 
@@ -71,17 +71,23 @@ const FilterBar = ({ filterData, setFilterData }) => {
       } else {
         setSelectedPrice(price);
         setVisiblePricePopup(false);
+
+        setFilterData({ ...filterData, price: price });
       }
     }
 
     if (visiblePlacePopup) {
       setSelectedPlace(places);
       setVisiblePlacePopup(false);
+
+      setFilterData({ ...filterData, places: places });
     }
 
     if (visibleAmenityPopup) {
       setSelectedAmenity(amenities);
       setVisibleAmenityPopup(false);
+
+      setFilterData({ ...filterData, amenities: amenities });
     }
   };
 
