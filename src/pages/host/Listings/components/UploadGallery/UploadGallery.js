@@ -1,44 +1,12 @@
-import { Upload, notification, Modal } from "antd";
-import { useEffect, useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
+import { Upload, notification, Image, Spin } from "antd";
+import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import { storage } from "../../../../../firebase";
-import { memo } from "react";
-
-const getBase64 = (file) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-};
+import { memo, useState } from "react";
+import uploadGallery from "./uploadGallery.module.scss";
+import cn from "classnames";
 
 const UploadGallery = ({ gallery = [], setGallery }) => {
-  const [fileList, setFileList] = useState([]);
-  const [previewImage, setPreviewImage] = useState("");
-
-  useEffect(() => {
-    setFileList(
-      gallery.map((img, i) => ({
-        uid: i,
-        name: "",
-        status: "done",
-        url: img,
-      }))
-    );
-  }, [gallery]);
-
-  const handleCancel = () => setPreviewImage("");
-
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-
-    setPreviewImage(file.url || file.preview);
-  };
-
-  const handleChange = ({ fileList }) => setFileList(fileList);
+  const [isLoading, setIsLoading] = useState(false);
 
   const beforeUpload = (file) => {
     const isImage = file.type.indexOf("image/") === 0;
@@ -54,6 +22,8 @@ const UploadGallery = ({ gallery = [], setGallery }) => {
   };
 
   const customUpload = async ({ onError, onSuccess, file }) => {
+    setIsLoading(true);
+
     try {
       const storageRef = storage.ref();
       const imgFile = storageRef.child(
@@ -70,42 +40,46 @@ const UploadGallery = ({ gallery = [], setGallery }) => {
 
       onSuccess(null, image);
       console.log(`${file.name} is uploaded!`);
+
+      setIsLoading(false);
     } catch (error) {
       onError(null, error);
       console.log(error);
     }
   };
 
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Tải lên</div>
-    </div>
-  );
+  const handleDelete = (path) => {
+    setGallery(gallery.filter((item) => item !== path));
+  };
 
   return (
-    <>
-      <Upload
-        listType="picture-card"
-        fileList={fileList}
-        onPreview={handlePreview}
-        onChange={handleChange}
-        beforeUpload={beforeUpload}
-        customRequest={customUpload}
-        multiple
-      >
-        {uploadButton}
-      </Upload>
+    <div className={uploadGallery["container"]}>
+      <Spin spinning={isLoading} style={{ paddingRight: 15 }}>
+        <Upload
+          beforeUpload={beforeUpload}
+          customRequest={customUpload}
+          showUploadList={false}
+        >
+          <div className={cn(uploadGallery["cell"], uploadGallery["btn"])}>
+            <PlusOutlined />
+            <div style={{ marginTop: 8 }}>Tải lên</div>
+          </div>
+        </Upload>
+      </Spin>
 
-      <Modal
-        visible={previewImage !== ""}
-        footer={null}
-        onCancel={handleCancel}
-        title="Xem trước ảnh"
-      >
-        <img alt="example" style={{ width: "100%" }} src={previewImage} />
-      </Modal>
-    </>
+      {gallery.map((path, i) => (
+        <div key={i} className={uploadGallery["cell"]}>
+          <Image src={path} className={uploadGallery["img"]} />
+
+          <div
+            className={uploadGallery["delete-btn"]}
+            onClick={() => handleDelete(path)}
+          >
+            <CloseOutlined />
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
 

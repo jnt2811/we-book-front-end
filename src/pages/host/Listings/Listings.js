@@ -1,30 +1,43 @@
 import listings from "./listings.module.scss";
 import { Table, Row, Button, Tag, Col } from "antd";
 import { useState, useEffect, useRef } from "react";
-import { requestGet } from "../../../helpers/requestHandler";
+import {
+  requestGet,
+  requestPatch,
+  requestPost,
+} from "../../../helpers/requestHandler";
 import { apis } from "../../../constants";
 import { EditOutlined, SyncOutlined } from "@ant-design/icons";
-import ListingConfig from "./components/ListingConfig/ListingConfig";
+import ListingConfig from "./ListingConfig/ListingConfig";
 import moment from "moment";
+import SwitchState from "./components/SwitchState/SwitchState";
 
 export default function Listings() {
   const configRef = useRef();
+  const switchRef = useRef();
 
   const [listingList, setListingList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    requestGet(apis.LISTING_HOST).then((result) => {
-      const data = result.data;
+    setIsLoading(true);
 
-      if (data.status) {
-        setListingList(
-          data.data.map((item) => ({
-            ...item,
-            key: item.id,
-          }))
-        );
-      }
-    });
+    requestGet(apis.LISTING_HOST)
+      .then((result) => {
+        const data = result.data;
+
+        if (data.status) {
+          setListingList(
+            data.data.map((item) => ({
+              ...item,
+              key: item.id,
+            }))
+          );
+        }
+
+        setIsLoading(false);
+      })
+      .catch((err) => console.log("get listing fail", err));
   }, []);
 
   const columns = [
@@ -45,18 +58,20 @@ export default function Listings() {
       title: "Giá/đêm",
       key: "price",
       dataIndex: "price",
-      render: (price) => `${price | 0} đ`,
+      render: (price) => `${price | 0}đ`,
     },
     {
       title: "Sửa đổi lần cuối",
       key: "updated_at",
       dataIndex: "updated_at",
-      render: (updated_at) => moment(updated_at).format("DD/MM/YYYY HH:mm:ss"),
+      render: (updated_at) =>
+        moment(updated_at).utcOffset(14).format("DD/MM/YYYY HH:mm:ss"),
     },
     {
       title: "",
       key: "action",
       dataIndex: "active",
+      width: "0px",
       render: (active, listing) => (
         <Row gutter={10}>
           <Col>
@@ -68,12 +83,55 @@ export default function Listings() {
           </Col>
 
           <Col>
-            <Button icon={<SyncOutlined />} type="primary" danger></Button>
+            <Button
+              icon={<SyncOutlined />}
+              type="primary"
+              danger
+              onClick={() => switchRef.current.open(listing)}
+            ></Button>
           </Col>
         </Row>
       ),
     },
   ];
+
+  const handleCreate = async (dataReq = {}) => {
+    try {
+      const res = await requestPost(apis.LISTING_HOST, dataReq);
+      const resData = res.data;
+
+      if (resData.status) {
+        setListingList(
+          resData.data.map((item) => ({
+            ...item,
+            key: item.id,
+          }))
+        );
+      }
+    } catch (error) {
+      console.log("create listing fail", error);
+    }
+  };
+
+  const handleUpdate = async (id, dataReq = {}) => {
+    if (!!id) {
+      try {
+        const res = await requestPatch(apis.LISTING_HOST + "/" + id, dataReq);
+        const resData = res.data;
+
+        if (resData.status) {
+          setListingList(
+            resData.data.map((item) => ({
+              ...item,
+              key: item.id,
+            }))
+          );
+        }
+      } catch (error) {
+        console.log("update listing fail", error);
+      }
+    }
+  };
 
   return (
     <div className={listings["container"]}>
@@ -89,9 +147,20 @@ export default function Listings() {
         </Button>
       </Row>
 
-      <Table dataSource={listingList} columns={columns} />
+      <Table
+        dataSource={listingList}
+        columns={columns}
+        loading={isLoading}
+        pagination={false}
+      />
 
-      <ListingConfig ref={configRef} />
+      <ListingConfig
+        ref={configRef}
+        onCreate={handleCreate}
+        onUpdate={handleUpdate}
+      />
+
+      <SwitchState ref={switchRef} onSwitch={handleUpdate} />
     </div>
   );
 }

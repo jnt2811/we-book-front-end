@@ -1,10 +1,12 @@
 import { StarFilled } from "@ant-design/icons";
+import { Row } from "antd";
 import { memo } from "react";
 import { Link } from "react-router-dom";
 import { paths } from "../../../../../constants";
 import listingCard from "./listingCard.module.scss";
 
 const ListingCard = ({ listing }) => {
+  console.log(listing);
   return (
     <Link
       className={listingCard["container"]}
@@ -25,10 +27,6 @@ const ListingCard = ({ listing }) => {
         </div>
 
         <h3>{listing.name || "Unknowned Name"}</h3>
-
-        <p>{listing.type || "Unknowned Type"}</p>
-
-        <p>{listing.address || "Unknowned Address"}</p>
 
         <p className="pricing">
           <span>{listing.price || "0"} VND</span> / đêm

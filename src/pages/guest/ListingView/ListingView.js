@@ -37,7 +37,7 @@ export default function ListingView() {
 
         <Row align="middle">
           <EnvironmentOutlined />
-          <p className={listingView["sub-head"]}>{listing.address}</p>
+          <p className={listingView["sub-head"]}>{listing.destination}</p>
         </Row>
       </div>
 
@@ -78,7 +78,7 @@ export default function ListingView() {
           <Divider />
 
           <h2 style={{ marginBottom: 10 }}>Mô tả</h2>
-          <p className={listingView["desc"]}>{listing.desc}</p>
+          <p className={listingView["desc"]}>{listing.detail}</p>
 
           <Divider />
 
