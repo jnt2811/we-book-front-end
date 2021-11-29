@@ -5,9 +5,13 @@ import CellContainer from "../components/CellContainer";
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import { localGet, localSet } from "../../../helpers/localHandler";
 import { localKeys } from "../../../constants/keys";
+import { Input } from "antd";
 
 const DestinationCell = forwardRef(
-  ({ destination, updateDestination, cellContainerProps }, ref) => {
+  (
+    { destination, updateDestination, cellContainerProps, handleSearch },
+    ref
+  ) => {
     const { placePredictions, isPlacePredictionsLoading, getPlacePredictions } =
       usePlacesService({
         apiKey: process.env.GOOGLE_API_KEY,
@@ -97,6 +101,7 @@ const DestinationCell = forwardRef(
             ref={(input) => {
               setInput(input);
             }}
+            onKeyUp={(e) => e.keyCode === 13 && handleSearch()}
           />
         </div>
       </CellContainer>

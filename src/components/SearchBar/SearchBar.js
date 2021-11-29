@@ -97,6 +97,7 @@ export default function SearchBar({
           destination={destinationData}
           updateDestination={(val) => setDestinationData(val)}
           cellContainerProps={cellContainerProps}
+          handleSearch={handleSearch}
         />
 
         <CellDivider

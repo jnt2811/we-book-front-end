@@ -33,5 +33,14 @@
 
   .save-btn {
     @include primary-btn();
+    height: 35px;
+    width: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    * {
+      font-size: 14px !important;
+    }
   }
 }

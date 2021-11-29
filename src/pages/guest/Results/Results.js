@@ -32,7 +32,7 @@ export default function Results() {
   useEffect(() => {
     getResult();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [history.location.search]);
 
   const getResult = async (page = 1) => {
     setIsLoading(true);

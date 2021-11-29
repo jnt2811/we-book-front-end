@@ -1,5 +1,4 @@
 import { StarFilled } from "@ant-design/icons";
-import { Row } from "antd";
 import { memo } from "react";
 import { Link } from "react-router-dom";
 import { paths } from "../../../../../constants";

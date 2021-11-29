@@ -73,7 +73,7 @@ export default function Listings() {
       dataIndex: "active",
       width: "0px",
       render: (active, listing) => (
-        <Row gutter={10}>
+        <Row gutter={10} wrap={false}>
           <Col>
             <Button
               icon={<EditOutlined />}
