@@ -5,7 +5,6 @@ import CellContainer from "../components/CellContainer";
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import { localGet, localSet } from "../../../helpers/localHandler";
 import { localKeys } from "../../../constants/keys";
-import { Input } from "antd";
 
 const DestinationCell = forwardRef(
   (

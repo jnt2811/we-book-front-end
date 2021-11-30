@@ -6,7 +6,12 @@ import cn from "classnames";
 
 const dayNames = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
 
-export default function Calendar({ offset = 0, onClick, chosenDate }) {
+export default function Calendar({
+  offset = 0,
+  onClick,
+  chosenDate = [],
+  className,
+}) {
   const currentTime = useMemo(() => moment().add(offset, "month"), [offset]);
 
   const dayList = useMemo(
@@ -22,7 +27,7 @@ export default function Calendar({ offset = 0, onClick, chosenDate }) {
   );
 
   return (
-    <div className={calendar["container"]}>
+    <div className={cn(calendar["container"], className)}>
       <h3 className="title">
         tháng {currentTime.format("M")} năm {currentTime.format("YYYY")}
       </h3>

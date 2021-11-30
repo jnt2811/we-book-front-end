@@ -3,11 +3,28 @@ import listingView from "./listingView.module.scss";
 import { useState, useEffect } from "react";
 import { requestGet } from "../../../helpers/requestHandler";
 import { apis } from "../../../constants";
-import { Avatar, Col, Divider, Image, Row, Skeleton, Tooltip } from "antd";
-import { EnvironmentOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import {
+  Avatar,
+  Col,
+  Divider,
+  Image,
+  Row,
+  Skeleton,
+  Tooltip,
+  Button,
+} from "antd";
+import {
+  AppstoreOutlined,
+  EnvironmentOutlined,
+  QuestionCircleOutlined,
+} from "@ant-design/icons";
+import GalleryModal from "./GalleryModal/GalleryModal";
+import { useRef } from "react";
+import BookingBox from "./BookingBox/BookingBox";
 
 export default function ListingView() {
   const { id } = useParams();
+  const galleryRef = useRef();
 
   const [listing, setListing] = useState({
     gallery: "[]",
@@ -42,14 +59,23 @@ export default function ListingView() {
       </div>
 
       <div className={listingView["gallery"]}>
-        {JSON.parse(listing.gallery).map((src, i) => (
-          <Image
-            src={src}
-            alt=""
-            className={listingView["gallery-item"]}
-            key={i}
-          />
-        ))}
+        {JSON.parse(listing.gallery)
+          .slice(0, 3)
+          .map((src, i) => (
+            <Image
+              src={src}
+              alt=""
+              className={listingView["gallery-item"]}
+              key={i}
+            />
+          ))}
+
+        <Button
+          icon={<AppstoreOutlined />}
+          onClick={() => galleryRef.current.open(JSON.parse(listing.gallery))}
+        >
+          Hiển thị đầy đủ
+        </Button>
       </div>
 
       <Row className={listingView["mid"]}>
@@ -107,9 +133,11 @@ export default function ListingView() {
         </Col>
 
         <Col span={8}>
-          <h2>Kiểm tra tình trạng</h2>
+          <BookingBox price={listing.price} />
         </Col>
       </Row>
+
+      <GalleryModal ref={galleryRef} />
     </div>
   ) : (
     <div className={listingView["container-preview"]}>

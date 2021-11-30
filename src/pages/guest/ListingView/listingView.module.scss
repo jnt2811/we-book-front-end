@@ -24,12 +24,22 @@ $hor-padding: calc((100% - #{$container-width}) / 2);
   .gallery {
     display: flex;
     overflow: hidden;
+    position: relative;
 
     .gallery-item {
       height: 350px;
       width: calc(100vw / 3);
       object-fit: cover;
       object-position: center;
+    }
+
+    button {
+      position: absolute;
+      right: 25px;
+      bottom: 25px;
+      @include std-btn();
+      border: 1px solid #333;
+      color: #333 !important;
     }
   }
 
