@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Col, Divider, Row } from "antd";
 import { memo, useState } from "react";
 import bookingBox from "./bookingBox.module.scss";
