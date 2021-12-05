@@ -15,9 +15,9 @@ const apis = {
   LISTING_HOST: url + "/listing/host",
   Place: url + "/listing/place",
 
-  
   //api chuyen di
-  TRIPS_GUEST: url + "/trips",
+  TRIPS_GUEST_UPCOMING: url + "/transaction/guest/upcoming",
+  TRIPS_GUEST_PAST: url + "/transaction/guest/past",
 };
 
 export default apis;

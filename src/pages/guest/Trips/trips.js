@@ -4,7 +4,6 @@ import { requestGet } from "../../../helpers/requestHandler";
 import { useState, useEffect, useRef } from "react";
 import trips from "./trips.module.scss";
 export default function Trips() {
-  function callback(key) {}
   const completed = [
     { title: "ID", key: "guest_id", dataIndex: "guest_id" },
 
@@ -44,12 +43,6 @@ export default function Trips() {
     { title: "CheckOut", key: "checkout", dataIndex: "checkout" },
 
     {
-      title: "test subject",
-      key: "price",
-      dataIndex: "price",
-      render: (price) => `${price} đồng`,
-    },
-    {
       title: "Số khách",
       key: "guests",
       dataIndex: "guests",
@@ -67,14 +60,30 @@ export default function Trips() {
   ];
 
   const [completedPayout, setCompletedPayout] = useState([]);
+  const [upcomingPayout, setUpcomingPayout] = useState([]);
 
   useEffect(() => {
-    requestGet(apis.TRIPS_GUEST).then((result) => {
+    requestGet(apis.TRIPS_GUEST_PAST).then((result) => {
       const data = result.data;
-
+      console.log(result);
       if (data.status) {
         setCompletedPayout(
-          data.data.map((item) => ({
+          data.result.map((item) => ({
+            ...item,
+            key: item.id,
+          }))
+        );
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    requestGet(apis.TRIPS_GUEST_UPCOMING).then((result) => {
+      const data = result.data;
+      console.log(result);
+      if (data.status) {
+        setUpcomingPayout(
+          data.result.map((item) => ({
             ...item,
             key: item.id,
           }))
@@ -89,13 +98,13 @@ export default function Trips() {
       <div className={trips["top"]}>
         <h1>Chuyến đi</h1>
       </div>
-      <Tabs onChange={callback} type="card">
+      <Tabs type="card">
         <TabPane tab="Completed Payout" key="1">
           <Table dataSource={completedPayout} columns={completed} />
         </TabPane>
 
         <TabPane tab="Upcoming Payout" key="2">
-          <Table dataSource={completedPayout} columns={upcoming} />
+          <Table dataSource={upcomingPayout} columns={upcoming} />
         </TabPane>
       </Tabs>
     </div>
