@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
-import { Col, Divider, Row } from "antd";
+import { Button, Col, Divider, Row } from "antd";
 import { memo, useState } from "react";
 import bookingBox from "./bookingBox.module.scss";
-import Calendar from "../../../../components/Calendar/Canlendar";
 import { DownOutlined } from "@ant-design/icons";
 import cn from "classnames";
 
@@ -13,17 +11,24 @@ const BookingBox = ({ price = 0 }) => {
   const [visiblePickDate, setVisiblePickDate] = useState(false);
   const [visiblePickGuest, setVisiblePickGuest] = useState(false);
 
+  console.log(visiblePickDate);
+
   return (
     <div className={bookingBox["container"]}>
-      <h3 className={bookingBox["price"]}>
-        {price} <span>đ / đêm</span>
-      </h3>
+      <Row align="middle" justify="space-between">
+        <h3 className={bookingBox["price"]}>
+          {price} <span>đ / đêm</span>
+        </h3>
+
+        <span>2 đánh giá</span>
+      </Row>
 
       <Row
         className={cn(
           bookingBox["pick-date"],
           visiblePickDate && bookingBox["active"]
         )}
+        onClick={() => setVisiblePickDate(true)}
       >
         <Col span={12} className={bookingBox["left-col"]}>
           <label>Nhận phòng</label>
@@ -54,7 +59,7 @@ const BookingBox = ({ price = 0 }) => {
         style={{
           margin: 0,
           backgroundColor: `#000000${
-            !visiblePickDate && !visiblePickGuest && "30"
+            !visiblePickDate && !visiblePickGuest ? "30" : ""
           }`,
         }}
       />
@@ -66,6 +71,7 @@ const BookingBox = ({ price = 0 }) => {
         )}
         align="middle"
         justify="space-between"
+        onClick={() => setVisiblePickGuest(true)}
       >
         <Col>
           <label>Khách</label>
@@ -84,7 +90,33 @@ const BookingBox = ({ price = 0 }) => {
         </Col>
       </Row>
 
-      <Calendar offset={1} className={bookingBox["calendar"]} />
+      <Button block className={bookingBox["book-btn"]}>
+        Đặt phòng
+      </Button>
+
+      <div className={bookingBox["price-cal"]}>
+        <Row align="middle" justify="space-between" gutter={10}>
+          <Col>1000000đ x 4 đêm</Col>
+          <Col>4000000đ</Col>
+        </Row>
+
+        <Row align="middle" justify="space-between" gutter={10}>
+          <Col>Thuế</Col>
+          <Col>100000đ</Col>
+        </Row>
+
+        <Divider style={{ marginBlock: 15 }} />
+
+        <Row
+          align="middle"
+          justify="space-between"
+          gutter={10}
+          className={bookingBox["total"]}
+        >
+          <Col>Tổng</Col>
+          <Col>4100000đ</Col>
+        </Row>
+      </div>
     </div>
   );
 };
