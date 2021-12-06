@@ -1,0 +1,69 @@
+.container {
+  border: 1px solid #00000015;
+  border-radius: 10px;
+  padding: 15px 25px;
+
+  .price span {
+    font-weight: 400;
+  }
+
+  .pick-date {
+    border: 1px solid #00000030;
+    border-bottom: none;
+    margin-top: 10px;
+    border-radius: 10px 10px 0 0;
+    height: 100%;
+    cursor: pointer;
+
+    .active {
+      border-color: #333;
+      cursor: pointer;
+    }
+
+    .left-col {
+      border-right: 1px solid #00000030;
+    }
+
+    .left-col,
+    .right-col {
+      padding: 10px 15px 6px 15px;
+    }
+  }
+
+  .pick-guest {
+    border: 1px solid #00000030;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 10px 15px 6px 15px;
+    cursor: pointer;
+
+    .active {
+      cursor: pointer;
+    }
+  }
+
+  label {
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 700;
+    display: block;
+    cursor: pointer;
+  }
+
+  .data {
+    color: #cecece;
+    cursor: pointer;
+
+    &.filled {
+      color: #333;
+    }
+  }
+
+  .calendar {
+    background-color: #333;
+
+    h3 {
+      margin-top: 0;
+    }
+  }
+}

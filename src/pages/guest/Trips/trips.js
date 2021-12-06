@@ -1,7 +1,7 @@
-import { Tabs, Table, Row, Button } from "antd";
+import { Tabs, Table } from "antd";
 import { apis } from "../../../constants";
 import { requestGet } from "../../../helpers/requestHandler";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import trips from "./trips.module.scss";
 export default function Trips() {
   const completed = [

@@ -1,10 +1,11 @@
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Col, Row } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { paths } from "../../../constants";
 import Calendar from "../../Calendar/Canlendar";
 import searchBar from "./searchPopup.module.scss";
+import moment from "moment";
 
 export default function DateRangePopup({
   checkin,
@@ -18,9 +19,38 @@ export default function DateRangePopup({
   const { pathname } = useLocation();
   const isAtHome = pathname === paths.HOME;
 
+  useEffect(() => {
+    if (isCheckinActive && checkin !== "") {
+      setOffset(
+        checkin
+          .clone()
+          .startOf("month")
+          .diff(moment().startOf("month"), "month")
+      );
+    } else if (isCheckoutActive && checkout !== "") {
+      setOffset(
+        checkout
+          .clone()
+          .startOf("month")
+          .diff(moment().startOf("month"), "month")
+      );
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCheckinActive, isCheckoutActive]);
+
   const handleSelectDate = (val) => {
-    if (isCheckinActive) updateCheckin(val);
-    else if (isCheckoutActive) updateCheckout(val);
+    if (isCheckinActive) {
+      if (checkout !== "" && !!checkout && val.isAfter(checkout)) {
+        updateCheckin(checkout);
+        updateCheckout(val);
+      } else updateCheckin(val);
+    } else if (isCheckoutActive) {
+      if (checkin !== "" && !!checkin && val.isBefore(checkin)) {
+        updateCheckout(checkin);
+        updateCheckin(val);
+      } else updateCheckout(val);
+    }
   };
 
   return (
@@ -51,7 +81,7 @@ export default function DateRangePopup({
         <Col span={12}>
           <Calendar
             offset={offset}
-            chosenDate={checkin}
+            chosenDate={[checkin, checkout]}
             onClick={handleSelectDate}
           />
         </Col>
@@ -59,7 +89,7 @@ export default function DateRangePopup({
         <Col span={12}>
           <Calendar
             offset={offset + 1}
-            chosenDate={checkout}
+            chosenDate={[checkin, checkout]}
             onClick={handleSelectDate}
           />
         </Col>

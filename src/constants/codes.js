@@ -6,3 +6,11 @@ export const authCodes = {
   "005": "Mật khẩu hiện tại không chính xác",
   "010": "Cập nhật người dùng thành công",
 };
+
+export const listingCodes = {
+  PLACE: "place",
+  AMENITY: "amenity",
+  ALL_LISTINGS: "all listings",
+  NEW_LISTING: "new listing",
+  EDIT_LISTING: "edit listing",
+};

@@ -14,6 +14,7 @@ const authSlice = createSlice({
     doLogin() {},
     doSignup() {},
     doLogout() {},
+    doRefreshToken() {},
 
     doGetUser() {},
     doEditUser() {},
@@ -44,6 +45,7 @@ export const {
   doLogout,
   doEditUser,
   doGetUser,
+  doRefreshToken,
 } = authSlice.actions;
 
 export default authSlice.reducer;

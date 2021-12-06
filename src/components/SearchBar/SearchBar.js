@@ -30,33 +30,30 @@ export default function SearchBar({
 
   const [cellHover, setCellHover] = useState();
   const [cellActive, setCellActive] = useState();
-  const [searchData, setSearchData] = useState({
-    [destinationKey]: destination || "",
-    [checkinKey]:
-      checkin !== "" && checkin !== undefined && checkin !== null
-        ? milliToMoment(checkin)
-        : "",
-    [checkoutKey]:
-      checkout !== "" && checkout !== undefined && checkout !== null
-        ? milliToMoment(checkout)
-        : "",
-    [guestsKey]: parseInt(guests),
-  });
+
+  const [destinationData, setDestinationData] = useState(destination || "");
+  const [checkinData, setCheckinData] = useState(
+    checkin !== "" && checkin !== undefined && checkin !== null
+      ? milliToMoment(checkin)
+      : ""
+  );
+  const [checkoutData, setCheckoutData] = useState(
+    checkout !== "" && checkout !== undefined && checkout !== null
+      ? milliToMoment(checkout)
+      : ""
+  );
+  const [guestsData, setGuestsData] = useState(parseInt(guests));
 
   const handleSearch = () => {
-    if (!!searchData[destinationKey]) {
-      const destinationSearch = `${destinationKey}=${searchData[destinationKey]}`;
+    if (!!destinationData) {
+      const destinationSearch = `${destinationKey}=${destinationData}`;
       const checkinSearch = `${checkinKey}=${
-        searchData[checkinKey] !== ""
-          ? momentToMilli(searchData[checkinKey])
-          : ""
+        checkinData !== "" ? momentToMilli(checkinData) : ""
       }`;
       const checkoutSearch = `${checkoutKey}=${
-        searchData[checkoutKey] !== ""
-          ? momentToMilli(searchData[checkoutKey])
-          : ""
+        checkoutData !== "" ? momentToMilli(checkoutData) : ""
       }`;
-      const guestsSearch = `${guestsKey}=${searchData[guestsKey]}`;
+      const guestsSearch = `${guestsKey}=${guestsData}`;
 
       history.push({
         pathname: paths.RESULTS,
@@ -81,9 +78,6 @@ export default function SearchBar({
     } else setCellActive();
   };
 
-  const handleSearchData = (key, val) =>
-    setSearchData({ ...searchData, [key]: val });
-
   const cellContainerProps = {
     cellHover,
     cellActive,
@@ -100,9 +94,10 @@ export default function SearchBar({
       >
         <DestinationCell
           ref={destinationRef}
-          destination={searchData[destinationKey]}
-          updateDestination={(val) => handleSearchData(destinationKey, val)}
+          destination={destinationData}
+          updateDestination={(val) => setDestinationData(val)}
           cellContainerProps={cellContainerProps}
+          handleSearch={handleSearch}
         />
 
         <CellDivider
@@ -114,11 +109,19 @@ export default function SearchBar({
 
         <DateRangeCell
           ref={dateRangeRef}
-          checkin={searchData[checkinKey]}
-          checkout={searchData[checkoutKey]}
+          checkin={checkinData}
+          checkout={checkoutData}
           cellContainerProps={cellContainerProps}
-          updateCheckin={(val) => handleSearchData(checkinKey, val)}
-          updateCheckout={(val) => handleSearchData(checkoutKey, val)}
+          updateCheckin={(val) => {
+            setCheckinData(val);
+            if (val !== "" && checkoutData === "")
+              setCellActive(cellId.checkoutDate);
+          }}
+          updateCheckout={(val) => {
+            setCheckoutData(val);
+            if (val !== "" && checkinData === "")
+              setCellActive(cellId.checkinDate);
+          }}
         />
 
         <CellDivider
@@ -130,8 +133,8 @@ export default function SearchBar({
 
         <GuestsCell
           ref={guestsRef}
-          guests={searchData[guestsKey]}
-          updateGuests={(val) => handleSearchData(guestsKey, val)}
+          guests={guestsData}
+          updateGuests={(val) => setGuestsData(val)}
           cellContainerProps={cellContainerProps}
           handleSearch={handleSearch}
         />

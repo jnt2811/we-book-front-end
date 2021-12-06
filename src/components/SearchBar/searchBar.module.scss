@@ -95,6 +95,37 @@ $bar-margin-vertical: 5vh;
     &:hover,
     &:global(.active) {
       background-color: #ffffff25; // home
+
+      :global(.clear-icon) {
+        display: flex;
+      }
+    }
+
+    :global(.clear-icon) {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 25px;
+      height: 25px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50px;
+      background-color: #ffffff25;
+      display: none;
+
+      &:global(.offset-right) {
+        right: 60px;
+      }
+
+      &:hover {
+        background-color: #ffffff50;
+      }
+
+      svg {
+        font-size: 12px;
+        color: #fff;
+      }
     }
 
     label {
@@ -144,15 +175,50 @@ $bar-margin-vertical: 5vh;
   }
 
   :global(.cell-wrap) {
+    :global(.clear-icon) {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 25px;
+      height: 25px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50px;
+      display: none;
+
+      &:global(.offset-right) {
+        right: 60px;
+      }
+
+      svg {
+        font-size: 12px;
+      }
+    }
+
     &:hover {
       background-color: #00000010;
+
+      :global(.clear-icon) {
+        display: flex;
+        background-color: #33333350;
+
+        &:hover {
+          background-color: #333;
+        }
+
+        svg {
+          color: #fff;
+        }
+      }
     }
 
     &:global(.active) {
       background-color: #333 !important;
       box-shadow: 0 0 5px #00000025;
 
-      * {
+      label,
+      p {
         color: #fff !important;
       }
 
@@ -168,6 +234,26 @@ $bar-margin-vertical: 5vh;
       input {
         color: #fff;
         caret-color: #fff;
+      }
+
+      :global(.clear-icon) {
+        display: flex;
+        background-color: #ffffff50;
+
+        &:hover {
+          background-color: #ffffff75;
+        }
+
+        svg {
+          color: #333;
+        }
+      }
+    }
+
+    &:hover,
+    &:global(.active) {
+      :global(.clear-icon) {
+        display: flex;
       }
     }
 

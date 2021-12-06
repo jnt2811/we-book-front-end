@@ -8,7 +8,7 @@ export default function HostRoutes() {
     <Switch>
       <PrivateRoute exact path={paths.HOSTING} component={Dashboard} />
       <PrivateRoute exact path={paths.LISTINGS} component={Listings} />
-      <Redirect from="*" to={paths.NOT_FOUND} />
+      <Redirect to={paths.NOT_FOUND} />
     </Switch>
   );
 }

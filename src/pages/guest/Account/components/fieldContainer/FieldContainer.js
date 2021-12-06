@@ -31,7 +31,11 @@ const FieldContainer = forwardRef(
           {editVisible ? (
             <>
               {children}
-              <Button onClick={onSave} loading={isLoading}>
+              <Button
+                onClick={onSave}
+                loading={isLoading}
+                className={fieldContainer["save-btn"]}
+              >
                 Lưu
               </Button>
             </>

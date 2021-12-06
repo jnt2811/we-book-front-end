@@ -2,6 +2,8 @@ import { Col } from "antd";
 import { useRef } from "react";
 import { ClickOutside } from "../../../hooks";
 import { hoverType } from "../searchBarKeys";
+import { CloseOutlined } from "@ant-design/icons";
+import cn from "classnames";
 
 export default function CellContainer({
   children,
@@ -14,6 +16,9 @@ export default function CellContainer({
   span,
   popupContent,
   abortOnClick = false,
+  isFinalCol = false,
+  onClear = () => {},
+  visibleClear = true,
 }) {
   const ref = useRef();
 
@@ -36,6 +41,18 @@ export default function CellContainer({
         {children}
         {visiblePopup && popupContent}
       </div>
+
+      {visibleClear && (
+        <div
+          className={cn("clear-icon", isFinalCol && "offset-right")}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClear();
+          }}
+        >
+          <CloseOutlined />
+        </div>
+      )}
     </Col>
   );
 }

@@ -45,6 +45,8 @@ const DateRangeCell = forwardRef(
             id={cellId.checkinDate}
             visiblePopup={visible}
             onClickOutside={null}
+            onClear={() => updateCheckin("")}
+            visibleClear={checkin !== ""}
           >
             <label>Nhận phòng</label>
 
@@ -68,6 +70,8 @@ const DateRangeCell = forwardRef(
             id={cellId.checkoutDate}
             visiblePopup={visible}
             onClickOutside={null}
+            onClear={() => updateCheckout("")}
+            visibleClear={checkout !== ""}
           >
             <label>Trả phòng</label>
 

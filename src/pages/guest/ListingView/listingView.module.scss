@@ -1,11 +1,11 @@
 @import "../../../assets/scss/mixins.scss";
 @import "../../../assets/scss/sizes.scss";
 
-$block-padding: 25px calc((100% - #{$container-width}) / 2);
+$hor-padding: calc((100% - #{$container-width}) / 2);
 
 .container {
   .top {
-    padding: $block-padding;
+    padding: 25px $hor-padding;
 
     .head {
       margin-bottom: 5px;
@@ -13,23 +13,38 @@ $block-padding: 25px calc((100% - #{$container-width}) / 2);
 
     .sub-head {
       color: #999;
+      margin-left: 5px;
+    }
+
+    svg {
+      color: #999;
     }
   }
 
   .gallery {
     display: flex;
-    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
 
     .gallery-item {
-      width: calc(100% / 3 - 1px);
-      height: 300px;
+      height: 350px;
+      width: calc(100vw / 3);
       object-fit: cover;
       object-position: center;
+    }
+
+    button {
+      position: absolute;
+      right: 25px;
+      bottom: 25px;
+      @include std-btn();
+      border: 1px solid #333;
+      color: #333 !important;
     }
   }
 
   .mid {
-    padding: $block-padding;
+    padding: 25px $hor-padding;
 
     h2 {
       margin-right: 10px;
@@ -61,6 +76,32 @@ $block-padding: 25px calc((100% - #{$container-width}) / 2);
     .desc,
     .amenity {
       font-size: 16px;
+    }
+  }
+}
+
+.container-preview {
+  .wrapper {
+    padding: 0 $hor-padding;
+  }
+
+  .title {
+    width: 600px !important;
+    display: block;
+    padding: 25px 0 20px 0;
+  }
+
+  .sub-title {
+    width: 300px !important;
+    margin-bottom: 15px;
+  }
+
+  .gallery {
+    overflow: hidden;
+
+    .gallery-item span {
+      height: 350px !important;
+      width: calc(100vw / 3) !important;
     }
   }
 }

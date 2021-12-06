@@ -3,11 +3,28 @@ import listingView from "./listingView.module.scss";
 import { useState, useEffect } from "react";
 import { requestGet } from "../../../helpers/requestHandler";
 import { apis } from "../../../constants";
-import { Avatar, Col, Divider, Row, Tooltip } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import {
+  Avatar,
+  Col,
+  Divider,
+  Image,
+  Row,
+  Skeleton,
+  Tooltip,
+  Button,
+} from "antd";
+import {
+  AppstoreOutlined,
+  EnvironmentOutlined,
+  QuestionCircleOutlined,
+} from "@ant-design/icons";
+import GalleryModal from "./GalleryModal/GalleryModal";
+import { useRef } from "react";
+import BookingBox from "./BookingBox/BookingBox";
 
 export default function ListingView() {
   const { id } = useParams();
+  const galleryRef = useRef();
 
   const [listing, setListing] = useState({
     gallery: "[]",
@@ -15,38 +32,50 @@ export default function ListingView() {
     amenity: [],
     host: {},
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    requestGet(apis.LISTING_GUEST + "/" + id).then((result) => {
-      const data = result.data;
+    requestGet(apis.LISTING_GUEST + "/" + id)
+      .then((res) => {
+        const dataRes = res.data;
 
-      if (data.status) {
-        setListing(data.data);
-      }
-    });
+        if (dataRes.status) {
+          setListing(dataRes.result);
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => console.log("get listing detail error", err));
   }, [id]);
 
-  return (
+  return !isLoading ? (
     <div className={listingView["container"]}>
       <div className={listingView["top"]} justify="space-between">
         <h1 className={listingView["head"]}>{listing.name}</h1>
 
-        <Row justify="space-between">
-          <p className={listingView["sub-head"]}>{listing.address}</p>
-
-          {/* <span>Lưu</span> */}
+        <Row align="middle">
+          <EnvironmentOutlined />
+          <p className={listingView["sub-head"]}>{listing.destination}</p>
         </Row>
       </div>
 
       <div className={listingView["gallery"]}>
-        {JSON.parse(listing.gallery).map((src, i) => (
-          <img
-            src={src}
-            alt=""
-            className={listingView["gallery-item"]}
-            key={i}
-          />
-        ))}
+        {JSON.parse(listing.gallery)
+          .slice(0, 3)
+          .map((src, i) => (
+            <Image
+              src={src}
+              alt=""
+              className={listingView["gallery-item"]}
+              key={i}
+            />
+          ))}
+
+        <Button
+          icon={<AppstoreOutlined />}
+          onClick={() => galleryRef.current.open(JSON.parse(listing.gallery))}
+        >
+          Hiển thị đầy đủ
+        </Button>
       </div>
 
       <Row className={listingView["mid"]}>
@@ -75,7 +104,7 @@ export default function ListingView() {
           <Divider />
 
           <h2 style={{ marginBottom: 10 }}>Mô tả</h2>
-          <p className={listingView["desc"]}>{listing.desc}</p>
+          <p className={listingView["desc"]}>{listing.detail}</p>
 
           <Divider />
 
@@ -104,8 +133,44 @@ export default function ListingView() {
         </Col>
 
         <Col span={8}>
-          <h2>Kiểm tra tình trạng</h2>
+          <BookingBox price={listing.price} />
         </Col>
+      </Row>
+
+      <GalleryModal ref={galleryRef} />
+    </div>
+  ) : (
+    <div className={listingView["container-preview"]}>
+      <div className={listingView["wrapper"]}>
+        <Skeleton.Button
+          active
+          shape="round"
+          size="large"
+          className={listingView["title"]}
+        />
+        <Skeleton.Button
+          active
+          shape="round"
+          className={listingView["sub-title"]}
+        />
+      </div>
+
+      <Row className={listingView["gallery"]} wrap={false}>
+        <Skeleton.Avatar
+          active
+          shape="square"
+          className={listingView["gallery-item"]}
+        />
+        <Skeleton.Avatar
+          active
+          shape="square"
+          className={listingView["gallery-item"]}
+        />
+        <Skeleton.Avatar
+          active
+          shape="square"
+          className={listingView["gallery-item"]}
+        />
       </Row>
     </div>
   );
