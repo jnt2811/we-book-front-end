@@ -19,6 +19,10 @@ const apis = {
   //api chuyen di
   TRIPS_GUEST_UPCOMING: url + "/transaction/guest/upcoming",
   TRIPS_GUEST_PAST: url + "/transaction/guest/past",
+  TRANSACTIONS_HOST_UPCOMING: url + "/transaction/host/upcoming",
+  TRANSACTIONS_HOST_PAST: url + "/transaction/host/past",
+  TRANSACTIONS_HOST_CURRENT: url + "/transaction/host/current",
+
 };
 
 export default apis;
