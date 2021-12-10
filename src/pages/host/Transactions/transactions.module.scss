@@ -13,9 +13,13 @@
 .antpagination {
   padding-right: calc((100% - 1200px) / 2);
 }
-.deleteIcon {
-  color: red;
-}
-.deleteIcon:hover {
-  color: #006fff;
+
+
+.save-btn {
+  @include primary-btn();
+  height: 35px;
+  width: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
