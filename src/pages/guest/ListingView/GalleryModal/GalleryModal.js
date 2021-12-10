@@ -31,7 +31,7 @@ const GalleryModal = forwardRef((props, ref) => {
       style={{ top: 0 }}
     >
       {galleryList.map((img, i) => (
-        <Image src={img} alt={i} key={i} />
+        <Image src={img} alt={i} key={i} className={galleryModal["image"]} />
       ))}
     </Modal>
   );

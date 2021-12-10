@@ -1,8 +1,11 @@
+/* eslint-disable no-unused-vars */
 import { Button, Col, Divider, Row } from "antd";
-import { memo, useState } from "react";
+import { memo, useRef, useState } from "react";
 import bookingBox from "./bookingBox.module.scss";
 import { DownOutlined } from "@ant-design/icons";
 import cn from "classnames";
+import PickDateRange from "./PickDateRange/PickDateRange";
+import { ClickOutside } from "../../../../hooks";
 
 const BookingBox = ({ price = 0 }) => {
   const [checkin, setCheckin] = useState("");
@@ -10,8 +13,12 @@ const BookingBox = ({ price = 0 }) => {
   const [guests, setGuests] = useState(0);
   const [visiblePickDate, setVisiblePickDate] = useState(false);
   const [visiblePickGuest, setVisiblePickGuest] = useState(false);
+  const dateRangeRef = useRef();
 
-  console.log(visiblePickDate);
+  ClickOutside({
+    ref: dateRangeRef,
+    onClickOutside: () => setVisiblePickDate(false),
+  });
 
   return (
     <div className={bookingBox["container"]}>
@@ -29,6 +36,7 @@ const BookingBox = ({ price = 0 }) => {
           visiblePickDate && bookingBox["active"]
         )}
         onClick={() => setVisiblePickDate(true)}
+        ref={dateRangeRef}
       >
         <Col span={12} className={bookingBox["left-col"]}>
           <label>Nhận phòng</label>
@@ -53,6 +61,8 @@ const BookingBox = ({ price = 0 }) => {
             Thêm ngày
           </p>
         </Col>
+
+        {visiblePickDate && <PickDateRange />}
       </Row>
 
       <Divider

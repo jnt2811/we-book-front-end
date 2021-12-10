@@ -1,0 +1,44 @@
+@import "../../../../../assets/scss/mixins.scss";
+
+.container {
+  position: absolute;
+  top: 115px;
+  right: 25px;
+  width: 800px;
+  background-color: #dbdbdb;
+  border: 1px solid #00000025;
+  box-shadow: 0 0 10px #00000025;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 10;
+
+  .calendar {
+    text-align: center;
+  }
+
+  :global(.nav-btn) {
+    background-color: unset;
+    border: none;
+    z-index: 2;
+    width: 35px;
+    height: 35px;
+    border-radius: 50px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #ffffff25;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+
+      * {
+        color: #ffffff50;
+      }
+
+      &:hover {
+        background-color: unset;
+      }
+    }
+  }
+}

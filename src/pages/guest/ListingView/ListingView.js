@@ -148,6 +148,7 @@ export default function ListingView() {
           size="large"
           className={listingView["title"]}
         />
+
         <Skeleton.Button
           active
           shape="round"
@@ -161,11 +162,13 @@ export default function ListingView() {
           shape="square"
           className={listingView["gallery-item"]}
         />
+
         <Skeleton.Avatar
           active
           shape="square"
           className={listingView["gallery-item"]}
         />
+
         <Skeleton.Avatar
           active
           shape="square"
