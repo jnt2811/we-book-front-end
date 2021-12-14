@@ -152,7 +152,7 @@ export default function Transactions() {
           <Table dataSource={upcomingPayout} columns={upcoming} />
         </TabPane>
 
-        <TabPane tab="Current Payout" key="2">
+        <TabPane tab="Current Payout" key="3">
           <Table dataSource={currentPayout} columns={upcoming} />
         </TabPane>
       </Tabs>

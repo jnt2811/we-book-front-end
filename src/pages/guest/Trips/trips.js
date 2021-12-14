@@ -1,11 +1,13 @@
-import { Tabs, Table } from "antd";
+import { Tabs, Table, Row, Button, Col } from "antd";
 import { apis } from "../../../constants";
 import { requestGet } from "../../../helpers/requestHandler";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import trips from "./trips.module.scss";
-export default function Trips() {
+import { EditOutlined } from "@ant-design/icons";
+import PastTripsConfig from "./PastTripsConfig/PastTripsConfig";
 
-  const [editVisible, setEditVisible] = useState(false);
+export default function Trips() {
+  const configRef = useRef();
 
   const completed = [
     { title: "ID", key: "guest_id", dataIndex: "guest_id" },
@@ -34,6 +36,19 @@ export default function Trips() {
       title: "Rating",
       key: "rating",
       dataIndex: "rating",
+    },
+    {
+      title: "Action",
+      key: "action",
+      dataIndex: "active",
+      width: "0px",
+      render: (active, trip) => (
+        <Button
+          icon={<EditOutlined />}
+          type="primary"
+          onClick={() => configRef.current.open(trip)}
+        ></Button>
+      ),
     },
   ];
 
@@ -110,6 +125,11 @@ export default function Trips() {
           <Table dataSource={upcomingPayout} columns={upcoming} />
         </TabPane>
       </Tabs>
+
+      <PastTripsConfig
+        ref={configRef}
+        setCompletedPayout={setCompletedPayout}
+      />
     </div>
   );
 }

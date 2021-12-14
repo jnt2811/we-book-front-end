@@ -22,7 +22,7 @@ const apis = {
   TRANSACTIONS_HOST_UPCOMING: url + "/transaction/host/upcoming",
   TRANSACTIONS_HOST_PAST: url + "/transaction/host/past",
   TRANSACTIONS_HOST_CURRENT: url + "/transaction/host/current",
-
+  UPDATE_PAST_TRIP: url + "/transaction/guest/update/",
 };
 
 export default apis;
