@@ -17,7 +17,9 @@ const BookingBox = ({ price = 0 }) => {
 
   ClickOutside({
     ref: dateRangeRef,
-    onClickOutside: () => setVisiblePickDate(false),
+    onClickOutside: () => {
+      setVisiblePickDate(false);
+    },
   });
 
   return (
@@ -46,7 +48,7 @@ const BookingBox = ({ price = 0 }) => {
               checkin !== "" && bookingBox["filled"]
             )}
           >
-            Thêm ngày
+            {checkin !== "" ? checkin.format("DD/MM/YYYY") : "Thêm ngày"}
           </p>
         </Col>
 
@@ -58,11 +60,18 @@ const BookingBox = ({ price = 0 }) => {
               checkout !== "" && bookingBox["filled"]
             )}
           >
-            Thêm ngày
+            {checkout !== "" ? checkout.format("DD/MM/YYYY") : "Thêm ngày"}
           </p>
         </Col>
 
-        {visiblePickDate && <PickDateRange />}
+        {visiblePickDate && (
+          <PickDateRange
+            checkin={checkin}
+            checkout={checkout}
+            updateCheckin={setCheckin}
+            updateCheckout={setCheckout}
+          />
+        )}
       </Row>
 
       <Divider
@@ -104,29 +113,31 @@ const BookingBox = ({ price = 0 }) => {
         Đặt phòng
       </Button>
 
-      <div className={bookingBox["price-cal"]}>
-        <Row align="middle" justify="space-between" gutter={10}>
-          <Col>1000000đ x 4 đêm</Col>
-          <Col>4000000đ</Col>
-        </Row>
+      {checkin !== "" && checkout !== "" && guests !== 0 && (
+        <div className={bookingBox["price-cal"]}>
+          <Row align="middle" justify="space-between" gutter={10}>
+            <Col>1000000đ x 4 đêm</Col>
+            <Col>4000000đ</Col>
+          </Row>
 
-        <Row align="middle" justify="space-between" gutter={10}>
-          <Col>Thuế</Col>
-          <Col>100000đ</Col>
-        </Row>
+          <Row align="middle" justify="space-between" gutter={10}>
+            <Col>Thuế</Col>
+            <Col>100000đ</Col>
+          </Row>
 
-        <Divider style={{ marginBlock: 15 }} />
+          <Divider style={{ marginBlock: 15 }} />
 
-        <Row
-          align="middle"
-          justify="space-between"
-          gutter={10}
-          className={bookingBox["total"]}
-        >
-          <Col>Tổng</Col>
-          <Col>4100000đ</Col>
-        </Row>
-      </div>
+          <Row
+            align="middle"
+            justify="space-between"
+            gutter={10}
+            className={bookingBox["total"]}
+          >
+            <Col>Tổng</Col>
+            <Col>4100000đ</Col>
+          </Row>
+        </div>
+      )}
     </div>
   );
 };
