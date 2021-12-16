@@ -75,6 +75,19 @@ export default function Trips() {
       key: "rating",
       dataIndex: "rating",
     },
+    {
+      title: "Action",
+      key: "action",
+      dataIndex: "active",
+      width: "0px",
+      render: (active, trip) => (
+        <Button
+          icon={<EditOutlined />}
+          type="primary"
+          onClick={() => configRef.current.open(trip)}
+        ></Button>
+      ),
+    },
   ];
 
   const [completedPayout, setCompletedPayout] = useState([]);
