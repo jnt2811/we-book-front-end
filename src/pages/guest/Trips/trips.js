@@ -1,4 +1,4 @@
-import { Tabs, Table, Row, Button, Col } from "antd";
+import { Tabs, Table, Button } from "antd";
 import { apis } from "../../../constants";
 import { requestGet } from "../../../helpers/requestHandler";
 import { useState, useEffect, useRef } from "react";

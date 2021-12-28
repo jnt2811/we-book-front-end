@@ -3,6 +3,7 @@ import { apis } from "../../../constants";
 import { requestGet } from "../../../helpers/requestHandler";
 import { useState, useEffect } from "react";
 import transactions from "./transactions.module.scss";
+
 export default function Transactions() {
   const completed = [
     { title: "ID", key: "guest_id", dataIndex: "guest_id" },
@@ -34,7 +35,6 @@ export default function Transactions() {
     },
   ];
 
-  //
   const upcoming = [
     { title: "ID", key: "guest_id", dataIndex: "guest_id" },
 
@@ -58,35 +58,36 @@ export default function Transactions() {
       dataIndex: "rating",
     },
   ];
-  const current = [
-    { title: "ID", key: "guest_id", dataIndex: "guest_id" },
 
-    { title: "CheckIn", key: "checkin", dataIndex: "checkin" },
+  // const current = [
+  //   { title: "ID", key: "guest_id", dataIndex: "guest_id" },
 
-    { title: "CheckOut", key: "checkout", dataIndex: "checkout" },
+  //   { title: "CheckIn", key: "checkin", dataIndex: "checkin" },
 
-    {
-      title: "Giá/đêm",
-      key: "price",
-      dataIndex: "price",
-      render: (price) => `${price} đồng`,
-    },
-    {
-      title: "Số khách",
-      key: "guests",
-      dataIndex: "guests",
-    },
-    {
-      title: "Review",
-      key: "review",
-      dataIndex: "review",
-    },
-    {
-      title: "Rating",
-      key: "rating",
-      dataIndex: "rating",
-    },
-  ];
+  //   { title: "CheckOut", key: "checkout", dataIndex: "checkout" },
+
+  //   {
+  //     title: "Giá/đêm",
+  //     key: "price",
+  //     dataIndex: "price",
+  //     render: (price) => `${price} đồng`,
+  //   },
+  //   {
+  //     title: "Số khách",
+  //     key: "guests",
+  //     dataIndex: "guests",
+  //   },
+  //   {
+  //     title: "Review",
+  //     key: "review",
+  //     dataIndex: "review",
+  //   },
+  //   {
+  //     title: "Rating",
+  //     key: "rating",
+  //     dataIndex: "rating",
+  //   },
+  // ];
 
   const [completedPayout, setCompletedPayout] = useState([]);
   const [upcomingPayout, setUpcomingPayout] = useState([]);
