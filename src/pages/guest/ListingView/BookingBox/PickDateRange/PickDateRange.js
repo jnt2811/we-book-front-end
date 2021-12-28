@@ -4,6 +4,7 @@ import { Button, Col, Row } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import moment from "moment";
+import { memo } from "react";
 
 const PickDateRange = ({
   checkin,
@@ -92,4 +93,4 @@ const PickDateRange = ({
   );
 };
 
-export default PickDateRange;
+export default memo(PickDateRange);

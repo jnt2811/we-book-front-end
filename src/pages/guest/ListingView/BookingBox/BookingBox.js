@@ -6,6 +6,9 @@ import { DownOutlined } from "@ant-design/icons";
 import cn from "classnames";
 import PickDateRange from "./PickDateRange/PickDateRange";
 import { ClickOutside } from "../../../../hooks";
+import PickGuest from "./PickGuest/PickGuest";
+
+const tax_percent = 10;
 
 const BookingBox = ({ price = 0 }) => {
   const [checkin, setCheckin] = useState("");
@@ -14,11 +17,19 @@ const BookingBox = ({ price = 0 }) => {
   const [visiblePickDate, setVisiblePickDate] = useState(false);
   const [visiblePickGuest, setVisiblePickGuest] = useState(false);
   const dateRangeRef = useRef();
+  const guestRef = useRef();
 
   ClickOutside({
     ref: dateRangeRef,
     onClickOutside: () => {
       setVisiblePickDate(false);
+    },
+  });
+
+  ClickOutside({
+    ref: guestRef,
+    onClickOutside: () => {
+      setVisiblePickGuest(false);
     },
   });
 
@@ -91,6 +102,7 @@ const BookingBox = ({ price = 0 }) => {
         align="middle"
         justify="space-between"
         onClick={() => setVisiblePickGuest(true)}
+        ref={guestRef}
       >
         <Col>
           <label>Khách</label>
@@ -107,6 +119,10 @@ const BookingBox = ({ price = 0 }) => {
         <Col>
           <DownOutlined />
         </Col>
+
+        {visiblePickGuest && (
+          <PickGuest guests={guests} updateGuests={setGuests} />
+        )}
       </Row>
 
       <Button block className={bookingBox["book-btn"]}>
@@ -116,13 +132,15 @@ const BookingBox = ({ price = 0 }) => {
       {checkin !== "" && checkout !== "" && guests !== 0 && (
         <div className={bookingBox["price-cal"]}>
           <Row align="middle" justify="space-between" gutter={10}>
-            <Col>1000000đ x 4 đêm</Col>
-            <Col>4000000đ</Col>
+            <Col>
+              {price}đ x {checkout.diff(checkin, "days")} đêm
+            </Col>
+            <Col>{price * checkout.diff(checkin, "days")}đ</Col>
           </Row>
 
           <Row align="middle" justify="space-between" gutter={10}>
-            <Col>Thuế</Col>
-            <Col>100000đ</Col>
+            <Col>Phụ phí</Col>
+            <Col>0đ</Col>
           </Row>
 
           <Divider style={{ marginBlock: 15 }} />
@@ -134,7 +152,7 @@ const BookingBox = ({ price = 0 }) => {
             className={bookingBox["total"]}
           >
             <Col>Tổng</Col>
-            <Col>4100000đ</Col>
+            <Col>{Math.round(price * checkout.diff(checkin, "days"))}đ</Col>
           </Row>
         </div>
       )}
