@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Button, Col, Divider, Row } from "antd";
+import { Button, Col, Divider, notification, Row } from "antd";
 import { memo, useRef, useState } from "react";
 import bookingBox from "./bookingBox.module.scss";
 import { DownOutlined } from "@ant-design/icons";
@@ -7,10 +7,11 @@ import cn from "classnames";
 import PickDateRange from "./PickDateRange/PickDateRange";
 import { ClickOutside } from "../../../../hooks";
 import PickGuest from "./PickGuest/PickGuest";
+import { requestPost } from "../../../../helpers/requestHandler";
+import { apis } from "../../../../constants";
+import { useSelector } from "react-redux";
 
-const tax_percent = 10;
-
-const BookingBox = ({ price = 0 }) => {
+const BookingBox = ({ listing_id = "", price = 0 }) => {
   const [checkin, setCheckin] = useState("");
   const [checkout, setCheckout] = useState("");
   const [guests, setGuests] = useState(0);
@@ -18,6 +19,8 @@ const BookingBox = ({ price = 0 }) => {
   const [visiblePickGuest, setVisiblePickGuest] = useState(false);
   const dateRangeRef = useRef();
   const guestRef = useRef();
+  const authReducer = useSelector((state) => state.auth);
+  const [isLoading, setIsLoading] = useState(false);
 
   ClickOutside({
     ref: dateRangeRef,
@@ -32,6 +35,51 @@ const BookingBox = ({ price = 0 }) => {
       setVisiblePickGuest(false);
     },
   });
+
+  const apiCreateBooking = async () => {
+    if (!!authReducer.isOk) {
+      try {
+        setIsLoading(true);
+
+        const request = {
+          guest_id: authReducer.user.id,
+          listing_id: listing_id,
+          checkin: checkin.valueOf(),
+          checkout: checkout.valueOf(),
+          total: Math.round(price * checkout.diff(checkin, "days")),
+          guests: guests,
+        };
+
+        const response = await requestPost(apis.BOOKING, request);
+
+        if (response.data.status) {
+          notification.success({
+            message:
+              "Đã gửi yêu cầu đặt phòng! Vui lòng chờ đợi chủ nhà xác nhận.",
+            placement: "bottomLeft",
+          });
+
+          setCheckin("");
+          setCheckout("");
+          setGuests(0);
+          setIsLoading(false);
+        } else {
+          console.log("Booking fail", response.data);
+
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.log("Booking error", error);
+
+        setIsLoading(false);
+      }
+    } else {
+      notification.warning({
+        message: "Hãy đăng nhập để đặt phòng!",
+        placement: "bottomLeft",
+      });
+    }
+  };
 
   return (
     <div className={bookingBox["container"]}>
@@ -125,7 +173,12 @@ const BookingBox = ({ price = 0 }) => {
         )}
       </Row>
 
-      <Button block className={bookingBox["book-btn"]}>
+      <Button
+        block
+        className={bookingBox["book-btn"]}
+        onClick={apiCreateBooking}
+        loading={isLoading}
+      >
         Đặt phòng
       </Button>
 

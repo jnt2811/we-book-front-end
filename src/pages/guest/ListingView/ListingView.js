@@ -133,7 +133,7 @@ export default function ListingView() {
         </Col>
 
         <Col span={8}>
-          <BookingBox price={listing.price} />
+          <BookingBox price={listing.price} listing_id={listing.id} />
         </Col>
       </Row>
 
