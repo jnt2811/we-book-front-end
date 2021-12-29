@@ -10,6 +10,7 @@ import PickGuest from "./PickGuest/PickGuest";
 import { requestPost } from "../../../../helpers/requestHandler";
 import { apis } from "../../../../constants";
 import { useSelector } from "react-redux";
+import AuthPopup from "../../components/AuthPopup/AuthPopup";
 
 const BookingBox = ({ listing_id = "", price = 0 }) => {
   const [checkin, setCheckin] = useState("");
@@ -21,6 +22,7 @@ const BookingBox = ({ listing_id = "", price = 0 }) => {
   const guestRef = useRef();
   const authReducer = useSelector((state) => state.auth);
   const [isLoading, setIsLoading] = useState(false);
+  const authRef = useRef();
 
   ClickOutside({
     ref: dateRangeRef,
@@ -74,10 +76,11 @@ const BookingBox = ({ listing_id = "", price = 0 }) => {
         setIsLoading(false);
       }
     } else {
-      notification.warning({
-        message: "Hãy đăng nhập để đặt phòng!",
-        placement: "bottomLeft",
-      });
+      // notification.warning({
+      //   message: "Hãy đăng nhập để đặt phòng!",
+      //   placement: "bottomLeft",
+      // });
+      authRef.current.open();
     }
   };
 
@@ -209,6 +212,8 @@ const BookingBox = ({ listing_id = "", price = 0 }) => {
           </Row>
         </div>
       )}
+
+      <AuthPopup ref={authRef} />
     </div>
   );
 };

@@ -7,7 +7,9 @@ import Dashboard from "./host/Dashboard/Dashboard";
 import Listings from "./host/Listings/Listings";
 import Auth from "./common/Auth/Auth";
 import NotFound from "./common/NotFound/NotFound";
-import Transactions from "./host/Transactions/transactioins"
+import Transactions from "./host/Transactions/transactioins";
+import Profile from "./host/Profile/Profile";
+import Favorite from "./guest/Favorite/Favorite";
 
 export {
   Home,
@@ -20,4 +22,6 @@ export {
   Auth,
   Transactions,
   NotFound,
+  Favorite,
+  Profile,
 };

@@ -5,7 +5,7 @@ import pastTripsConfig from "./pastTripsConfig.module.scss";
 import { apis } from "../../../../constants";
 import { requestPatch } from "../../../../helpers/requestHandler";
 
-const PastTripsConfig = forwardRef(({ setCompletedPayout }, ref) => {
+const PastTripsConfig = forwardRef(({ setCompletedPayout, onSuccess }, ref) => {
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
@@ -39,6 +39,7 @@ const PastTripsConfig = forwardRef(({ setCompletedPayout }, ref) => {
         // lấy cái result mới ra: dataResponse.data.result
         // setCompletedPayout(dataResponse.data.result)
 
+        onSuccess();
         setIsLoading(false);
         onClose();
       } else {

@@ -12,7 +12,6 @@ const paths = {
   LISTING_VIEW_nId: "/listing/",
   TRIPS: "/trips",
   FAV_LIST: "/favorite-list",
-  PROFILE: "/profile",
   ACCOUNT: "/account",
 
   // Host
@@ -22,6 +21,7 @@ const paths = {
   LISTING_EDIT_nId: hosting + "/listings/",
   LISTING_NEW: hosting + "/listing-new",
   HISTORY: hosting + "/history",
+  PROFILE: hosting + "/profile",
 };
 
 export default paths;

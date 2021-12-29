@@ -60,11 +60,41 @@
         }
       }
 
-      :global(.user-wrap) {
+      .right-container {
         width: 300px;
         display: flex;
         justify-content: flex-end;
+        align-items: center;
+        gap: 20px;
+      }
 
+      .noti-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50px;
+        @include btn-icon();
+        width: 40px;
+        height: 40px;
+        border: 1px solid #dadada;
+        position: relative;
+
+        &:hover,
+        &.active {
+          border: 1px solid #333;
+        }
+
+        .noti-btn {
+          position: relative;
+
+          svg {
+            font-size: 20px;
+            margin-bottom: -3px;
+          }
+        }
+      }
+
+      :global(.user-wrap) {
         :global(.user-btn) {
           @include btn-icon();
           width: 45px;

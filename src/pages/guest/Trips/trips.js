@@ -81,18 +81,7 @@ export default function Trips() {
   const [upcomingPayout, setUpcomingPayout] = useState([]);
 
   useEffect(() => {
-    requestGet(apis.TRIPS_GUEST_PAST).then((result) => {
-      const data = result.data;
-      console.log(result);
-      if (data.status) {
-        setCompletedPayout(
-          data.result.map((item) => ({
-            ...item,
-            key: item.id,
-          }))
-        );
-      }
-    });
+    apiGetPastTrip();
   }, []);
 
   useEffect(() => {
@@ -109,6 +98,23 @@ export default function Trips() {
       }
     });
   }, []);
+
+  const apiGetPastTrip = async () => {
+    try {
+      const dataResponse = await requestGet(apis.TRIPS_GUEST_PAST);
+
+      if (dataResponse.data.status) {
+        const data = dataResponse.data;
+
+        setCompletedPayout(
+          data.result.map((item) => ({
+            ...item,
+            key: item.id,
+          }))
+        );
+      }
+    } catch (error) {}
+  };
 
   const { TabPane } = Tabs;
   return (
@@ -128,6 +134,7 @@ export default function Trips() {
 
       <PastTripsConfig
         ref={configRef}
+        onSuccess={apiGetPastTrip}
         setCompletedPayout={setCompletedPayout}
       />
     </div>
