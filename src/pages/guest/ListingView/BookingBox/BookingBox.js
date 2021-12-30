@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Button, Col, Divider, notification, Row } from "antd";
 import { memo, useRef, useState } from "react";
 import bookingBox from "./bookingBox.module.scss";
@@ -11,6 +10,7 @@ import { requestPost } from "../../../../helpers/requestHandler";
 import { apis } from "../../../../constants";
 import { useSelector } from "react-redux";
 import AuthPopup from "../../components/AuthPopup/AuthPopup";
+import { StarFilled } from "@ant-design/icons";
 
 const BookingBox = ({ listing_id = "", price = 0 }) => {
   const [checkin, setCheckin] = useState("");
@@ -87,7 +87,10 @@ const BookingBox = ({ listing_id = "", price = 0 }) => {
           {price} <span>đ / đêm</span>
         </h3>
 
-        <span>2 đánh giá</span>
+        <Row align="middle">
+          <StarFilled style={{ marginRight: 5 }} />
+          <span>Mới</span>
+        </Row>
       </Row>
 
       <Row

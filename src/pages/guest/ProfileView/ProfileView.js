@@ -4,20 +4,14 @@ import {
   PhoneFilled,
   StarFilled,
 } from "@ant-design/icons/lib/icons";
-import { Avatar, Button, Col, Divider, Input, Row, Tabs } from "antd";
-import { Link } from "react-router-dom";
-import profile from "./profile.module.scss";
-import paths from "../../../constants/paths";
-import { useState } from "react";
-import ListingCard from "../../guest/components/ListingCard/ListingCard";
-import ReviewCard from "../../guest/components/ReviewCard/ReviewCard";
+import { Avatar, Col, Divider, Row, Tabs } from "antd";
+import profile from "./profileView.module.scss";
+import ReviewCard from "../components/ReviewCard/ReviewCard";
+import ListingCard from "../components/ListingCard/ListingCard";
 
-const Profile = () => {
-  // eslint-disable-next-line no-unused-vars
-  const [isSaving, setIsSaving] = useState(false);
-
+const ProfileView = () => {
   return (
-    <Row className={profile["container"]}>
+    <Row className={profile["container"]} wrap={false}>
       <Col flex="350px" className={profile["left-col"]}>
         <div className={profile["avatar"]}>
           <Avatar size={130}>TQN</Avatar>
@@ -50,14 +44,6 @@ const Profile = () => {
           </Col>
           <Col>Thanh Xuân, Hà Nội</Col>
         </Row>
-
-        <br />
-
-        <Row justify="center">
-          <Link to={paths.ACCOUNT}>
-            <Button type="primary">Cài đặt tài khoản</Button>
-          </Link>
-        </Row>
       </Col>
 
       <Col flex="auto">
@@ -70,28 +56,18 @@ const Profile = () => {
 
         <h2>Giới thiệu</h2>
 
-        <Input.TextArea rows={4} />
-
-        <br />
-        <br />
-
-        <Row justify="end">
-          <Button type="primary" loading={isSaving}>
-            Lưu
-          </Button>
-        </Row>
+        <p>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ullam iusto,
+          beatae excepturi aliquam suscipit sint numquam eum quisquam placeat
+          sunt nulla eligendi omnis minus ut odit error, explicabo praesentium
+          exercitationem perspiciatis debitis molestiae? Sunt eius repellat
+          fugit cupiditate sequi tempora autem quisquam incidunt id. Iste
+          praesentium ab temporibus quibusdam placeat.
+        </p>
 
         <Divider />
 
-        <Row align="middle" justify="space-between">
-          <h2 style={{ marginBottom: 0 }}>
-            Nhà/phòng cho thuê của Trần Quang Nguyên
-          </h2>
-
-          <Link to={paths.LISTINGS}>
-            <Button type="primary">Cài đặt</Button>
-          </Link>
-        </Row>
+        <h2>Nhà/phòng cho thuê của Trần Quang Nguyên</h2>
         <br />
 
         <Row gutter={[20, 20]}>
@@ -168,4 +144,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileView;

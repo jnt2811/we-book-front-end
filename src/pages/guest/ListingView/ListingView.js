@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import listingView from "./listingView.module.scss";
 import { useState, useEffect } from "react";
 import { requestGet } from "../../../helpers/requestHandler";
-import { apis } from "../../../constants";
+import { apis, paths } from "../../../constants";
 import {
   Avatar,
   Col,
@@ -18,11 +18,13 @@ import {
   EnvironmentOutlined,
   HeartOutlined,
   QuestionCircleOutlined,
+  StarFilled,
 } from "@ant-design/icons";
 import GalleryModal from "./GalleryModal/GalleryModal";
 import { useRef } from "react";
 import BookingBox from "./BookingBox/BookingBox";
 import { useHistory } from "react-router-dom";
+import ReviewCard from "../components/ReviewCard/ReviewCard";
 
 export default function ListingView() {
   const { id } = useParams();
@@ -133,22 +135,45 @@ export default function ListingView() {
           <Divider />
 
           <Row align="middle">
-            <Avatar size={60} src={listing.host.avatar}>
-              {listing.host.name}
-            </Avatar>
+            <Link to={paths.PROFILE_VIEW_nId + listing.host.id}>
+              <Avatar size={60} src={listing.host.avatar}>
+                {listing.host.name}
+              </Avatar>
+            </Link>
 
-            <h3 style={{ marginLeft: 20 }}>Chủ nhà {listing.host.name}</h3>
+            <Link to={paths.PROFILE_VIEW_nId + listing.host.id}>
+              <h3 style={{ marginLeft: 20 }}>Chủ nhà {listing.host.name}</h3>
+            </Link>
           </Row>
-
-          {/* <Divider />
-
-          <h2>Đánh giá</h2> */}
         </Col>
 
         <Col span={8}>
           <BookingBox price={listing.price} listing_id={listing.id} />
         </Col>
       </Row>
+
+      <div className={listingView["reviews-container"]}>
+        <Divider style={{ marginTop: -25 }} />
+
+        <h2 className={listingView["reviews"]}>
+          <StarFilled />5
+          <span className={listingView["counts"]}>20 đánh giá</span>
+        </h2>
+
+        <br />
+
+        <Row gutter={[50, 30]}>
+          {sampleData.map((review) => (
+            <Col span={12} key={review.key}>
+              <ReviewCard review={review} />
+            </Col>
+          ))}
+        </Row>
+
+        <br />
+
+        <Button>Xem thêm</Button>
+      </div>
 
       <GalleryModal ref={galleryRef} />
     </div>
@@ -191,3 +216,14 @@ export default function ListingView() {
     </div>
   );
 }
+
+const sampleData = [
+  ...Array.apply(null, Array(6)).map((_, i) => ({
+    key: i,
+    name: "Lorem ipsum",
+    date: "31/12/2021",
+    rating: "5",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla, sequi.",
+  })),
+];

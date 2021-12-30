@@ -13,6 +13,8 @@ const paths = {
   TRIPS: "/trips",
   FAV_LIST: "/favorite-list",
   ACCOUNT: "/account",
+  PROFILE_VIEW_wId: "/profile-view/:id",
+  PROFILE_VIEW_nId: "/profile-view/",
 
   // Host
   HOSTING: hosting,

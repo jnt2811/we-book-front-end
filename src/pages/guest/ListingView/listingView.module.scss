@@ -4,6 +4,48 @@
 $hor-padding: calc((100% - #{$container-width}) / 2);
 
 .container {
+  .reviews-container {
+    padding: 25px $hor-padding;
+    padding-bottom: 50px;
+
+    button {
+      @include std-btn();
+      margin-top: 20px;
+      border-color: #333 !important;
+      color: #333 !important;
+
+      &:hover {
+        color: #fff !important;
+        background-color: #333;
+      }
+    }
+
+    .reviews {
+      svg {
+        font-size: 20px;
+        margin-right: 10px;
+      }
+
+      .counts {
+        font-size: 22px;
+        position: relative;
+        padding-left: 25px;
+
+        &::before {
+          content: "";
+          width: 4px;
+          height: 4px;
+          background-color: #333;
+          border-radius: 50px;
+          position: absolute;
+          left: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+    }
+  }
+
   .top {
     padding: 25px $hor-padding;
 

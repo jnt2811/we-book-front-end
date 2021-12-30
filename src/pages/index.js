@@ -9,6 +9,7 @@ import Auth from "./common/Auth/Auth";
 import NotFound from "./common/NotFound/NotFound";
 import Transactions from "./host/Transactions/transactioins";
 import Profile from "./host/Profile/Profile";
+import ProfileView from "./guest/ProfileView/ProfileView";
 import Favorite from "./guest/Favorite/Favorite";
 
 export {
@@ -24,4 +25,5 @@ export {
   NotFound,
   Favorite,
   Profile,
+  ProfileView,
 };
