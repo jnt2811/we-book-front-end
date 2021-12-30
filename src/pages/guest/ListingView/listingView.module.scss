@@ -78,6 +78,17 @@ $hor-padding: calc((100% - #{$container-width}) / 2);
       font-size: 16px;
     }
   }
+
+  .save-btn {
+    border: none !important;
+    box-shadow: none !important;
+
+    * {
+      color: #333 !important;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+  }
 }
 
 .container-preview {

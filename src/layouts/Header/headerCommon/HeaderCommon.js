@@ -68,9 +68,11 @@ const HeaderCommon = ({ location }) => {
       >
         <div className="inner" onClick={(e) => e.stopPropagation()}>
           <div className="main">
-            <Link className="logo" to={isHost ? paths.HOSTING : paths.HOME}>
-              <img src={LogoLight} alt="" />
-            </Link>
+            <div className="logo">
+              <Link to={isHost ? paths.HOSTING : paths.HOME}>
+                <img src={LogoLight} alt="" />
+              </Link>
+            </div>
 
             {(isAtResults || isAtListingView) && !isSearchActive && (
               <div
@@ -97,9 +99,13 @@ const HeaderCommon = ({ location }) => {
                 onClick={() => {
                   if (!isNotiBtnActive) {
                     setIsNotiBtnActive(true);
+                    setIsSearchActive(false);
                     notiPopupRef.current.open();
                   }
                 }}
+                style={
+                  !authReducer.isOk ? { visibility: "hidden", opacity: 0 } : {}
+                }
               >
                 <Badge
                   count={1}

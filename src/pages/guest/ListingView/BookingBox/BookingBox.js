@@ -76,10 +76,6 @@ const BookingBox = ({ listing_id = "", price = 0 }) => {
         setIsLoading(false);
       }
     } else {
-      // notification.warning({
-      //   message: "Hãy đăng nhập để đặt phòng!",
-      //   placement: "bottomLeft",
-      // });
       authRef.current.open();
     }
   };
@@ -181,8 +177,9 @@ const BookingBox = ({ listing_id = "", price = 0 }) => {
         className={bookingBox["book-btn"]}
         onClick={apiCreateBooking}
         loading={isLoading}
+        disabled={checkin === "" || checkout === "" || guests === 0}
       >
-        Đặt phòng
+        {!!authReducer.isOk ? "Đặt phòng" : "Đăng nhập để đặt phòng"}
       </Button>
 
       {checkin !== "" && checkout !== "" && guests !== 0 && (

@@ -16,15 +16,18 @@ import {
 import {
   AppstoreOutlined,
   EnvironmentOutlined,
+  HeartOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import GalleryModal from "./GalleryModal/GalleryModal";
 import { useRef } from "react";
 import BookingBox from "./BookingBox/BookingBox";
+import { useHistory } from "react-router-dom";
 
 export default function ListingView() {
   const { id } = useParams();
   const galleryRef = useRef();
+  const history = useHistory();
 
   const [listing, setListing] = useState({
     gallery: "[]",
@@ -35,26 +38,36 @@ export default function ListingView() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    requestGet(apis.LISTING_GUEST + "/" + id)
-      .then((res) => {
-        const dataRes = res.data;
+    if (id !== "undefined") {
+      requestGet(apis.LISTING_GUEST + "/" + id)
+        .then((res) => {
+          const dataRes = res.data;
 
-        if (dataRes.status) {
-          setListing(dataRes.result);
-          setIsLoading(false);
-        }
-      })
-      .catch((err) => console.log("get listing detail error", err));
-  }, [id]);
+          if (dataRes.status) {
+            setListing(dataRes.result);
+            setIsLoading(false);
+          }
+        })
+        .catch((err) => console.log("get listing detail error", err));
+    } else {
+      history.goBack();
+    }
+  }, [history, id]);
 
   return !isLoading ? (
     <div className={listingView["container"]}>
       <div className={listingView["top"]} justify="space-between">
         <h1 className={listingView["head"]}>{listing.name}</h1>
 
-        <Row align="middle">
-          <EnvironmentOutlined />
-          <p className={listingView["sub-head"]}>{listing.destination}</p>
+        <Row justify="space-between">
+          <Row align="middle">
+            <EnvironmentOutlined />
+            <p className={listingView["sub-head"]}>{listing.destination}</p>
+          </Row>
+
+          <Button icon={<HeartOutlined />} className={listingView["save-btn"]}>
+            Lưu
+          </Button>
         </Row>
       </div>
 

@@ -70,6 +70,11 @@
   .book-btn {
     @include primary-btn();
     margin-top: 15px;
+
+    &:disabled {
+      background-color: #33333325 !important;
+      border-color: #33333325 !important;
+    }
   }
 
   .price-cal {

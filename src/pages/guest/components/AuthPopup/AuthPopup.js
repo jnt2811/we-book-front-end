@@ -38,22 +38,12 @@ const AuthPopup = forwardRef((props, ref) => {
 
     if (isOk === true) {
       setIsLoading(false);
-
-      notification.success({
-        message: isLogin
-          ? "Chào mừng bạn trở lại We Book!"
-          : "Chào mừng bạn đến với We Book!",
-        placement: "bottomLeft",
-      });
-
       setVisible(false);
     }
 
     if (isOk === false) {
       setIsLoading(false);
-
       notification.error({ message: message });
-
       dispatch(resetAuth());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
