@@ -70,10 +70,13 @@ export default function Account() {
 
   const handleToggle = (key) => {
     if (!!currentActiveField) fieldRefs[currentActiveField].current.toggleOff();
-    if (key === fieldKeys.DOB) {
+
+    if (key === fieldKeys.DOB && !!userData[key]) {
       form.setFields([{ name: key, value: milliToMoment(userData[key]) }]);
     } else form.setFields([{ name: key, value: userData[key] }]);
+
     fieldRefs[key].current.toggleOn();
+
     setCurrentActiveField(key);
   };
 
@@ -149,7 +152,11 @@ export default function Account() {
 
         <FieldContainer
           label="Ngày sinh"
-          value={milliToDate(userData[fieldKeys.DOB])}
+          value={
+            !!userData[fieldKeys.DOB]
+              ? milliToDate(userData[fieldKeys.DOB])
+              : ""
+          }
           onSave={() => form.submit()}
           ref={fieldRefs[fieldKeys.DOB]}
           onClickEdit={() => handleToggle(fieldKeys.DOB)}
@@ -163,7 +170,7 @@ export default function Account() {
               },
             ]}
           >
-            <DatePicker format="DD/MM/YYYY" />
+            <DatePicker format="DD/MM/YYYY" placeholder="DD/MM/YYYY" />
           </Form.Item>
         </FieldContainer>
 

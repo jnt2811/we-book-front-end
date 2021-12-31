@@ -22,7 +22,7 @@ const FieldContainer = forwardRef(
     }));
 
     return (
-      <Row className={fieldContainer["row"]}>
+      <Row className={fieldContainer["row"]} wrap={false}>
         <Col flex="160px" className={fieldContainer["cell"]}>
           <label>{label}</label>
         </Col>

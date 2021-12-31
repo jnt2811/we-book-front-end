@@ -3,20 +3,22 @@ import { apis } from "../../../constants";
 import { requestGet } from "../../../helpers/requestHandler";
 import { useState, useEffect } from "react";
 import transactions from "./transactions.module.scss";
+import moment from "moment";
+import { formatNumberToPrice, momentToDate } from "../../../helpers/formatter";
 
 export default function Transactions() {
   const completed = [
-    { title: "ID", key: "guest_id", dataIndex: "guest_id" },
-
-    { title: "CheckIn", key: "checkin", dataIndex: "checkin" },
-
-    { title: "CheckOut", key: "checkout", dataIndex: "checkout" },
-
     {
-      title: "Giá/đêm",
-      key: "price",
-      dataIndex: "price",
-      render: (price) => `${price} đồng`,
+      title: "Ngày check-in",
+      key: "checkin",
+      dataIndex: "checkin",
+      render: (checkin) => momentToDate(moment(checkin)),
+    },
+    {
+      title: "Ngày check-out",
+      key: "checkout",
+      dataIndex: "checkout",
+      render: (checkout) => momentToDate(moment(checkout)),
     },
     {
       title: "Số khách",
@@ -24,70 +26,48 @@ export default function Transactions() {
       dataIndex: "guests",
     },
     {
-      title: "Review",
-      key: "review",
-      dataIndex: "review",
+      title: "Tổng tiền",
+      key: "price",
+      dataIndex: "price",
+      render: (price) => `${formatNumberToPrice(price)} đồng`,
     },
     {
-      title: "Rating",
+      title: "Đánh giá",
       key: "rating",
       dataIndex: "rating",
+    },
+    {
+      title: "Bình luận",
+      key: "review",
+      dataIndex: "review",
     },
   ];
 
   const upcoming = [
-    { title: "ID", key: "guest_id", dataIndex: "guest_id" },
-
-    { title: "CheckIn", key: "checkin", dataIndex: "checkin" },
-
-    { title: "CheckOut", key: "checkout", dataIndex: "checkout" },
-
+    {
+      title: "Ngày check-in",
+      key: "checkin",
+      dataIndex: "checkin",
+      render: (checkin) => momentToDate(moment(checkin)),
+    },
+    {
+      title: "Ngày check-out",
+      key: "checkout",
+      dataIndex: "checkout",
+      render: (checkout) => momentToDate(moment(checkout)),
+    },
     {
       title: "Số khách",
       key: "guests",
       dataIndex: "guests",
     },
     {
-      title: "Review",
-      key: "review",
-      dataIndex: "review",
-    },
-    {
-      title: "Rating",
-      key: "rating",
-      dataIndex: "rating",
+      title: "Tổng tiền",
+      key: "price",
+      dataIndex: "price",
+      render: (price) => `${formatNumberToPrice(price)} đồng`,
     },
   ];
-
-  // const current = [
-  //   { title: "ID", key: "guest_id", dataIndex: "guest_id" },
-
-  //   { title: "CheckIn", key: "checkin", dataIndex: "checkin" },
-
-  //   { title: "CheckOut", key: "checkout", dataIndex: "checkout" },
-
-  //   {
-  //     title: "Giá/đêm",
-  //     key: "price",
-  //     dataIndex: "price",
-  //     render: (price) => `${price} đồng`,
-  //   },
-  //   {
-  //     title: "Số khách",
-  //     key: "guests",
-  //     dataIndex: "guests",
-  //   },
-  //   {
-  //     title: "Review",
-  //     key: "review",
-  //     dataIndex: "review",
-  //   },
-  //   {
-  //     title: "Rating",
-  //     key: "rating",
-  //     dataIndex: "rating",
-  //   },
-  // ];
 
   const [completedPayout, setCompletedPayout] = useState([]);
   const [upcomingPayout, setUpcomingPayout] = useState([]);
@@ -144,17 +124,30 @@ export default function Transactions() {
       <div className={transactions["top"]}>
         <h1>Lịch sử giao dịch</h1>
       </div>
+
       <Tabs type="card">
-        <TabPane tab="Completed Payout" key="1">
-          <Table dataSource={completedPayout} columns={completed} />
+        <TabPane tab="Giao dịch quá khứ" key="1">
+          <Table
+            dataSource={completedPayout}
+            columns={completed}
+            pagination={false}
+          />
         </TabPane>
 
-        <TabPane tab="Upcoming Payout" key="2">
-          <Table dataSource={upcomingPayout} columns={upcoming} />
+        <TabPane tab="Giao dịch tương lai" key="2">
+          <Table
+            dataSource={upcomingPayout}
+            columns={upcoming}
+            pagination={false}
+          />
         </TabPane>
 
-        <TabPane tab="Current Payout" key="3">
-          <Table dataSource={currentPayout} columns={upcoming} />
+        <TabPane tab="Giao dịch hiện tại" key="3">
+          <Table
+            dataSource={currentPayout}
+            columns={upcoming}
+            pagination={false}
+          />
         </TabPane>
       </Tabs>
     </div>

@@ -20,3 +20,14 @@ export const milliToDate = (milli) => {
 };
 
 export const phoneFormatter = (phone = "") => {};
+
+export const formatNumberToPrice = (x) => {
+  if (x === "" || x === 0) {
+    return 0;
+  }
+  x = x.toString();
+  x = x.replace(/ /g, "");
+  var pattern = /(-?\d+)(\d{3})/;
+  while (pattern.test(x)) x = x.replace(pattern, "$1.$2");
+  return x;
+};

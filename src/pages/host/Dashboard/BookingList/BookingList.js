@@ -2,7 +2,11 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Col, notification, Row, Table, Tabs } from "antd";
 import { useEffect, useState } from "react";
 import { apis } from "../../../../constants";
-import { requestGet, requestPatch } from "../../../../helpers/requestHandler";
+import {
+  requestGet,
+  requestPatch,
+  requestPost,
+} from "../../../../helpers/requestHandler";
 import moment from "moment";
 import { milliToMoment } from "../../../../helpers/formatter";
 
@@ -39,12 +43,12 @@ const BookingList = () => {
     }
   };
 
-  const apiUpdateBooking = async (id, is_denied) => {
+  const apiUpdateBooking = async (booking = {}, is_denied) => {
     try {
       setLoadingTable(true);
 
       const requestData = {
-        id,
+        id: booking.id,
         is_denied,
       };
 
@@ -65,6 +69,20 @@ const BookingList = () => {
             is_denied ? "từ chối" : "chấp nhận"
           } yêu cầu đặt phòng`,
           placement: "bottomLeft",
+        });
+
+        requestPost(apis.NEW_TRANSACTION, {
+          ...booking,
+          checkin: milliToMoment(booking.checkin),
+          checkout: milliToMoment(booking.checkout),
+        }).then((result) => {
+          const resData = result.data;
+
+          if (resData.status) {
+            console.log("Create transaction success");
+          } else {
+            console.log("Create transaction fail");
+          }
         });
       } else {
         console.log("Update booking fail", response.data);
@@ -116,13 +134,13 @@ const BookingList = () => {
       title: "",
       key: "id",
       dataIndex: "id",
-      render: (id) => (
+      render: (_, booking) => (
         <Row gutter={10}>
           <Col>
             <Button
               icon={<CheckOutlined />}
               type="primary"
-              onClick={() => apiUpdateBooking(id, false)}
+              onClick={() => apiUpdateBooking(booking, false)}
             ></Button>
           </Col>
 
@@ -131,7 +149,7 @@ const BookingList = () => {
               icon={<CloseOutlined />}
               type="primary"
               danger
-              onClick={() => apiUpdateBooking(id, true)}
+              onClick={() => apiUpdateBooking(booking, true)}
             ></Button>
           </Col>
         </Row>
@@ -145,19 +163,19 @@ const BookingList = () => {
       <br />
 
       <Tabs defaultActiveKey="1" type="card">
-        <Tabs.TabPane tab={`Hiện đang đón tiếp (0)`} key="1">
+        <Tabs.TabPane tab={`Hàng chờ phê duyệt (${dataSource.length})`} key="1">
           <Table
             columns={columns}
-            dataSource={[]}
+            dataSource={dataSource}
             pagination={false}
             loading={loadingTable}
           />
         </Tabs.TabPane>
 
-        <Tabs.TabPane tab={`Hàng chờ phê duyệt (${dataSource.length})`} key="2">
+        <Tabs.TabPane tab={`Hiện đang đón tiếp (0)`} key="2">
           <Table
             columns={columns}
-            dataSource={dataSource}
+            dataSource={[]}
             pagination={false}
             loading={loadingTable}
           />
