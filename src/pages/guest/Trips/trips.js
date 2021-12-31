@@ -79,6 +79,16 @@ export default function Trips() {
 
   const [completedPayout, setCompletedPayout] = useState([]);
   const [upcomingPayout, setUpcomingPayout] = useState([]);
+  const apiGetTripPast= async()=> {
+    try {
+      const dataResponse = await requestGet(
+        requestGet(apis.TRIPS_GUEST_PAST),
+        
+      );
+    } catch (error) {
+      requestGet(apis.TRIPS_GUEST_PAST)
+    }
+  }
 
   useEffect(() => {
     requestGet(apis.TRIPS_GUEST_PAST).then((result) => {
