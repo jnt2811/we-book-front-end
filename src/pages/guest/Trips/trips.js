@@ -5,22 +5,29 @@ import { useState, useEffect, useRef } from "react";
 import trips from "./trips.module.scss";
 import { EditOutlined } from "@ant-design/icons";
 import PastTripsConfig from "./PastTripsConfig/PastTripsConfig";
+import { formatNumberToPrice, momentToDate } from "../../../helpers/formatter";
+import moment from "moment";
 
 export default function Trips() {
   const configRef = useRef();
 
   const completed = [
-    { title: "ID", key: "guest_id", dataIndex: "guest_id" },
-
-    { title: "CheckIn", key: "checkin", dataIndex: "checkin" },
-
-    { title: "CheckOut", key: "checkout", dataIndex: "checkout" },
-
     {
-      title: "Giá/đêm",
-      key: "price",
-      dataIndex: "price",
-      render: (price) => `${price} đồng`,
+      title: "Tên nơi ở",
+      key: "listing_name",
+      dataIndex: "listing_name",
+    },
+    {
+      title: "Ngày check-in",
+      key: "checkin",
+      dataIndex: "checkin",
+      render: (checkin) => momentToDate(moment(checkin)),
+    },
+    {
+      title: "Ngày check-out",
+      key: "checkout",
+      dataIndex: "checkout",
+      render: (checkout) => momentToDate(moment(checkout)),
     },
     {
       title: "Số khách",
@@ -28,20 +35,25 @@ export default function Trips() {
       dataIndex: "guests",
     },
     {
-      title: "Review",
-      key: "review",
-      dataIndex: "review",
+      title: "Tổng tiền",
+      key: "price",
+      dataIndex: "price",
+      render: (price) => `${formatNumberToPrice(price)} đ`,
     },
     {
-      title: "Rating",
+      title: "Đánh giá",
       key: "rating",
       dataIndex: "rating",
     },
     {
-      title: "Action",
+      title: "Bình luận",
+      key: "review",
+      dataIndex: "review",
+    },
+    {
+      title: "",
       key: "action",
       dataIndex: "active",
-      width: "0px",
       render: (active, trip) => (
         <Button
           icon={<EditOutlined />}
@@ -52,28 +64,34 @@ export default function Trips() {
     },
   ];
 
-  //
   const upcoming = [
-    { title: "ID", key: "guest_id", dataIndex: "guest_id" },
-
-    { title: "CheckIn", key: "checkin", dataIndex: "checkin" },
-
-    { title: "CheckOut", key: "checkout", dataIndex: "checkout" },
-
+    {
+      title: "Tên nơi ở",
+      key: "listing_name",
+      dataIndex: "listing_name",
+    },
+    {
+      title: "Ngày check-in",
+      key: "checkin",
+      dataIndex: "checkin",
+      render: (checkin) => momentToDate(moment(checkin)),
+    },
+    {
+      title: "Ngày check-out",
+      key: "checkout",
+      dataIndex: "checkout",
+      render: (checkout) => momentToDate(moment(checkout)),
+    },
     {
       title: "Số khách",
       key: "guests",
       dataIndex: "guests",
     },
     {
-      title: "Review",
-      key: "review",
-      dataIndex: "review",
-    },
-    {
-      title: "Rating",
-      key: "rating",
-      dataIndex: "rating",
+      title: "Tổng tiền",
+      key: "price",
+      dataIndex: "price",
+      render: (price) => `${formatNumberToPrice(price)} đ`,
     },
   ];
 
@@ -87,7 +105,9 @@ export default function Trips() {
   useEffect(() => {
     requestGet(apis.TRIPS_GUEST_UPCOMING).then((result) => {
       const data = result.data;
-      console.log(result);
+
+      console.log("Get Upcoming Trip", result.data);
+
       if (data.status) {
         setUpcomingPayout(
           data.result.map((item) => ({
@@ -106,6 +126,8 @@ export default function Trips() {
       if (dataResponse.data.status) {
         const data = dataResponse.data;
 
+        console.log("Get Past Trip", dataResponse.data);
+
         setCompletedPayout(
           data.result.map((item) => ({
             ...item,
@@ -122,12 +144,13 @@ export default function Trips() {
       <div className={trips["top"]}>
         <h1>Chuyến đi</h1>
       </div>
+
       <Tabs type="card">
-        <TabPane tab="Completed Payout" key="1">
+        <TabPane tab="Chuyến đi đã qua" key="1">
           <Table dataSource={completedPayout} columns={completed} />
         </TabPane>
 
-        <TabPane tab="Upcoming Payout" key="2">
+        <TabPane tab="Chuyến đi sắp tới" key="2">
           <Table dataSource={upcomingPayout} columns={upcoming} />
         </TabPane>
       </Tabs>

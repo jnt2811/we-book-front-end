@@ -156,23 +156,33 @@ export default function ListingView() {
         <Divider style={{ marginTop: -25 }} />
 
         <h2 className={listingView["reviews"]}>
-          <StarFilled />5
-          <span className={listingView["counts"]}>20 đánh giá</span>
+          <StarFilled />{" "}
+          {sampleData.length > 0 ? (
+            <>
+              5<span className={listingView["counts"]}>20 đánh giá</span>
+            </>
+          ) : (
+            "Mới (chưa có đánh giá)"
+          )}
         </h2>
 
-        <br />
+        {sampleData.length > 0 && (
+          <>
+            <br />
 
-        <Row gutter={[50, 30]}>
-          {sampleData.map((review) => (
-            <Col span={12} key={review.key}>
-              <ReviewCard review={review} />
-            </Col>
-          ))}
-        </Row>
+            <Row gutter={[50, 30]}>
+              {sampleData.map((review) => (
+                <Col span={12} key={review.key}>
+                  <ReviewCard review={review} />
+                </Col>
+              ))}
+            </Row>
 
-        <br />
+            <br />
 
-        <Button>Xem thêm</Button>
+            <Button>Xem thêm</Button>
+          </>
+        )}
       </div>
 
       <GalleryModal ref={galleryRef} />
@@ -218,7 +228,7 @@ export default function ListingView() {
 }
 
 const sampleData = [
-  ...Array.apply(null, Array(6)).map((_, i) => ({
+  ...Array.apply(null, Array(0)).map((_, i) => ({
     key: i,
     name: "Lorem ipsum",
     date: "31/12/2021",

@@ -9,6 +9,16 @@ import { formatNumberToPrice, momentToDate } from "../../../helpers/formatter";
 export default function Transactions() {
   const completed = [
     {
+      title: "Tên khách",
+      key: "guest_name",
+      dataIndex: "guest_name",
+    },
+    {
+      title: "Tên nơi ở",
+      key: "listing_name",
+      dataIndex: "listing_name",
+    },
+    {
       title: "Ngày check-in",
       key: "checkin",
       dataIndex: "checkin",
@@ -29,7 +39,7 @@ export default function Transactions() {
       title: "Tổng tiền",
       key: "price",
       dataIndex: "price",
-      render: (price) => `${formatNumberToPrice(price)} đồng`,
+      render: (price) => `${formatNumberToPrice(price)} đ`,
     },
     {
       title: "Đánh giá",
@@ -45,6 +55,16 @@ export default function Transactions() {
 
   const upcoming = [
     {
+      title: "Tên khách",
+      key: "guest_name",
+      dataIndex: "guest_name",
+    },
+    {
+      title: "Tên nơi ở",
+      key: "listing_name",
+      dataIndex: "listing_name",
+    },
+    {
       title: "Ngày check-in",
       key: "checkin",
       dataIndex: "checkin",
@@ -65,7 +85,7 @@ export default function Transactions() {
       title: "Tổng tiền",
       key: "price",
       dataIndex: "price",
-      render: (price) => `${formatNumberToPrice(price)} đồng`,
+      render: (price) => `${formatNumberToPrice(price)} đ`,
     },
   ];
 
