@@ -5,6 +5,7 @@ const initState = {
   isOk: undefined,
   message: undefined,
   user: undefined,
+  accessToken: undefined,
 };
 
 const authSlice = createSlice({

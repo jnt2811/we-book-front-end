@@ -45,6 +45,7 @@ export function* handleLogin(action) {
         authSuccess({
           isOk: true,
           user: user_data,
+          accessToken: access_token,
         })
       );
     } else {
@@ -85,6 +86,7 @@ export function* handleSignup(action) {
         authSuccess({
           isOk: true,
           user: user_data,
+          accessToken: access_token,
         })
       );
     } else {

@@ -7,10 +7,11 @@ import PickDateRange from "./PickDateRange/PickDateRange";
 import { ClickOutside } from "../../../../hooks";
 import PickGuest from "./PickGuest/PickGuest";
 import { requestPost } from "../../../../helpers/requestHandler";
-import { apis } from "../../../../constants";
+import { apis, localKeys } from "../../../../constants";
 import { useSelector } from "react-redux";
 import AuthPopup from "../../components/AuthPopup/AuthPopup";
 import { StarFilled } from "@ant-design/icons";
+import { localGet } from "../../../../helpers/localHandler";
 
 const BookingBox = ({ listing_id = "", price = 0 }) => {
   const [checkin, setCheckin] = useState("");
@@ -38,6 +39,8 @@ const BookingBox = ({ listing_id = "", price = 0 }) => {
     },
   });
 
+  // console.log(authReducer);
+
   const apiCreateBooking = async () => {
     if (!!authReducer.isOk) {
       try {
@@ -52,7 +55,15 @@ const BookingBox = ({ listing_id = "", price = 0 }) => {
           guests: guests,
         };
 
-        const response = await requestPost(apis.BOOKING, request);
+        let accessToken = localGet(localKeys.ACCESS_TOKEN);
+
+        if (accessToken === "") {
+          accessToken = authReducer.accessToken;
+        }
+
+        const response = await requestPost(apis.BOOKING, request, {
+          Authorization: "bearer " + accessToken,
+        });
 
         if (response.data.status) {
           notification.success({
@@ -180,7 +191,11 @@ const BookingBox = ({ listing_id = "", price = 0 }) => {
         className={bookingBox["book-btn"]}
         onClick={apiCreateBooking}
         loading={isLoading}
-        disabled={checkin === "" || checkout === "" || guests === 0}
+        disabled={
+          !authReducer.isOk
+            ? false
+            : checkin === "" || checkout === "" || guests === 0
+        }
       >
         {!!authReducer.isOk ? "Đặt phòng" : "Đăng nhập để đặt phòng"}
       </Button>
