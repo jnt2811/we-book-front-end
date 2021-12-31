@@ -82,15 +82,6 @@ const UserPopup = forwardRef((props, ref) => {
               </>
             ) : (
               <>
-                {/* <Link
-                  className={`dropdown-btn${
-                    pathname === paths.FAV_LIST ? " active" : ""
-                  }`}
-                  to={paths.FAV_LIST}
-                >
-                  Danh sách yêu thích
-                </Link> */}
-
                 <Link
                   className={`dropdown-btn${
                     pathname === paths.TRIPS ? " active" : ""
@@ -99,19 +90,41 @@ const UserPopup = forwardRef((props, ref) => {
                 >
                   Chuyến đi
                 </Link>
+
+                <Link
+                  className={`dropdown-btn${
+                    pathname === paths.FAV_LIST ? " active" : ""
+                  }`}
+                  to={paths.FAV_LIST}
+                >
+                  Danh sách yêu thích
+                </Link>
               </>
             )}
 
-            {/* <Divider className="divider" /> */}
+            <Divider className="divider" />
 
-            {/* <Link
-              className={`dropdown-btn${
-                pathname === paths.PROFILE ? " active" : ""
-              }`}
-              to={paths.PROFILE}
-            >
-              Hồ sơ
-            </Link> */}
+            {isHost && (
+              <Link
+                className={`dropdown-btn${
+                  pathname === paths.PROFILE ? " active" : ""
+                }`}
+                to={paths.PROFILE}
+              >
+                Hồ sơ
+              </Link>
+            )}
+
+            {!isHost && (
+              <Link
+                className={`dropdown-btn${
+                  pathname === paths.LISTINGS ? " active" : ""
+                }`}
+                to={paths.LISTINGS}
+              >
+                Quản lý nhà/phòng cho thuê
+              </Link>
+            )}
 
             <Link
               className={`dropdown-btn${

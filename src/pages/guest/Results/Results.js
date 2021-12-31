@@ -1,13 +1,13 @@
 import results from "./results.module.scss";
 import { apis, paths, searchKeys } from "../../../constants";
 import { useQuery } from "../../../hooks";
-import ListingCard from "./components/ListingCard/ListingCard";
 import FilterBar from "./components/FilterBar/FilterBar";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { requestPost } from "../../../helpers/requestHandler";
 import { Col, Row, Skeleton } from "antd";
 import PaginationBar from "./components/PaginationBar/PaginationBar";
+import ListingCard from "../components/ListingCard/ListingCard";
 
 export default function Results() {
   const query = useQuery();
@@ -29,42 +29,44 @@ export default function Results() {
     amenities: [],
   });
 
-  useEffect(() => {
-    getResult();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history.location.search]);
+  const apiGetResult = useCallback(
+    async (page = 1) => {
+      setIsLoading(true);
 
-  const getResult = async (page = 1) => {
-    setIsLoading(true);
+      if (!destination || destination === "") history.push(paths.HOME);
+      else {
+        try {
+          const dataReq = {
+            destination,
+            checkin,
+            checkout,
+            guests,
+            page: page,
+            ...filterData,
+          };
 
-    if (!destination || destination === "") history.push(paths.HOME);
-    else {
-      try {
-        const dataReq = {
-          destination,
-          checkin,
-          checkout,
-          guests,
-          page: page,
-          ...filterData,
-        };
+          const res = await requestPost(apis.LISTING_GUEST, dataReq);
+          const dataRes = res.data;
 
-        const res = await requestPost(apis.LISTING_GUEST, dataReq);
-        const dataRes = res.data;
+          if (dataRes.status) {
+            setListingList(dataRes.result);
+            setCurrentPage(dataRes.current_page);
+            setTotalPage(dataRes.total_page);
+            setTotalResult(dataRes.total_result);
+          }
 
-        if (dataRes.status) {
-          setListingList(dataRes.result);
-          setCurrentPage(dataRes.current_page);
-          setTotalPage(dataRes.total_page);
-          setTotalResult(dataRes.total_result);
+          setIsLoading(false);
+        } catch (error) {
+          console.log("get search result error", error);
         }
-
-        setIsLoading(false);
-      } catch (error) {
-        console.log("get search result error", error);
       }
-    }
-  };
+    },
+    [checkin, checkout, destination, filterData, guests, history]
+  );
+
+  useEffect(() => {
+    apiGetResult();
+  }, [apiGetResult]);
 
   return !isLoading ? (
     <div className={results["container"]}>
@@ -89,9 +91,9 @@ export default function Results() {
           <PaginationBar
             currentPage={currentPage}
             totalPage={totalPage}
-            onNext={() => getResult(currentPage + 1)}
-            onPrev={() => getResult(currentPage - 1)}
-            onNum={(page) => getResult(page)}
+            onNext={() => apiGetResult(currentPage + 1)}
+            onPrev={() => apiGetResult(currentPage - 1)}
+            onNum={(page) => apiGetResult(page)}
           />
         )}
       </div>

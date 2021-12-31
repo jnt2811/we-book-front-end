@@ -1,5 +1,5 @@
-// const url = "https://we-book-back-end.herokuapp.com";
-const url = "http://localhost:5000";
+const url = "https://we-book-back-end.herokuapp.com";
+// const url = "http://localhost:5000";
 
 const apis = {
   // api xác thực
@@ -15,6 +15,9 @@ const apis = {
   LISTING_HOST: url + "/listing/host",
   PLACE: url + "/listing/place",
   AMENITY: url + "/listing/amenity",
+
+  // api book
+  BOOKING: url + "/booking",
 
   //api chuyen di
   TRIPS_GUEST_UPCOMING: url + "/transaction/guest/upcoming",

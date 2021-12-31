@@ -29,6 +29,7 @@ export default function Auth() {
         message: isLogin
           ? "Chào mừng bạn trở lại We Book!"
           : "Chào mừng bạn đến với We Book!",
+        placement: "bottomLeft",
       });
       history.push(paths.HOME);
     }
